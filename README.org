@@ -2,27 +2,28 @@
 #+AUTHOR: Marius Peter
    
 * Installation
-  
-  Add the following, and only the following, to your =init.el= file:
-  #+BEGIN_SRC emacs-lisp
-(load "~/<foo>/blendoit_emacs_init/init.el")
-  #+END_SRC
-  
-  Where =<foo>= is the path where you downloaded =blendoit_emacs_init=.
-  
-  This configuration file is located at =~/.emacs.d/init.el= by default for modern GNU Emacs versions.
+
+** DONE Linux
+   1. Backup your current =~/.emacs.d=:
+      #+BEGIN_SRC bash
+	mv ~/.emacs.d ~/.emacs.d.bkp
+      #+END_SRC 
+   2. Clone my configuration folder to your home directory:
+      #+BEGIN_SRC bash
+	cd ~
+	git clone https://github.com/Blendoit/.emacs.d.git
+      #+END_SRC 
+
+** TODO Windows
 
 * Main Files
 
 ** =init.el=
-   - Provides Xah Lee's function =xah-get-fullpath= which enables nesting our =load= calls.
-   - By default, Emacs evaluates file paths relative to the directory where the first expression was evaluated, i.e. in =~/.emacs.d/=.
-   - If we don't use Xah Lee's function, Emacs will run =~/.emacs.d/init.el= which in turn attempts to load my =init.el=,
-   which then in turn loads my other configuration files.
+   - Loads the following 2 configuration files.
 
 ** =init_emacs.el=
    - You may delete its content initially.
-   - By default, all customization options available in Emacs' GUI that can be saved with `Options - Save Options' are saved here.
+   - By default, all customization options available in Emacs' GUI that can be saved with =Options - Save Options= are saved here.
    - Useful to fool around with GUI customization options, without breaking our manually written code.
 
 ** =init_blendoit.el=
@@ -30,4 +31,4 @@
 
 * Usage
 
-  Each configuration file contains comments useful to understand each file's behaviour.
+  Each configuration file is commented.
