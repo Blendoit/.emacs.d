@@ -1,3 +1,5 @@
 # .gitignore
+.#*
+'#*
 elpa/**
 auto-save-list/**

@@ -6,8 +6,7 @@
   "e" 'ido-find-file
   "w" 'save-buffer
   "r" 'eval-buffer
-  "b" 'switch-to-buffer
-  "TAB" 'widget-forward
+  "b" 'ido-switch-buffer
   "q" 'save-buffers-kill-terminal
   "k" 'kill-buffer-and-window
   "x" 'shell
