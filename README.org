@@ -1,18 +1,18 @@
 #+TITLE: Marius Peter's GNU Emacs configuration files
 #+AUTHOR: Marius Peter
-   
+
 * Installation
 
 ** Linux
    1. Backup your current =~/.emacs.d=:
       #+BEGIN_SRC bash
-	mv ~/.emacs.d ~/.emacs.d.bkp
-      #+END_SRC 
+	     mv ~/.emacs.d ~/.emacs.d.bkp
+      #+END_SRC
    2. Clone my configuration folder to your home directory:
       #+BEGIN_SRC bash
-	cd ~
-	git clone https://github.com/Blendoit/.emacs.d.git
-      #+END_SRC 
+	     cd ~
+	      git clone https://github.com/Blendoit/.emacs.d.git
+      #+END_SRC
 
 * Main Files
 
