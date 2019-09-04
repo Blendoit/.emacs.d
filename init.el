@@ -1,7 +1,9 @@
 (require 'package)
 (package-initialize)
 
-;; Load settings automatically created by GNU Emacs customize commands
+;; Load settings created automatically by GNU Emacs Custom.
+;; (For example, any clickable option/toggle is saved here.)
+;; Useful for fooling around with A-x customize-group <package>.
 (setq custom-file "~/.emacs.d/init_emacs.el")
 (load custom-file)
 

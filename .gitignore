@@ -1,6 +1,10 @@
 # .gitignore
 .#*
 '#*
+*.html
+*.tex
+*.pdf
 elpa/**
 auto-save-list/**
 transient/**
+ido.last

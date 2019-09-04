@@ -1,18 +1,13 @@
-#+TITLE: Marius Peter's GNU Emacs configuration files
+#+TITLE: GNU Emacs Configuration 
 #+AUTHOR: Marius Peter
 
 * Installation
-
+  
 ** Linux
-   1. Backup your current =~/.emacs.d=:
-      #+BEGIN_SRC bash
-	     mv ~/.emacs.d ~/.emacs.d.bkp
-      #+END_SRC
+   1. Backup your current =~/.emacs.d= with the following command:
+   =mv ~/.emacs.d ~/.emacs.d.bkp=
    2. Clone my configuration folder to your home directory:
-      #+BEGIN_SRC bash
-	     cd ~
-	      git clone https://github.com/Blendoit/.emacs.d.git
-      #+END_SRC
+   =cd ~= followed by =git clone https://github.com/Blendoit/.emacs.d.git=
 
 * Main Files
 
@@ -23,7 +18,7 @@
    - You may delete its content initially.
    - By default, all customization options available in Emacs' GUI that can be saved with =Options - Save Options= are saved here.
    - Useful to fool around with GUI customization options, without breaking our manually written code.
-
+     
 ** =init_blendoit.el=
    - Load my personal configuration files.
 
