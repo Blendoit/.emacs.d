@@ -3,7 +3,7 @@
    
 * Installation
 
-** DONE Linux
+** Linux
    1. Backup your current =~/.emacs.d=:
       #+BEGIN_SRC bash
 	mv ~/.emacs.d ~/.emacs.d.bkp
@@ -13,8 +13,6 @@
 	cd ~
 	git clone https://github.com/Blendoit/.emacs.d.git
       #+END_SRC 
-
-** TODO Windows
 
 * Main Files
 
