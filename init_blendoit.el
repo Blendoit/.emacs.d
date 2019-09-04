@@ -29,3 +29,4 @@
 (add-to-list 'default-frame-alist '(alpha . (85 . 50)))
 
 (load "~/.emacs.d/init_org-mode.el")
+(pdf-tools-install)
