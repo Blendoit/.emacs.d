@@ -15,14 +15,14 @@
 ;;  '(set-face-attribute 'mode-line nil :background original-background)
 ;;  )
 
-(setq original-background (face-attribute 'mode-line :background))
-(setq normal-state-background "#FF4F00")
-(add-hook 'evil-normal-state-entry-hook
-	  (lambda ()
-	    (set-face-attribute 'mode-line nil :background normal-state-background)))
-(add-hook 'evil-normal-state-exit-hook
-	  (lambda ()
-	    (set-face-attribute 'mode-line nil :background original-background)))
+;;(setq original-background (face-attribute 'mode-line :background))
+;;(setq normal-state-background "#FF4F00")
+;;(add-hook 'evil-normal-state-entry-hook
+;;	  (lambda ()
+;;	    (set-face-attribute 'mode-line nil :background normal-state-background)))
+;;(add-hook 'evil-normal-state-exit-hook
+;;	  (lambda ()
+;;	    (set-face-attribute 'mode-line nil :background original-background)))
 
 ;; Interactively Do Things - add powerful features to common Emacs commands.
 (setq ido-enable-flex-matching t)

@@ -14,13 +14,12 @@
  '(global-display-line-numbers-mode t)
  '(package-selected-packages
    (quote
-    (writeroom-mode pdf-tools org-bullets magit latex-preview-pane evil-leader)))
- '(scroll-bar-mode nil)
+    (notmuch writeroom-mode pdf-tools org-bullets magit latex-preview-pane evil-leader)))
  '(show-paren-mode t)
  '(tool-bar-mode nil)
  '(writeroom-global-effects
    (quote
-    (writeroom-set-fullscreen writeroom-set-menu-bar-lines writeroom-set-tool-bar-lines writeroom-set-vertical-scroll-bars writeroom-set-bottom-divider-width writeroom-set-internal-border-width)))
+    (writeroom-set-fullscreen writeroom-set-menu-bar-lines writeroom-set-tool-bar-lines writeroom-set-vertical-scroll-bars writeroom-set-bottom-divider-width)))
  '(writeroom-restore-window-config t))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
