@@ -4,6 +4,7 @@
 *.html
 *.tex
 *.pdf
+.cache/**
 elpa/**
 auto-save-list/**
 transient/**
