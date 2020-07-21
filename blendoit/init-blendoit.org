@@ -1,14 +1,20 @@
-#+TITLE: Blendoit's Emacs configuration
+#+TITLE: Blendoit's literate GNU Emacs config
 #+AUTHOR: Marius Peter
-#+DATE: <2020-07-19 Sun>
+#+DATE: <2020-07-21 Tue>
 #+STARTUP: customtime showall
 #+SETUPFILE: ~/org/templates/documents/personal.org
 #+INCLUDE: ~/org/templates/documents/personal-title.org
 
 #+BEGIN_abstract
-Emacs enables an unparalleled level of customisation by allowing the
-introspection of every variable and function that can be understood by
-the software. The possibilities are endless.
+GNU Emacs is most often used as a text editor. The utmost level of
+customisation is afforded by enabling the user to rewrite /any/ part of the
+source code and observe the editor's modified behaviour in real time. Since its
+inception in 1984, GNU Emacs has grown to be much more than a full-featured,
+high-productivity text editor---new /modes/ have been written to interact with
+hundreds of file formats, including =.txt=, =.pdf=, =.jpg=, =.csv=, and =.zip= just to
+name a few. This configuration file itself was written in /Org mode/, a
+collection of functions enabling the harmonious mixing of code and comments in
+view of publicaton: this is the endgame of /literate programming/.
 #+END_abstract
 
 * Preliminary setup
@@ -34,7 +40,7 @@ customize-group <package>.
 (load custom-file)
 #+END_SRC
 
-** Shortcut
+** Customization shortcuts
 
 We begin by defining a user shortcut to this very file:
 
@@ -46,6 +52,14 @@ We begin by defining a user shortcut to this very file:
   (find-file "~/.emacs.d/blendoit/init-blendoit.org"))
   (global-set-key (kbd "C-c c") 'find-init-blendoit)
 #+END_SRC
+
+Now, different shortcuts for other customization actions:
+
+#+NAME: shortcuts-customization
+#+BEGIN_SRC emacs-lisp
+  (global-set-key (kbd "C-c v") 'customize-variable)
+#+END_SRC
+
 
 ** Backups
 
@@ -67,19 +81,57 @@ auto-save-file-name-transforms `((".*" ,temporary-file-directory t))
 
 #+INCLUDE: ./secrets.org
 
+#+BEGIN_SRC emacs-lisp
+  (setq user-full-name "Marius Peter"
+        user-mail-address "blendoit@gmail.com")
+#+END_SRC
+
 * Bindings
 
+** Navigation
+
 #+BEGIN_SRC emacs-lisp
-(global-set-key (kbd "C-c e") 'eval-buffer)
 (global-set-key (kbd "C-s") 'save-buffer)
 (global-set-key (kbd "C-b") 'ibuffer-sidebar-toggle-sidebar)
 (global-set-key (kbd "C-w") 'kill-buffer-and-window)
+(global-set-key (kbd "C-q") 'save-buffers-kill-terminal)
+(global-set-key (kbd "C-o") 'menu-find-file-existing)
+(global-set-key (kbd "C-r") 'counsel-recentf)
+#+END_SRC
+
+** =Org=
+
+Quick access to important Org mode functionalities.
+
+*** Agenda
+
+The agenda displays a chronological list of headings across all agenda files
+for which the heading or body contain a matching
+org-time-stamp=[fn::An=org-time-stamp= can be inserted with =C-c .= (period)].
+
+#+BEGIN_SRC emacs-lisp
 (global-set-key (kbd "C-c a") 'org-agenda)
 #+END_SRC
 
-** Zoom
+*** Export
 
- Zoom in/out of selected buffer.
+This creates a shorter binding for the most common Org export: Org to LaTeX.
+
+#+BEGIN_SRC emacs-lisp
+(defun blendoit-org-quick-export ()
+  "Org export to PDF and open.
+  This basically reimplements `C-c C-e l o'."
+  (interactive)
+    (org-latex-export-to-pdf)
+    (org-open-file
+      (concat (substring buffer-file-truename 0 -3) "pdf")))
+
+(global-set-key (kbd "C-c e") 'blendoit-org-quick-export)
+#+END_SRC
+
+** Mouse zoom
+
+ Zoom in/out of selected buffer using Alt + mouse wheel.
 
 #+BEGIN_SRC emacs-lisp
   (global-set-key [M-mouse-4] 'text-scale-increase)
@@ -219,12 +271,32 @@ Phew, I can finally introduce Org mode! I am so *excited*.
                                            t ("xelatex" "lualatex")))
 #+END_SRC
 
+** =gnuplot=
+
+#+BEGIN_SRC emacs-lisp
+(use-package gnuplot)
+#+END_SRC
+
+** =company=
+
+# #+BEGIN_SRC emacs-lisp
+# (use-package company)
+# #+END_SRC
+
+** Ledger
+
+#+BEGIN_SRC emacs-lisp
+(use-package ledger-mode
+  :bind
+   ("C-c r" . ledger-report)
+   ("C-c C" . ledger-mode-clean-buffer)
+)
+#+END_SRC
 
 ** ibuffer-sidebar
 
 #+BEGIN_SRC emacs-lisp
-(use-package ibuffer-sidebar
-  :commands (ibuffer-sidebar-toggle-sidebar))
+(use-package ibuffer-sidebar)
 #+END_SRC
 
 ** Which-key
@@ -232,11 +304,11 @@ Phew, I can finally introduce Org mode! I am so *excited*.
 #+BEGIN_SRC emacs-lisp
 (use-package which-key
 :init
-(which-key-mode)
-:config
-;; (setq which-key-idle-delay 1000)
-;; (setq which-key-idle-secondary-delay 0.05)
-;; (setq which-key-show-early-on-C-h t)
+ (which-key-mode)
+;; :config
+;;  (setq which-key-idle-delay 1000)
+;;  (setq which-key-idle-secondary-delay 0.05)
+;;  (setq which-key-show-early-on-C-h t)
 )
 #+END_SRC
 
@@ -245,15 +317,13 @@ Phew, I can finally introduce Org mode! I am so *excited*.
 Auto completion.
 
 #+BEGIN_SRC emacs-lisp
-  (use-package ivy
-  :config
+(use-package ivy
+ :config
   (ivy-mode t)
   (setq ivy-use-virtual-buffers t
-  ivy-count-format "%d/%d "
-  enable-recursive-minibuffers t))
+   ivy-count-format "%d/%d "
+   enable-recursive-minibuffers t))
 
-  (use-package ivy-hydra)
-  (setq ivy-initial-inputs-alist nil)
   (use-package ivy-hydra)
 #+END_SRC
 
@@ -261,20 +331,19 @@ Auto completion.
 
   Wonderful counsellor!
 
-  #+BEGIN_SRC emacs-lisp
-  (use-package counsel
-  :bind ("M-x" . counsel-M-x)
-  :config (counsel-mode))
+#+BEGIN_SRC emacs-lisp
+(use-package counsel
+ :bind ("M-x" . counsel-M-x)
+ :config (counsel-mode))
 
 (global-set-key (kbd "C-f") 'counsel-grep-or-swiper)
-(global-set-key (kbd "C-F") 'counsel-find-file)
-  #+END_SRC
+#+END_SRC
 
 *** Swiper
 
 #+BEGIN_SRC emacs-lisp
-  (use-package swiper
-   :bind (("C-f" . counsel-grep-or-swiper)))
+(use-package swiper
+ :bind (("C-f" . counsel-grep-or-swiper)))
 #+END_SRC
 
 ** Ido
@@ -290,31 +359,29 @@ Auto completion.
  #+NAME: company
  #+BEGIN_SRC emacs-lisp
  (use-package company
- :config
- (add-hook 'after-init-hook 'global-company-mode))
+  :config (add-hook 'after-init-hook 'global-company-mode))
  #+END_SRC
 
 ** Flycheck
 
- #+NAME: flycheck
- #+BEGIN_SRC emacs-lisp
-(use-package flycheck
-  :init (global-flycheck-mode))
- #+END_SRC
+#+NAME: flycheck
+#+BEGIN_SRC emacs-lisp
+; (use-package flycheck
+;  :init (global-flycheck-mode))
+#+END_SRC
 
 ** Magit
 
 #+BEGIN_SRC emacs-lisp
   (use-package magit
-    :bind ("C-c g" . magit-status))
+   :bind ("C-c g" . magit-status))
 #+END_SRC
 
 ** PDF-tools
 
 #+BEGIN_SRC emacs-lisp
 (use-package pdf-tools
-  :config
-  (pdf-loader-install))
+ :config (pdf-loader-install))
 #+END_SRC
 
 * Cosmetics
@@ -336,10 +403,10 @@ Fixed-pitch and variable-pitch fonts will be used intelligently in all text
 modes.
 
 #+BEGIN_SRC emacs-lisp
-  (use-package mixed-pitch
-    :hook
-    ;; If you want it in all text modes:
-    (text-mode . mixed-pitch-mode))
+(use-package mixed-pitch
+  :hook
+  ;; If you want it in all text modes:
+  (org-mode . mixed-pitch-mode))
 #+END_SRC
 
 ** All the icons
@@ -355,6 +422,7 @@ modes.
 ;;  :config
 ;;  (load-theme 'zenburn)
 ;; )
+  (load-theme 'wombat)
 #+END_SRC
 
 ** Transparency
@@ -371,10 +439,21 @@ modes.
 
 * Editing preferences
 
+These customizations enhance editor usability.
+
 #+BEGIN_SRC emacs-lisp
 (setq-default fill-column 79)
 (defalias 'yes-or-no-p 'y-or-n-p)
 #+END_SRC
+
+** Initial & subsequent frame size
+
+# #+BEGIN_SRC emacs-lisp
+# (add-to-list 'initial-frame-alist '((width . 79) (height . 60)))
+# (add-to-list 'default-frame-alist '((width . 60) (height . 20)))
+# #+END_SRC
+
+** Better parentheses
 
 #+BEGIN_SRC emacs-lisp
   (use-package smartparens
