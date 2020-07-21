@@ -14,7 +14,7 @@ high-productivity text editor---new /modes/ have been written to interact with
 hundreds of file formats, including =.txt=, =.pdf=, =.jpg=, =.csv=, and =.zip= just to
 name a few. This configuration file itself was written in /Org mode/, a
 collection of functions enabling the harmonious mixing of code and comments in
-view of publicaton: this is the endgame of /literate programming/.
+view of publication: this is the endgame of /literate programming/.
 #+END_abstract
 
 * Preliminary setup
@@ -106,8 +106,8 @@ Quick access to important Org mode functionalities.
 *** Agenda
 
 The agenda displays a chronological list of headings across all agenda files
-for which the heading or body contain a matching
-org-time-stamp=[fn::An=org-time-stamp= can be inserted with =C-c .= (period)].
+for which the heading or body contain a matching =org-time-stamp=.[fn::An
+=org-time-stamp= can be inserted with =C-c .= (period)]
 
 #+BEGIN_SRC emacs-lisp
 (global-set-key (kbd "C-c a") 'org-agenda)
