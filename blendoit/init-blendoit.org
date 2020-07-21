@@ -7,8 +7,8 @@
 
 #+BEGIN_abstract
 Emacs enables an unparalleled level of customisation by allowing the
-introspection of every variable and function that can be understood by the
-software. The possibilities are endless.
+introspection of every variable and function that can be understood by
+the software. The possibilities are endless.
 #+END_abstract
 
 * Preliminary setup
@@ -30,7 +30,6 @@ customize-group <package>.
 
 #+NAME: custom-file
 #+BEGIN_SRC emacs-lisp
-
 (setq custom-file "~/.emacs.d/blendoit/custom/custom-file.el")
 (load custom-file)
 #+END_SRC
