@@ -12,9 +12,10 @@ Backup your current =~/.emacs.d= with the following command:
 mv ~/.emacs.d ~/.emacs.d.bkp
 #+END_SRC
 
-Clone my configuration folder to your home directory: =cd ~= followed by:
+Clone my configuration folder to your home directory:
 
 #+BEGIN_SRC: emacs-lisp
+cd ~
 git clone https://github.com/Blendoit/.emacs.d.git
 #+END_SRC
 

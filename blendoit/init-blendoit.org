@@ -31,8 +31,8 @@ customize-group <package>.
 #+NAME: custom-file
 #+BEGIN_SRC emacs-lisp
 
-(setq custom-file "~/.emacs.d/blendoit/custom/custom-file.org")
-(org-babel-load-file custom-file)
+(setq custom-file "~/.emacs.d/blendoit/custom/custom-file.el")
+(load custom-file)
 #+END_SRC
 
 ** Shortcut

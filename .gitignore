@@ -1,11 +1,20 @@
 # .gitignore
+
+# TeX artifacts
 *.tex
 *.lot
 *.lof
+
+# These directories are populated on config execution.
 elpa/**
 url/**
 auto-save-list/**
 transient/**
+
+# Tangled .el files from .org
+blendoit/*.el
+
+# Misc
 ido.last
 recentf
 srecode-map.el
