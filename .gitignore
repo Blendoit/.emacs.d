@@ -1,11 +1,11 @@
 # .gitignore
-.#*
-'#*
-*.html
 *.tex
-*.pdf
-.cache/**
+*.lot
+*.lof
 elpa/**
+url/**
 auto-save-list/**
 transient/**
 ido.last
+recentf
+srecode-map.el

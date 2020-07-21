@@ -1,27 +1,40 @@
 #+TITLE: GNU Emacs Configuration 
 #+AUTHOR: Marius Peter
+#+DATE: <2020-07-20 Mon>
 
 * Installation
   
 ** Linux
-   1. Backup your current =~/.emacs.d= with the following command:
-   =mv ~/.emacs.d ~/.emacs.d.bkp=
-   2. Clone my configuration folder to your home directory:
-   =cd ~= followed by =git clone https://github.com/Blendoit/.emacs.d.git=
+
+Backup your current =~/.emacs.d= with the following command:
+
+#+BEGIN_SRC: emacs-lisp
+mv ~/.emacs.d ~/.emacs.d.bkp
+#+END_SRC
+
+Clone my configuration folder to your home directory: =cd ~= followed by:
+
+#+BEGIN_SRC: emacs-lisp
+git clone https://github.com/Blendoit/.emacs.d.git
+#+END_SRC
 
 * Main Files
 
 ** =init.el=
-   - Loads the following 2 configuration files.
 
-** =init_emacs.el=
-   - You may delete its content initially.
-   - By default, all customization options available in Emacs' GUI that can be saved with =Options - Save Options= are saved here.
-   - Useful to fool around with GUI customization options, without breaking our manually written code.
-     
-** =init_blendoit.el=
-   - Load my personal configuration files.
+   - This file's only purpose is to load my literate configuration.
 
+** =blendoit/init-blendoit.org=
+   
+   - Load my personal literate configuration files.
+    
+** =blendoit/custom-file.el=
+
+   - By default, all customization options available in Emacs' GUI that can be
+     saved with =Options - Save Options= are saved here.
+   - This is useful to fool around with GUI customization options, without
+     breaking our manually written code.
+ 
 * Usage
 
   Each configuration file is commented.

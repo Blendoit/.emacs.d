@@ -1,0 +1,388 @@
+#+TITLE: Blendoit's Emacs configuration
+#+AUTHOR: Marius Peter
+#+DATE: <2020-07-19 Sun>
+#+STARTUP: customtime showall
+#+SETUPFILE: ~/org/templates/documents/personal.org
+#+INCLUDE: ~/org/templates/documents/personal-title.org
+
+#+BEGIN_abstract
+Emacs enables an unparalleled level of customisation by allowing the
+introspection of every variable and function that can be understood by the
+software. The possibilities are endless.
+#+END_abstract
+
+* Preliminary setup
+
+** Garbage collection
+
+Increase the garbage collection limit.
+
+#+NAME: garbage-collection
+#+BEGIN_SRC emacs-lisp
+(setq gc-cons-threshold 100000000)
+#+END_SRC
+
+** Custom file
+
+Load settings created automatically by GNU Emacs Custom. (For example, any
+clickable option/toggle is saved here.) Useful for fooling around with M-x
+customize-group <package>.
+
+#+NAME: custom-file
+#+BEGIN_SRC emacs-lisp
+
+(setq custom-file "~/.emacs.d/blendoit/custom/custom-file.org")
+(org-babel-load-file custom-file)
+#+END_SRC
+
+** Shortcut
+
+We begin by defining a user shortcut to this very file:
+
+#+NAME: shortcut-config
+#+BEGIN_SRC emacs-lisp
+  (defun find-init-blendoit ()
+  "Jump to this very file."
+  (interactive)
+  (find-file "~/.emacs.d/blendoit/init-blendoit.org"))
+  (global-set-key (kbd "C-c c") 'find-init-blendoit)
+#+END_SRC
+
+** Backups
+
+Backups are so important that they should be described right after the shortcut
+to this file.
+
+#+BEGIN_SRC emacs-lisp
+(setq backup-directory-alist `((".*" . ,temporary-file-directory))
+auto-save-file-name-transforms `((".*" ,temporary-file-directory t))
+    backup-by-copying t    ; Don't delink hardlinks
+    version-control t      ; Use version numbers on backups
+    delete-old-versions t  ; Automatically delete excess backups
+    kept-new-versions 20   ; how many of the newest versions to keep
+    kept-old-versions 5    ; and how many of the old
+    )
+#+END_SRC
+
+** Secrets
+
+#+INCLUDE: ./secrets.org
+
+* Bindings
+
+#+BEGIN_SRC emacs-lisp
+(global-set-key (kbd "C-c e") 'eval-buffer)
+(global-set-key (kbd "C-s") 'save-buffer)
+(global-set-key (kbd "C-b") 'ibuffer-sidebar-toggle-sidebar)
+(global-set-key (kbd "C-w") 'kill-buffer-and-window)
+(global-set-key (kbd "C-c a") 'org-agenda)
+#+END_SRC
+
+** Zoom
+
+ Zoom in/out of selected buffer.
+
+#+BEGIN_SRC emacs-lisp
+  (global-set-key [M-mouse-4] 'text-scale-increase)
+  (global-set-key [M-mouse-5] 'text-scale-decrease)
+#+END_SRC
+
+* Packages
+
+List of package archives.
+
+#+NAME: packages
+#+BEGIN_SRC emacs-lisp
+(require 'package)
+(add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/") t)
+(add-to-list 'package-archives '("org" . "http://orgmode.org/elpa/") t)
+(package-initialize)
+#+END_SRC
+
+#+RESULTS: packages
+
+Ensure =use-package= is installed.
+
+#+BEGIN_SRC emacs-lisp
+(unless (package-installed-p 'use-package)
+(package-refresh-contents)
+(package-install 'use-package)
+(eval-when-compile (require 'use-package)))
+(setq use-package-always-ensure t)
+#+END_SRC
+
+** Org
+
+Phew, I can finally introduce Org mode! I am so *excited*.
+
+#+NAME: org
+#+BEGIN_SRC emacs-lisp
+(setq org-hide-emphasis-markers t)
+(setq org-startup-indented t)
+(setq org-directory "~/org")
+
+(font-lock-add-keywords 'org-mode
+                        '(("^ *\\([-]\\) "
+                           (0 (prog1 () (compose-region (match-beginning 1) (match-end 1) "•"))))))
+
+(use-package org-bullets
+  :config
+  (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1))))
+
+(let* ((variable-tuple
+        (cond ((x-list-fonts "Liberation Sans") '(:font "Liberation Sans"))
+              ((x-family-fonts "Sans Serif")    '(:family "Sans Serif"))
+              (nil (warn "Cannot find a Sans Serif Font.  Install Source Sans Pro."))))
+       (base-font-color     (face-foreground 'default nil 'default))
+       (headline           `(:inherit default :weight bold)))
+
+  (custom-theme-set-faces
+   'user
+   `(org-level-8 ((t (,@headline ,@variable-tuple))))
+   `(org-level-7 ((t (,@headline ,@variable-tuple))))
+   `(org-level-6 ((t (,@headline ,@variable-tuple))))
+   `(org-level-5 ((t (,@headline ,@variable-tuple))))
+   `(org-level-4 ((t (,@headline ,@variable-tuple :height 1.1))))
+   `(org-level-3 ((t (,@headline ,@variable-tuple :height 1.25))))
+   `(org-level-2 ((t (,@headline ,@variable-tuple :height 1.5))))
+   `(org-level-1 ((t (,@headline ,@variable-tuple :height 1.75))))
+   `(org-document-title ((t (,@headline ,@variable-tuple :height 2.0 :underline nil))))))
+
+(custom-theme-set-faces
+ 'user
+ '(variable-pitch ((t (:family "Liberation Sans"))))
+ '(fixed-pitch ((t ( :family "Hack")))))
+
+
+
+
+(x-list-fonts "Hermit")
+#+END_SRC
+
+- Beautiful bullet lists in Org mode!
+
+*** Org Agenda
+
+#+BEGIN_SRC emacs-lisp
+
+#+END_SRC
+
+*** Org publish
+#+BEGIN_SRC emacs-lisp
+(require 'ox-publish)
+(setq org-publish-project-alist
+        '(
+          ("Safran-VIP-html"
+           :base-directory "~/org/WORK/Safran/programs/VIP/doc/org/"
+           :base-extension "org"
+           :publishing-directory "~/org/WORK/Safran/programs/VIP/doc/wiki/"
+           :recursive t
+           :publishing-function org-html-publish-to-html
+           :auto-preamble t
+           :auto-sitemap t
+           :sitemap-title "" )
+
+          ("Safran-VIP-static"
+           :base-directory "~/org/WORK/Safran/programs/VIP/doc/org/"
+           :base-extension "css\\|js\\|png\\|jpg\\|gif\\|pdf\\|mp3\\|mp4\\|ogg\\|swf"
+           :publishing-directory "~/org/WORK/Safran/programs/VIP/doc/wiki/"
+           :recursive t
+           :publishing-function org-publish-attachment )
+
+          ("Safran-VIP-all"
+           :components ("Safran-VIP-html" "Safran-VIP-static"))
+
+          ("Safran-MA700-html"
+           :base-directory "~/org/WORK/Safran/programs/MA700/doc/org/"
+           :base-extension "org"
+           :publishing-directory "~/org/WORK/Safran/programs/MA700/doc/wiki/"
+           :recursive t
+           :publishing-function org-html-publish-to-html
+           :auto-preamble t
+           :auto-sitemap t
+           :sitemap-title "" )
+
+          ("Safran-MA700-static"
+           :base-directory "~/org/WORK/Safran/programs/MA700/doc/org/"
+           :base-extension "css\\|js\\|png\\|jpg\\|gif\\|pdf\\|mp3\\|mp4\\|ogg\\|swf"
+           :publishing-directory "~/org/WORK/Safran/programs/MA700/doc/wiki/"
+           :recursive t
+           :publishing-function org-publish-attachment )
+
+          ("Safran-MA700-all"
+           :components ("Safran-MA700-html" "Safran-MA700-static"))))
+
+  (add-to-list 'org-latex-packages-alist '("table" "xcolor"
+                                           t ("pdflatex")))
+  (add-to-list 'org-latex-packages-alist '("AUTO" "babel"
+                                           t ("pdflatex")))
+  (add-to-list 'org-latex-packages-alist '("AUTO" "polyglossia"
+                                           t ("xelatex" "lualatex")))
+#+END_SRC
+
+
+** ibuffer-sidebar
+
+#+BEGIN_SRC emacs-lisp
+(use-package ibuffer-sidebar
+  :commands (ibuffer-sidebar-toggle-sidebar))
+#+END_SRC
+
+** Which-key
+
+#+BEGIN_SRC emacs-lisp
+(use-package which-key
+:init
+(which-key-mode)
+:config
+;; (setq which-key-idle-delay 1000)
+;; (setq which-key-idle-secondary-delay 0.05)
+;; (setq which-key-show-early-on-C-h t)
+)
+#+END_SRC
+
+** Ivy
+
+Auto completion.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package ivy
+  :config
+  (ivy-mode t)
+  (setq ivy-use-virtual-buffers t
+  ivy-count-format "%d/%d "
+  enable-recursive-minibuffers t))
+
+  (use-package ivy-hydra)
+  (setq ivy-initial-inputs-alist nil)
+  (use-package ivy-hydra)
+#+END_SRC
+
+*** Counsel
+
+  Wonderful counsellor!
+
+  #+BEGIN_SRC emacs-lisp
+  (use-package counsel
+  :bind ("M-x" . counsel-M-x)
+  :config (counsel-mode))
+
+(global-set-key (kbd "C-f") 'counsel-grep-or-swiper)
+(global-set-key (kbd "C-F") 'counsel-find-file)
+  #+END_SRC
+
+*** Swiper
+
+#+BEGIN_SRC emacs-lisp
+  (use-package swiper
+   :bind (("C-f" . counsel-grep-or-swiper)))
+#+END_SRC
+
+** Ido
+
+# #+BEGIN_SRC emacs-lisp
+#   (setq ido-enable-flex-matching t)
+#   (setq ido-everywhere t)
+#   (ido-mode 1)
+# #+END_SRC
+
+** Company
+
+ #+NAME: company
+ #+BEGIN_SRC emacs-lisp
+ (use-package company
+ :config
+ (add-hook 'after-init-hook 'global-company-mode))
+ #+END_SRC
+
+** Flycheck
+
+ #+NAME: flycheck
+ #+BEGIN_SRC emacs-lisp
+(use-package flycheck
+  :init (global-flycheck-mode))
+ #+END_SRC
+
+** Magit
+
+#+BEGIN_SRC emacs-lisp
+  (use-package magit
+    :bind ("C-c g" . magit-status))
+#+END_SRC
+
+** PDF-tools
+
+#+BEGIN_SRC emacs-lisp
+(use-package pdf-tools
+  :config
+  (pdf-loader-install))
+#+END_SRC
+
+* Cosmetics
+
+** Faces & cursors
+
+In order to imitate other modern text editors, we'll resort to a blinking bar
+cursor.
+
+*** Default cursor
+
+#+BEGIN_SRC emacs-lisp
+(setq-default cursor-type (quote bar))
+#+END_SRC
+
+*** Default faces
+
+Fixed-pitch and variable-pitch fonts will be used intelligently in all text
+modes.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package mixed-pitch
+    :hook
+    ;; If you want it in all text modes:
+    (text-mode . mixed-pitch-mode))
+#+END_SRC
+
+** All the icons
+
+#+BEGIN_SRC emacs-lisp
+(use-package all-the-icons)
+#+END_SRC
+
+** Theme
+
+#+BEGIN_SRC emacs-lisp
+;;  (use-package zenburn-theme
+;;  :config
+;;  (load-theme 'zenburn)
+;; )
+#+END_SRC
+
+** Transparency
+
+#+BEGIN_SRC emacs-lisp
+(add-to-list 'default-frame-alist '(alpha . (90 . 50)))
+#+END_SRC
+
+** Scrollbars
+
+#+BEGIN_SRC emacs-lisp
+(set-window-scroll-bars (minibuffer-window) nil nil)
+#+END_SRC
+
+* Editing preferences
+
+#+BEGIN_SRC emacs-lisp
+(setq-default fill-column 79)
+(defalias 'yes-or-no-p 'y-or-n-p)
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp
+  (use-package smartparens
+    :config
+    (add-hook 'prog-mode-hook 'smartparens-mode))
+
+  (use-package rainbow-delimiters
+    :config
+    (add-hook 'prog-mode-hook 'rainbow-delimiters-mode))
+#+END_SRC
