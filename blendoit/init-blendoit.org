@@ -7,25 +7,36 @@
 
 #+BEGIN_abstract
 GNU Emacs is most often used as a text editor. The utmost level of
-customisation is afforded by enabling the user to rewrite /any/ part of the
-source code and observe the editor's modified behaviour in real time. Since its
-inception in 1984, GNU Emacs has grown to be much more than a full-featured,
-high-productivity text editor---new /modes/ have been written to interact with
-hundreds of file formats, including =.txt=, =.pdf=, =.jpg=, =.csv=, and =.zip= just to
-name a few. This configuration file itself was written in /Org mode/, a
-collection of functions enabling the harmonious mixing of code and comments in
-view of publication: this is the endgame of /literate programming/.
+customisation is afforded by enabling the user to rewrite /any/ part of
+the source code and observe the editor's modified behaviour in real
+time. Since its inception in 1984, GNU Emacs has grown to be much more
+than a full-featured, high-productivity text editor---new /modes/ have
+been written to interact with hundreds of file formats, including
+=.txt=, =.pdf=, =.jpg=, =.csv=, and =.zip= just to name a few. This
+configuration file itself was written in /Org mode/, a collection of
+functions enabling the harmonious mixing of code and comments in view
+of publication: this is the endgame of /literate programming/.
 #+END_abstract
 
 * Preliminary setup
 
 ** Garbage collection
 
-Increase the garbage collection limit.
+First, we increase the RAM threshold beyond which the garbage collector is
+activated.
 
 #+NAME: garbage-collection
 #+BEGIN_SRC emacs-lisp
 (setq gc-cons-threshold 100000000)
+#+END_SRC
+
+** Server start
+
+Makes opening emacs faster for following instances.
+
+#+NAME: server-start
+#+BEGIN_SRC emacs-lisp
+(server-start)
 #+END_SRC
 
 ** Custom file
@@ -47,9 +58,10 @@ We begin by defining a user shortcut to this very file:
 #+NAME: shortcut-config
 #+BEGIN_SRC emacs-lisp
   (defun find-init-blendoit ()
-  "Jump to this very file."
-  (interactive)
-  (find-file "~/.emacs.d/blendoit/init-blendoit.org"))
+    "Jump to this very file."
+     (interactive)
+     (find-file "~/.emacs.d/blendoit/init-blendoit.org"))
+
   (global-set-key (kbd "C-c c") 'find-init-blendoit)
 #+END_SRC
 
@@ -60,21 +72,20 @@ Now, different shortcuts for other customization actions:
   (global-set-key (kbd "C-c v") 'customize-variable)
 #+END_SRC
 
-
 ** Backups
 
 Backups are so important that they should be described right after the shortcut
 to this file.
 
 #+BEGIN_SRC emacs-lisp
-(setq backup-directory-alist `((".*" . ,temporary-file-directory))
-auto-save-file-name-transforms `((".*" ,temporary-file-directory t))
-    backup-by-copying t    ; Don't delink hardlinks
-    version-control t      ; Use version numbers on backups
-    delete-old-versions t  ; Automatically delete excess backups
-    kept-new-versions 20   ; how many of the newest versions to keep
-    kept-old-versions 5    ; and how many of the old
-    )
+  (setq backup-directory-alist `((".*" . ,temporary-file-directory))
+  auto-save-file-name-transforms `((".*" ,temporary-file-directory t))
+      backup-by-copying t    ; Don't delink hardlinks
+      version-control t      ; Use version numbers on backups
+      delete-old-versions t  ; Automatically delete excess backups
+      kept-new-versions 20   ; how many of the newest versions to keep
+      kept-old-versions 5    ; and how many of the old
+      )
 #+END_SRC
 
 ** Secrets
@@ -86,47 +97,25 @@ auto-save-file-name-transforms `((".*" ,temporary-file-directory t))
         user-mail-address "blendoit@gmail.com")
 #+END_SRC
 
-* Bindings
+* Global key bindings
+
+The following bindings strive to further enhance CUA[fn::Common User Access.]
+mode.
 
 ** Navigation
 
 #+BEGIN_SRC emacs-lisp
-(global-set-key (kbd "C-s") 'save-buffer)
-(global-set-key (kbd "C-b") 'ibuffer-sidebar-toggle-sidebar)
+  (global-set-key (kbd "C-s") 'save-buffer)
+  (global-set-key (kbd "C-b") 'ibuffer-sidebar-toggle-sidebar)
+  (global-set-key (kbd "C-o") 'menu-find-file-existing)
+  (global-set-key (kbd "C-r") 'counsel-recentf)
+#+END_SRC
+
+The following bindings lead to more natural exit behaviors.
+
+#+BEGIN_SRC emacs-lisp
 (global-set-key (kbd "C-w") 'kill-buffer-and-window)
 (global-set-key (kbd "C-q") 'save-buffers-kill-terminal)
-(global-set-key (kbd "C-o") 'menu-find-file-existing)
-(global-set-key (kbd "C-r") 'counsel-recentf)
-#+END_SRC
-
-** =Org=
-
-Quick access to important Org mode functionalities.
-
-*** Agenda
-
-The agenda displays a chronological list of headings across all agenda files
-for which the heading or body contain a matching =org-time-stamp=.[fn::An
-=org-time-stamp= can be inserted with =C-c .= (period)]
-
-#+BEGIN_SRC emacs-lisp
-(global-set-key (kbd "C-c a") 'org-agenda)
-#+END_SRC
-
-*** Export
-
-This creates a shorter binding for the most common Org export: Org to LaTeX.
-
-#+BEGIN_SRC emacs-lisp
-(defun blendoit-org-quick-export ()
-  "Org export to PDF and open.
-  This basically reimplements `C-c C-e l o'."
-  (interactive)
-    (org-latex-export-to-pdf)
-    (org-open-file
-      (concat (substring buffer-file-truename 0 -3) "pdf")))
-
-(global-set-key (kbd "C-c e") 'blendoit-org-quick-export)
 #+END_SRC
 
 ** Mouse zoom
@@ -144,10 +133,10 @@ List of package archives.
 
 #+NAME: packages
 #+BEGIN_SRC emacs-lisp
-(require 'package)
-(add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/") t)
-(add-to-list 'package-archives '("org" . "http://orgmode.org/elpa/") t)
-(package-initialize)
+  (require 'package)
+  (add-to-list 'package-archives '("melpa" . "https://melpa.milkbox.net/packages/") t)
+  (add-to-list 'package-archives '("org" . "https://orgmode.org/elpa/") t)
+  (package-initialize)
 #+END_SRC
 
 #+RESULTS: packages
@@ -155,30 +144,75 @@ List of package archives.
 Ensure =use-package= is installed.
 
 #+BEGIN_SRC emacs-lisp
-(unless (package-installed-p 'use-package)
-(package-refresh-contents)
-(package-install 'use-package)
-(eval-when-compile (require 'use-package)))
-(setq use-package-always-ensure t)
+  (unless (package-installed-p 'use-package)
+  (package-refresh-contents)
+  (package-install 'use-package)
+  (eval-when-compile (require 'use-package)))
+  (setq use-package-always-ensure t)
 #+END_SRC
 
 ** Org
 
 Phew, I can finally introduce Org mode! I am so *excited*.
 
-#+NAME: org
+Org mode replaces a word processor, a presentation creator, and a spreadsheet
+editor. IMHO, the spreadsheet ability captures more than 80% use cases wherein
+one wishes to include a table in a text document destined for physical
+publication. (It is clear that Excel spreadsheets are /not/ destined for physical
+publication---simply attempt to print an Excel spreadsheet with the default
+settings.)  In my opinion, Org mode matches all /useful/ features of the
+Microsoft Office suite 1-to-1.
+
+What follows are customizations designed to make Org mode behave more like
+Microsoft Word. The end goal is, once again, to draw as many new users to Emacs
+as possible!
+
+*** Basic customization
+
+First, we hide markup symbols for *bold*, /italic/, _underlined_ and +strikethrough+
+text, and ensure our document appears indented upon loading:[fn::It /appears/
+indented, but the underlying plaintext file does not contain tab characters!]
+
+#+NAME: org-basic
 #+BEGIN_SRC emacs-lisp
-(setq org-hide-emphasis-markers t)
-(setq org-startup-indented t)
-(setq org-directory "~/org")
+  (setq org-hide-emphasis-markers t)
+  (setq org-startup-indented t)
+#+END_SRC
 
-(font-lock-add-keywords 'org-mode
-                        '(("^ *\\([-]\\) "
-                           (0 (prog1 () (compose-region (match-beginning 1) (match-end 1) "•"))))))
+Then, we customize Org headings to emulate WYSIWYG[fn::What You See Is What You
+Get (input and output are identical), as opposed to What You See Is What You
+Mean (the input contains instructions that can modify the output).] behavior
+normally found in Word:
 
-(use-package org-bullets
-  :config
-  (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1))))
+#+NAME: org-list-bullets
+#+BEGIN_SRC emacs-lisp
+  (setq org-directory "~/org")
+  (font-lock-add-keywords
+   'org-mode
+   '(("^ *\\([-]\\) "
+    (0 (prog1 () (compose-region (match-beginning 1) (match-end 1) "•"))))))
+#+END_SRC
+
+- Look at
+- This beautifully indented
+  - List...
+  - Of lists!
+- (Rendered with pretty bullets in Emacs)
+
+The following prettifies Org mode heading bullets:
+
+#+NAME: org-headings-bullets
+#+BEGIN_SRC emacs-lisp
+  (use-package org-bullets
+    :hook
+    (org-mode . org-bullets-mode)
+  )
+#+END_SRC
+
+
+
+#+NAME: org-cosmetics
+#+BEGIN_SRC emacs-lisp
 
 (let* ((variable-tuple
         (cond ((x-list-fonts "Liberation Sans") '(:font "Liberation Sans"))
@@ -199,34 +233,37 @@ Phew, I can finally introduce Org mode! I am so *excited*.
    `(org-level-1 ((t (,@headline ,@variable-tuple :height 1.75))))
    `(org-document-title ((t (,@headline ,@variable-tuple :height 2.0 :underline nil))))))
 
-(custom-theme-set-faces
- 'user
- '(variable-pitch ((t (:family "Liberation Sans"))))
- '(fixed-pitch ((t ( :family "Hack")))))
+;(custom-theme-set-faces
+; 'user
+; '(variable-pitch ((t (:family "Liberation Sans"))))
+; '(fixed-pitch ((t ( :family "Hack")))))
 
-
-
-
-(x-list-fonts "Hermit")
 #+END_SRC
 
-- Beautiful bullet lists in Org mode!
+*** Agenda
 
-*** Org Agenda
+The agenda displays a chronological list of headings across all agenda files
+for which the heading or body contain a matching =org-time-stamp=.[fn::An
+=org-time-stamp= can be inserted with =C-c .= (period)]
 
 #+BEGIN_SRC emacs-lisp
-
+(global-set-key (kbd "C-c a") 'org-agenda)
 #+END_SRC
 
-*** Org publish
+*** Publish
+
+In the following /alist/ (association list), we describe the projects publishable
+via =org-publish=. We separate the publishing of =.org= files and attachments,
+because an online tutorial recommended we do so.
+
 #+BEGIN_SRC emacs-lisp
 (require 'ox-publish)
 (setq org-publish-project-alist
         '(
           ("Safran-VIP-html"
-           :base-directory "~/org/WORK/Safran/programs/VIP/doc/org/"
+           :base-directory "~/org/WORK/Safran/programs/B787/VIP/doc/org/"
            :base-extension "org"
-           :publishing-directory "~/org/WORK/Safran/programs/VIP/doc/wiki/"
+           :publishing-directory "~/org/WORK/Safran/programs/B787/VIP/doc/wiki/"
            :recursive t
            :publishing-function org-html-publish-to-html
            :auto-preamble t
@@ -234,9 +271,9 @@ Phew, I can finally introduce Org mode! I am so *excited*.
            :sitemap-title "" )
 
           ("Safran-VIP-static"
-           :base-directory "~/org/WORK/Safran/programs/VIP/doc/org/"
+           :base-directory "~/org/WORK/Safran/programs/B787/VIP/doc/org/"
            :base-extension "css\\|js\\|png\\|jpg\\|gif\\|pdf\\|mp3\\|mp4\\|ogg\\|swf"
-           :publishing-directory "~/org/WORK/Safran/programs/VIP/doc/wiki/"
+           :publishing-directory "~/org/WORK/Safran/programs/B787/VIP/doc/wiki/"
            :recursive t
            :publishing-function org-publish-attachment )
 
@@ -271,6 +308,23 @@ Phew, I can finally introduce Org mode! I am so *excited*.
                                            t ("xelatex" "lualatex")))
 #+END_SRC
 
+*** Export
+
+This creates a shorter binding for the most common Org export: Org \rightarrow
+LaTeX \rightarrow PDF.
+
+#+BEGIN_SRC emacs-lisp
+(defun blendoit-org-quick-export ()
+  "Org export to PDF and open.
+  This basically reimplements `C-c C-e l o'."
+  (interactive)
+    (org-latex-export-to-pdf)
+    (org-open-file
+      (concat (substring buffer-file-truename 0 -3) "pdf")))
+
+(global-set-key (kbd "C-c e") 'blendoit-org-quick-export)
+#+END_SRC
+
 ** =gnuplot=
 
 #+BEGIN_SRC emacs-lisp
@@ -286,17 +340,26 @@ Phew, I can finally introduce Org mode! I am so *excited*.
 ** Ledger
 
 #+BEGIN_SRC emacs-lisp
-(use-package ledger-mode
-  :bind
-   ("C-c r" . ledger-report)
-   ("C-c C" . ledger-mode-clean-buffer)
-)
+  (use-package ledger-mode
+    :bind
+     ("C-c r" . ledger-report)
+     ("C-c C" . ledger-mode-clean-buffer))
 #+END_SRC
 
-** ibuffer-sidebar
+** TODO ibuffer-sidebar
+SCHEDULED: <2020-07-21 Tue>
 
 #+BEGIN_SRC emacs-lisp
-(use-package ibuffer-sidebar)
+;    (use-package ibuffer-sidebar
+;     :bind ("mouse-1" . ibuffer-mouse-visit-buffer)
+;     :bind ("mouse-3" . ibuffer-mouse-toggle-mark))
+
+;     (add-hook 'ibuffer-sidebar-mode-hook
+;       (lambda ()
+;        (local-unset-key (quote mouse-1))
+;        (local-unset-key (quote mouse-2))
+;        (local-set-key (quote mouse-1) (quote ibuffer-mouse-visit-buffer))
+;        (local-set-key (quote mouse-2) (quote ibuffer-mouse-toggle-mark))))
 #+END_SRC
 
 ** Which-key
@@ -356,18 +419,18 @@ Auto completion.
 
 ** Company
 
- #+NAME: company
- #+BEGIN_SRC emacs-lisp
- (use-package company
-  :config (add-hook 'after-init-hook 'global-company-mode))
- #+END_SRC
+#+NAME: company
+#+BEGIN_SRC emacs-lisp
+;; (use-package company
+;;  :config (add-hook 'after-init-hook 'global-company-mode))
+#+END_SRC
 
 ** Flycheck
 
 #+NAME: flycheck
 #+BEGIN_SRC emacs-lisp
-; (use-package flycheck
-;  :init (global-flycheck-mode))
+(use-package flycheck
+ :init (global-flycheck-mode))
 #+END_SRC
 
 ** Magit
@@ -397,16 +460,15 @@ cursor.
 (setq-default cursor-type (quote bar))
 #+END_SRC
 
-*** Default faces
+*** Mixed pitch in Org mode
 
-Fixed-pitch and variable-pitch fonts will be used intelligently in all text
+Fixed-pitch and variable-pitch fonts will be used intelligently in all hooked
 modes.
 
 #+BEGIN_SRC emacs-lisp
-(use-package mixed-pitch
-  :hook
-  ;; If you want it in all text modes:
-  (org-mode . mixed-pitch-mode))
+  (use-package mixed-pitch
+    :hook ((org-mode
+            info-mode) . mixed-pitch-mode))
 #+END_SRC
 
 ** All the icons
@@ -419,10 +481,10 @@ modes.
 
 #+BEGIN_SRC emacs-lisp
 ;;  (use-package zenburn-theme
-;;  :config
-;;  (load-theme 'zenburn)
-;; )
-  (load-theme 'wombat)
+;;   :config
+;;    (load-theme 'zenburn))
+
+(load-theme 'wombat)
 #+END_SRC
 
 ** Transparency
