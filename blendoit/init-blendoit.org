@@ -7,7 +7,7 @@
 
 #+INCLUDE: ~/org/templates/documents/personal-title.org
 
-#+BEGIN_abstract
+\begin{abstract}
 GNU Emacs is most often used as a text editor. The utmost level of
 customisation is afforded by enabling the user to rewrite /any/ part of the
 source code and observe the editor's modified behaviour in real time. Since its
@@ -17,7 +17,7 @@ hundreds of file formats, including =.txt=, =.pdf=, =.jpg=, =.csv=, and =.zip= j
 name a few. This configuration file itself was written in /Org mode/, a
 collection of functions enabling the harmonious mixing of code and comments in
 view of publication: this is the endgame of /literate programming/.
-#+END_abstract
+\end{abstract}
 
 # ** Test
 

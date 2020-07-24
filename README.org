@@ -38,8 +38,8 @@ git clone https://github.com/Blendoit/.emacs.d.git
 *** Windows
 
 Download a =.zip= of the files in this repository. Then, extract the =.zip=, and
-rename the extracted folder to =.emacs.d=. Place this folder it in your home
-folder (one level up from =Documents=, =Pictures= or =Desktop=).
+rename the extracted folder to =.emacs.d=. Place this folder in your home folder
+(one level up from =Documents=, =Pictures= or =Desktop=).
 
 * Main Files
 
@@ -51,14 +51,12 @@ only purpose is to load my literate configuration =blendoit/init-blendoit.org=.
 ** =init-custom.el=
 
 All customization options available in Emacs' GUI that can be saved with
-=Options - Save Options= are saved here.
-
-This is useful to fool around with GUI customization options, without breaking
-our manually written code.
+=Options - Save Options= are saved here. This is useful to fool around with GUI
+customization options, without breaking our manually written code.
 
 ** =blendoit/init-blendoit.org=
    
-This is my personal literate configuration files.
+This is my personal literate configuration file.
  
 * Usage
 
