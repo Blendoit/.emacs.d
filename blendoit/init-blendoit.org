@@ -87,6 +87,7 @@ Now, different shortcuts for other customization actions:
 #+NAME: shortcuts-customization
 #+BEGIN_SRC emacs-lisp
   (global-set-key (kbd "C-c v") 'customize-variable)
+  (global-set-key (kbd "C-c f") 'customize-face)
 #+END_SRC
 
 ** Backups
@@ -236,7 +237,7 @@ The following prettifies Org mode heading bullets:
 #+BEGIN_SRC emacs-lisp
 
 (let* ((variable-tuple
-        (cond ((x-list-fonts "Liberation Sans") '(:font "Liberation Sans"))
+        (cond ((x-list-fonts "Dejavu Serif") '(:font "Dejavu Serif"))
               ((x-family-fonts "Sans Serif")    '(:family "Sans Serif"))
               (nil (warn "Cannot find a Sans Serif Font.  Install Source Sans Pro."))))
        (base-font-color     (face-foreground 'default nil 'default))
@@ -491,12 +492,18 @@ This enables us to better manage our =.git= projects.
 ** Faces & cursors
 
 In order to imitate other modern text editors, we'll resort to a blinking bar
-cursor. The default cursor already blinks.
+cursor. We choose red, the most captivating color, because the cursor is
+arguably the region on our screen:
+
+1. most often looked at;
+2. most often searched when lost.
+
+The default cursor already blinks.
 
 *** Default cursor
 
 In files containing only fixed-pitch fonts (i.e. files containing only code),
-the cursor becomes more visible box.
+the cursor becomes a high-visibility box.
 
 #+BEGIN_SRC emacs-lisp
 (setq-default cursor-type (quote box))

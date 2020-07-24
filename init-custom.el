@@ -140,7 +140,8 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(default ((t (:family "Hack" :foundry "SRC" :slant normal :weight normal :height 142 :width normal))))
- '(fixed-pitch ((t (:family "Dejavu Serif"))))
+ '(cursor ((t (:background "red"))))
+ '(fixed-pitch ((t (:height 0.8 :family "Hack"))))
  '(org-document-title ((t (:inherit default :weight bold :font "Liberation Sans" :height 2.0 :underline nil))))
  '(org-level-1 ((t (:inherit default :weight bold :font "Liberation Sans" :height 1.75))))
  '(org-level-2 ((t (:inherit default :weight bold :font "Liberation Sans" :height 1.5))))
@@ -150,4 +151,4 @@
  '(org-level-6 ((t (:inherit default :weight bold :font "Liberation Sans"))))
  '(org-level-7 ((t (:inherit default :weight bold :font "Liberation Sans"))))
  '(org-level-8 ((t (:inherit default :weight bold :font "Liberation Sans"))))
- '(variable-pitch ((t (:family "Liberation Sans")))))
+ '(variable-pitch ((t (:family "Dejavu Serif")))))
