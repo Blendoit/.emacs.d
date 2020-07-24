@@ -1,22 +1,29 @@
 #+TITLE: Blendoit's literate GNU Emacs config
 #+AUTHOR: Marius Peter
-#+DATE: <2020-07-21 Tue>
+#+DATE: <2020-07-23 Thu>
+
 #+STARTUP: customtime showall
 #+SETUPFILE: ~/org/templates/documents/personal.org
+
 #+INCLUDE: ~/org/templates/documents/personal-title.org
 
 #+BEGIN_abstract
 GNU Emacs is most often used as a text editor. The utmost level of
-customisation is afforded by enabling the user to rewrite /any/ part of
-the source code and observe the editor's modified behaviour in real
-time. Since its inception in 1984, GNU Emacs has grown to be much more
-than a full-featured, high-productivity text editor---new /modes/ have
-been written to interact with hundreds of file formats, including
-=.txt=, =.pdf=, =.jpg=, =.csv=, and =.zip= just to name a few. This
-configuration file itself was written in /Org mode/, a collection of
-functions enabling the harmonious mixing of code and comments in view
-of publication: this is the endgame of /literate programming/.
+customisation is afforded by enabling the user to rewrite /any/ part of the
+source code and observe the editor's modified behaviour in real time. Since its
+inception in 1984, GNU Emacs has grown to be much more than a full-featured,
+high-productivity text editor---new /modes/ have been written to interact with
+hundreds of file formats, including =.txt=, =.pdf=, =.jpg=, =.csv=, and =.zip= just to
+name a few. This configuration file itself was written in /Org mode/, a
+collection of functions enabling the harmonious mixing of code and comments in
+view of publication: this is the endgame of /literate programming/.
 #+END_abstract
+
+# ** Test
+
+# #+BEGIN_SRC emacs-lisp
+# (org-babel-load-file "~/.emacs.d/blendoit/test.org")
+# #+END_SRC
 
 * Preliminary setup
 
@@ -37,6 +44,16 @@ Makes opening emacs faster for following instances.
 #+NAME: server-start
 #+BEGIN_SRC emacs-lisp
 (server-start)
+#+END_SRC
+
+** Profiling --- start
+
+We start the profiler now , and will interrupt it in section [[Profiling ---
+stop]]. We will then present profiling report in [[Profiling --- report]].
+
+#+NAME: server-start
+#+BEGIN_SRC emacs-lisp
+; (profiler-start)
 #+END_SRC
 
 ** Custom file
@@ -105,6 +122,7 @@ mode.
 ** Navigation
 
 #+BEGIN_SRC emacs-lisp
+  (global-set-key (kbd "C-`") 'delete-other-windows)
   (global-set-key (kbd "C-s") 'save-buffer)
   (global-set-key (kbd "C-b") 'ibuffer-sidebar-toggle-sidebar)
   (global-set-key (kbd "C-o") 'menu-find-file-existing)
@@ -129,25 +147,28 @@ The following bindings lead to more natural exit behaviors.
 
 * Packages
 
+** Package archives
+
 List of package archives.
 
 #+NAME: packages
 #+BEGIN_SRC emacs-lisp
   (require 'package)
-  (add-to-list 'package-archives '("melpa" . "https://melpa.milkbox.net/packages/") t)
+  (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
   (add-to-list 'package-archives '("org" . "https://orgmode.org/elpa/") t)
   (package-initialize)
 #+END_SRC
 
-#+RESULTS: packages
+** use-package
 
-Ensure =use-package= is installed.
+Ensure =use-package= is installed, as well as all packages described in this
+configuration file.
 
 #+BEGIN_SRC emacs-lisp
   (unless (package-installed-p 'use-package)
-  (package-refresh-contents)
-  (package-install 'use-package)
-  (eval-when-compile (require 'use-package)))
+    (package-refresh-contents)
+    (package-install 'use-package)
+    (eval-when-compile (require 'use-package)))
   (setq use-package-always-ensure t)
 #+END_SRC
 
@@ -325,13 +346,13 @@ LaTeX \rightarrow PDF.
 (global-set-key (kbd "C-c e") 'blendoit-org-quick-export)
 #+END_SRC
 
-** =gnuplot=
+** gnuplot
 
 #+BEGIN_SRC emacs-lisp
 (use-package gnuplot)
 #+END_SRC
 
-** =company=
+** company
 
 # #+BEGIN_SRC emacs-lisp
 # (use-package company)
@@ -350,7 +371,9 @@ LaTeX \rightarrow PDF.
 SCHEDULED: <2020-07-21 Tue>
 
 #+BEGIN_SRC emacs-lisp
-;    (use-package ibuffer-sidebar
+(use-package ibuffer-sidebar)
+(ibuffer-sidebar-show-sidebar)
+
 ;     :bind ("mouse-1" . ibuffer-mouse-visit-buffer)
 ;     :bind ("mouse-3" . ibuffer-mouse-toggle-mark))
 
@@ -380,14 +403,12 @@ SCHEDULED: <2020-07-21 Tue>
 Auto completion.
 
 #+BEGIN_SRC emacs-lisp
-(use-package ivy
- :config
+  (use-package ivy
+   :config
+   (setq ivy-use-virtual-buffers t
+         ivy-count-format "%d/%d "
+         enable-recursive-minibuffers t))
   (ivy-mode t)
-  (setq ivy-use-virtual-buffers t
-   ivy-count-format "%d/%d "
-   enable-recursive-minibuffers t))
-
-  (use-package ivy-hydra)
 #+END_SRC
 
 *** Counsel
@@ -395,11 +416,11 @@ Auto completion.
   Wonderful counsellor!
 
 #+BEGIN_SRC emacs-lisp
-(use-package counsel
- :bind ("M-x" . counsel-M-x)
- :config (counsel-mode))
+  (use-package counsel
+   :bind ("M-x" . counsel-M-x)
+   :config (counsel-mode t))
 
-(global-set-key (kbd "C-f") 'counsel-grep-or-swiper)
+  (global-set-key (kbd "C-f") 'counsel-grep-or-swiper)
 #+END_SRC
 
 *** Swiper
@@ -408,14 +429,6 @@ Auto completion.
 (use-package swiper
  :bind (("C-f" . counsel-grep-or-swiper)))
 #+END_SRC
-
-** Ido
-
-# #+BEGIN_SRC emacs-lisp
-#   (setq ido-enable-flex-matching t)
-#   (setq ido-everywhere t)
-#   (ido-mode 1)
-# #+END_SRC
 
 ** Company
 
@@ -447,17 +460,46 @@ Auto completion.
  :config (pdf-loader-install))
 #+END_SRC
 
+** Dashboard
+
+We replace the standard welcome screen with our own.
+
+#+BEGIN_SRC emacs-lisp
+(setq inhibit-startup-message t)
+(use-package dashboard
+  :config
+    (dashboard-setup-startup-hook)
+    (setq dashboard-startup-banner "~/.emacs.d/blendoit/img/logo-blendux_small.png")
+    (setq dashboard-items '((recents  . 5)
+                            (projects . 5)))
+    (setq dashboard-banner-logo-title "The editor for the 2nd millenium."))
+#+END_SRC
+
+** Projectile
+
+This enables us to better manage our =.git= projects.
+
+#+BEGIN_SRC emacs-lisp
+(use-package projectile
+ :bind ("C-c p" . 'projectile-command-map)
+ :init (projectile-mode 1)
+       (setq projectile-completion-system 'ivy))
+#+END_SRC
+
 * Cosmetics
 
 ** Faces & cursors
 
 In order to imitate other modern text editors, we'll resort to a blinking bar
-cursor.
+cursor. The default cursor already blinks.
 
 *** Default cursor
 
+In files containing only fixed-pitch fonts (i.e. files containing only code),
+the cursor becomes more visible box.
+
 #+BEGIN_SRC emacs-lisp
-(setq-default cursor-type (quote bar))
+(setq-default cursor-type (quote box))
 #+END_SRC
 
 *** Mixed pitch in Org mode
@@ -467,14 +509,35 @@ modes.
 
 #+BEGIN_SRC emacs-lisp
   (use-package mixed-pitch
-    :hook ((org-mode
-            info-mode) . mixed-pitch-mode))
+   :hook ((org-mode . mixed-pitch-mode)
+          (Info-mode . mixed-pitch-mode)))
 #+END_SRC
 
-** All the icons
+** Initial frame
+
+These settings affect the first and subsequent frames spawned by Emacs.
 
 #+BEGIN_SRC emacs-lisp
-(use-package all-the-icons)
+(if (display-graphic-p)
+    (progn
+      (setq initial-frame-alist
+            '(
+              (tool-bar-lines . 1)
+              (width . 80) ; chars
+              (height . 52) ; lines
+              (alpha . (90 . 50))))
+      (setq default-frame-alist
+            '(
+              (tool-bar-lines . 1)
+              (width . 80)
+              (height . 52)
+              (alpha . (90 . 50))))))
+#+END_SRC
+
+** Scrollbars
+
+#+BEGIN_SRC emacs-lisp
+(set-window-scroll-bars (minibuffer-window) nil nil)
 #+END_SRC
 
 ** Theme
@@ -484,19 +547,13 @@ modes.
 ;;   :config
 ;;    (load-theme 'zenburn))
 
-(load-theme 'wombat)
+; (load-theme 'wombat)
 #+END_SRC
 
-** Transparency
+** All the icons
 
 #+BEGIN_SRC emacs-lisp
-(add-to-list 'default-frame-alist '(alpha . (90 . 50)))
-#+END_SRC
-
-** Scrollbars
-
-#+BEGIN_SRC emacs-lisp
-(set-window-scroll-bars (minibuffer-window) nil nil)
+(use-package all-the-icons)
 #+END_SRC
 
 * Editing preferences
@@ -515,21 +572,35 @@ This is just a better default.
   c-basic-offset 4)
 #+END_SRC
 
-** Initial & subsequent frame size
+** Recent files
 
-# #+BEGIN_SRC emacs-lisp
-# (add-to-list 'initial-frame-alist '((width . 79) (height . 60)))
-# (add-to-list 'default-frame-alist '((width . 60) (height . 20)))
-# #+END_SRC
+#+BEGIN_SRC emacs-lisp
+(recentf-mode 1)
+(setq recentf-max-menu-items 25)
+(setq recentf-max-saved-items 25)
+(run-at-time nil (* 1 60) 'recentf-save-list)
+#+END_SRC
 
 ** Better parentheses
 
 #+BEGIN_SRC emacs-lisp
   (use-package smartparens
     :config
-    (add-hook 'prog-mode-hook 'smartparens-mode))
+    (add-hook 'prog-mode-hook #'smartparens-mode))
 
   (use-package rainbow-delimiters
     :config
-    (add-hook 'prog-mode-hook 'rainbow-delimiters-mode))
+    (add-hook 'prog-mode-hook #'rainbow-delimiters-mode))
+#+END_SRC
+
+* Profiling --- stop
+
+#+BEGIN_SRC emacs-lisp
+;; (profiler-stop)
+#+END_SRC
+
+* Profiling --- report
+
+#+BEGIN_SRC emacs-lisp
+;; (profiler-report)
 #+END_SRC

@@ -15,6 +15,7 @@ transient/**
 blendoit/*.el
 
 # Misc
+*.eld
 ido.last
 recentf
 srecode-map.el

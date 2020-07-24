@@ -1,3 +1,9 @@
+;;; init-custom.el --- Where Emacs saves gui-settable customizations.
+
+;;; Commentary:
+
+;;; Code:
+
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -15,7 +21,7 @@
  '(fci-rule-color "#383838")
  '(ibuffer-sidebar-display-column-titles t)
  '(ibuffer-sidebar-display-summary t)
- '(ibuffer-sidebar-width 22)
+ '(ibuffer-sidebar-width 18)
  '(ledger-reports
    (quote
     (("bal" "%(binary) -f %(ledger-file) bal")
@@ -27,11 +33,12 @@
      ("account" "%(binary) -f %(ledger-file) reg %(account)")
      ("budget" "%(binary) -f %(ledger-file) budget --exchange USD"))))
  '(line-number-mode nil)
+ '(mixed-pitch-variable-pitch-cursor (quote bar))
  '(mode-line-format
    (quote
     ("%e" mode-line-front-space mode-line-mule-info mode-line-client mode-line-modified mode-line-remote mode-line-frame-identification mode-line-buffer-identification "  "
      (vc-mode vc-mode)
-     "  " mode-line-modes mode-line-misc-info mode-line-end-spaces)))
+     "  " mode-line-misc-info mode-line-end-spaces)))
  '(nrepl-message-colors
    (quote
     ("#CC9393" "#DFAF8F" "#F0DFAF" "#7F9F7F" "#BFEBBF" "#93E0E3" "#94BFF3" "#DC8CC3")))
@@ -94,11 +101,12 @@
  '(org-latex-pdf-process
    (quote
     ("latexmk -pdf -f -interaction=nonstopmode -pdflatex=\"%latex\" -outdir=%o %f")))
+ '(org-latex-toc-command "\\tableofcontents\\clearpage")
  '(org-startup-align-all-tables t)
  '(org-time-stamp-custom-formats (quote ("%d %b, %Y (%a)" . "%d %b, %Y (%a), at %H:%M")))
  '(package-selected-packages
    (quote
-    (minimap gnuplot ledger-mode company-mode wombat-theme wombar-theme which-key srefactor-lisp srefactor all-the-icons flycheck ibuffer-sidebar pdf-tools magit rainbow-delimiters smartparens mixed-pitch org-bullets use-package tabbar powerline ivy-hydra flatui-theme evil counsel company benchmark-init)))
+    (projectile minimap gnuplot ledger-mode company-mode wombat-theme wombar-theme which-key srefactor-lisp srefactor all-the-icons flycheck ibuffer-sidebar pdf-tools magit rainbow-delimiters smartparens mixed-pitch org-bullets use-package tabbar powerline ivy-hydra flatui-theme evil counsel company benchmark-init)))
  '(pdf-view-midnight-colors (quote ("#DCDCCC" . "#383838")))
  '(save-place-mode t)
  '(send-mail-function (quote smtpmail-send-it))
@@ -132,7 +140,8 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(default ((t (:family "Hack" :foundry "SRC" :slant normal :weight normal :height 142 :width normal))))
- '(fixed-pitch ((t (:family "Hack"))))
+ '(cursor ((t (:background "red"))))
+ '(fixed-pitch ((t (:family "Dejavu Serif"))))
  '(org-document-title ((t (:inherit default :weight bold :font "Liberation Sans" :height 2.0 :underline nil))))
  '(org-level-1 ((t (:inherit default :weight bold :font "Liberation Sans" :height 1.75))))
  '(org-level-2 ((t (:inherit default :weight bold :font "Liberation Sans" :height 1.5))))

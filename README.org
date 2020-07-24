@@ -1,40 +1,64 @@
 #+TITLE: GNU Emacs Configuration 
 #+AUTHOR: Marius Peter
-#+DATE: <2020-07-20 Mon>
+#+DATE: <2020-07-23 Thu>
+#+SETUPFILE: ~/org/templates/documents/personal.org
 
 * Installation
+
+** GNU Emacs
+
+*** Linux
+
+Use your package manager.
+
+/Use Arch Linux. Dunaát make me say it twice./
+
+*** Windows
+
+Head on over to https://www.gnu.org/savannah-checkouts/gnu/emacs/download.html
+and download yourself a /fresh/ copy of GNU Emacs.
+
+** My distribution
   
-** Linux
+*** Linux
 
 Backup your current =~/.emacs.d= with the following command:
 
-#+BEGIN_SRC: emacs-lisp
+#+BEGIN_SRC shell
 mv ~/.emacs.d ~/.emacs.d.bkp
 #+END_SRC
 
 Clone my configuration folder to your home directory:
 
-#+BEGIN_SRC: emacs-lisp
+#+BEGIN_SRC shell
 cd ~
 git clone https://github.com/Blendoit/.emacs.d.git
 #+END_SRC
+
+*** Windows
+
+Download a =.zip= of the files in this repository. Then, extract the =.zip=, and
+rename the extracted folder to =.emacs.d=. Place this folder it in your home
+folder (one level up from =Documents=, =Pictures= or =Desktop=).
 
 * Main Files
 
 ** =init.el=
 
-   - This file's only purpose is to load my literate configuration.
+This is the first editable file that GNU Emacs loads on startup. This file's
+only purpose is to load my literate configuration =blendoit/init-blendoit.org=.
+    
+** =init-custom.el=
+
+All customization options available in Emacs' GUI that can be saved with
+=Options - Save Options= are saved here.
+
+This is useful to fool around with GUI customization options, without breaking
+our manually written code.
 
 ** =blendoit/init-blendoit.org=
    
-   - Load my personal literate configuration files.
-    
-** =blendoit/custom-file.el=
-
-   - By default, all customization options available in Emacs' GUI that can be
-     saved with =Options - Save Options= are saved here.
-   - This is useful to fool around with GUI customization options, without
-     breaking our manually written code.
+This is my personal literate configuration files.
  
 * Usage
 
