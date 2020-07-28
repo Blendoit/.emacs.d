@@ -17,7 +17,7 @@
  '(custom-enabled-themes nil)
  '(custom-safe-themes
    (quote
-    ("f56eb33cd9f1e49c5df0080a3e8a292e83890a61a89bceeaa481a5f183e8e3ef" default)))
+    ("429c077679e0586d1b6a9f22586129bb4e0793e70b414ff93f023fcfa654b08a" "9893c7f1274df4d4df0573da1ee4dfe32f73f71cdf45bba7596a09e6c637d990" "e274c4d17ef47311855ce93dcc34c512bb285e3a01e9b3b1b735e059a865e48d" "59b58e2d0b77f0e8dc305bba18dc0913ae11ebc1ea91165911f5f3bd46910470" "2946f0682172ff16ffe531ce59ea26044f949e8a51b2d4ab14d74e21fa8f2b67" "de4fe3532d51a731d313e588531e32a26f9824e216fff1306ca270487f833045" "096bb91c8fd17ff6f2f51ddaf51897c9710da5486fbbb2d370e3ff3b209ff446" "700f0a38b888fb3fe656b9d8647d71fa99b3684641cf9e02106a3e3a1ca1d87a" "5cbf5345c2af35887f1518c35c9a62409304b20006f2455ef1313507e0552b1f" default)))
  '(fci-rule-color "#383838")
  '(ibuffer-sidebar-display-column-titles t)
  '(ibuffer-sidebar-display-summary t)
@@ -128,7 +128,8 @@
      (320 . "#8CD0D3")
      (340 . "#94BFF3")
      (360 . "#DC8CC3"))))
- '(vc-annotate-very-old-color "#DC8CC3"))
+ '(vc-annotate-very-old-color "#DC8CC3")
+ '(window-divider-default-places (quote right-only)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.

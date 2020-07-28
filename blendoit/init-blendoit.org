@@ -602,7 +602,7 @@ Thank you Xah Lee![fn::http://ergoemacs.org/emacs/emacs_customize_default_window
 ;;   :config
 ;;    (load-theme 'zenburn))
 
-; (load-theme 'wombat)
+(load-theme 'blendoit)
 #+END_SRC
 
 ** All the icons
