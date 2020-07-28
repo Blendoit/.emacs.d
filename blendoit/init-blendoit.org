@@ -37,13 +37,14 @@ activated.
 (setq gc-cons-threshold 100000000)
 #+END_SRC
 
-** Server start
+** Emacs client
 
 Makes opening emacs faster for following instances.
 
-#+NAME: server-start
+#+NAME: emacs-client
 #+BEGIN_SRC emacs-lisp
-(server-start)
+
+; (setq initial-buffer-choice (lambda () (get-buffer "*dashboard*")))
 #+END_SRC
 
 ** Profiling --- start
@@ -51,7 +52,7 @@ Makes opening emacs faster for following instances.
 We start the profiler now , and will interrupt it in section [[Profiling ---
 stop]]. We will then present profiling report in [[Profiling --- report]].
 
-#+NAME: server-start
+#+NAME: profiler-start
 #+BEGIN_SRC emacs-lisp
 ; (profiler-start)
 #+END_SRC
@@ -133,7 +134,14 @@ mode.
 The following bindings lead to more natural exit behaviors.
 
 #+BEGIN_SRC emacs-lisp
-(global-set-key (kbd "C-w") 'kill-buffer-and-window)
+  (defun delete-window-or-previous-buffer ()
+    "Delete window; if sole window, previous buffer."
+     (interactive)
+     (if (> (length (window-list)) 2)
+       (delete-window)
+       (previous-buffer)))
+
+(global-set-key (kbd "C-w") 'delete-window-or-previous-buffer)
 (global-set-key (kbd "C-q") 'save-buffers-kill-terminal)
 #+END_SRC
 
@@ -173,11 +181,52 @@ configuration file.
   (setq use-package-always-ensure t)
 #+END_SRC
 
+** Ivy
+
+Auto completion.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package ivy
+   :config
+   (setq ivy-use-virtual-buffers t
+         ivy-count-format "%d/%d "
+         enable-recursive-minibuffers t))
+  (ivy-mode t)
+#+END_SRC
+
+** Evil
+
+Forgive me, for I have sinned.
+
+#+BEGIN_SRC emacs-lisp
+    (use-package evil)
+    ;; (evil-mode 1)
+#+END_SRC
+
+*** Counsel
+
+  Wonderful counsellor!
+
+#+BEGIN_SRC emacs-lisp
+  (use-package counsel
+   :bind ("M-x" . counsel-M-x)
+   :config (counsel-mode t))
+
+  (global-set-key (kbd "C-f") 'counsel-grep-or-swiper)
+#+END_SRC
+
+*** Swiper
+
+#+BEGIN_SRC emacs-lisp
+(use-package swiper
+ :bind (("C-f" . counsel-grep-or-swiper)))
+#+END_SRC
+
 ** Org
 
 Phew, I can finally introduce Org mode! I am so *excited*.
 
-Org mode replaces a word processor, a presentation creator, and a spreadsheet
+Org mode replaces aword processor, a presentation creator, and a spreadsheet
 editor. IMHO, the spreadsheet ability captures more than 80% use cases wherein
 one wishes to include a table in a text document destined for physical
 publication. (It is clear that Excel spreadsheets are /not/ destined for physical
@@ -231,35 +280,41 @@ The following prettifies Org mode heading bullets:
   )
 #+END_SRC
 
-
+Thank you Diego
+Zamboni![fn::https://zzamboni.org/post/beautifying-org-mode-in-emacs/]
 
 #+NAME: org-cosmetics
 #+BEGIN_SRC emacs-lisp
+  ;; (let* ((variable-tuple
+  ;;         (cond ((x-list-fonts "Dejavu Sans") '(:font "Dejavu Sans"))
+  ;;               ((x-family-fonts "Sans Serif")    '(:family "Sans Serif"))
+  ;;               (nil (warn "Cannot find a Sans Serif Font.  Install Source Sans Pro."))))
+  ;;        (base-font-color     (face-foreground 'default nil 'default))
+  ;;        (headline           `(:inherit default :weight bold)))
 
-(let* ((variable-tuple
-        (cond ((x-list-fonts "Dejavu Serif") '(:font "Dejavu Serif"))
-              ((x-family-fonts "Sans Serif")    '(:family "Sans Serif"))
-              (nil (warn "Cannot find a Sans Serif Font.  Install Source Sans Pro."))))
-       (base-font-color     (face-foreground 'default nil 'default))
-       (headline           `(:inherit default :weight bold)))
+  ;;   (custom-theme-set-faces
+  ;;    'user
+  ;;    `(org-level-8 ((t (,@headline ,@variable-tuple))))
+  ;;    `(org-level-7 ((t (,@headline ,@variable-tuple))))
+  ;;    `(org-level-6 ((t (,@headline ,@variable-tuple))))
+  ;;    `(org-level-5 ((t (,@headline ,@variable-tuple))))
+  ;;    `(org-level-4 ((t (,@headline ,@variable-tuple :height 1.1))))
+  ;;    `(org-level-3 ((t (,@headline ,@variable-tuple :height 1.25))))
+  ;;    `(org-level-2 ((t (,@headline ,@variable-tuple :height 1.5))))
+  ;;    `(org-level-1 ((t (,@headline ,@variable-tuple :height 1.75))))
+  ;;    `(org-document-title ((t (,@headline ,@variable-tuple :height 2.0 :underline nil))))))
 
-  (custom-theme-set-faces
-   'user
-   `(org-level-8 ((t (,@headline ,@variable-tuple))))
-   `(org-level-7 ((t (,@headline ,@variable-tuple))))
-   `(org-level-6 ((t (,@headline ,@variable-tuple))))
-   `(org-level-5 ((t (,@headline ,@variable-tuple))))
-   `(org-level-4 ((t (,@headline ,@variable-tuple :height 1.1))))
-   `(org-level-3 ((t (,@headline ,@variable-tuple :height 1.25))))
-   `(org-level-2 ((t (,@headline ,@variable-tuple :height 1.5))))
-   `(org-level-1 ((t (,@headline ,@variable-tuple :height 1.75))))
-   `(org-document-title ((t (,@headline ,@variable-tuple :height 2.0 :underline nil))))))
+  ;(custom-theme-set-faces
+  ; 'user
+  ; '(variable-pitch ((t (:family "Liberation Sans"))))
+  ; '(fixed-pitch ((t ( :family "Hack")))))
 
-;(custom-theme-set-faces
-; 'user
-; '(variable-pitch ((t (:family "Liberation Sans"))))
-; '(fixed-pitch ((t ( :family "Hack")))))
+#+END_SRC
 
+*** Invisible edits
+
+#+BEGIN_SRC emacs-lisp
+(setq org-catch-invisible-edits t)
 #+END_SRC
 
 *** Agenda
@@ -347,17 +402,23 @@ LaTeX \rightarrow PDF.
 (global-set-key (kbd "C-c e") 'blendoit-org-quick-export)
 #+END_SRC
 
+** undo tree
+
+#+BEGIN_SRC emacs-lisp
+(global-undo-tree-mode)
+#+END_SRC
+
+** dumb jump
+
+#+BEGIN_SRC emacs-lisp
+(use-package dumb-jump)
+#+END_SRC
+
 ** gnuplot
 
 #+BEGIN_SRC emacs-lisp
 (use-package gnuplot)
 #+END_SRC
-
-** company
-
-# #+BEGIN_SRC emacs-lisp
-# (use-package company)
-# #+END_SRC
 
 ** Ledger
 
@@ -368,8 +429,7 @@ LaTeX \rightarrow PDF.
      ("C-c C" . ledger-mode-clean-buffer))
 #+END_SRC
 
-** TODO ibuffer-sidebar
-SCHEDULED: <2020-07-21 Tue>
+** ibuffer-sidebar
 
 #+BEGIN_SRC emacs-lisp
 (use-package ibuffer-sidebar)
@@ -399,44 +459,11 @@ SCHEDULED: <2020-07-21 Tue>
 )
 #+END_SRC
 
-** Ivy
-
-Auto completion.
-
-#+BEGIN_SRC emacs-lisp
-  (use-package ivy
-   :config
-   (setq ivy-use-virtual-buffers t
-         ivy-count-format "%d/%d "
-         enable-recursive-minibuffers t))
-  (ivy-mode t)
-#+END_SRC
-
-*** Counsel
-
-  Wonderful counsellor!
-
-#+BEGIN_SRC emacs-lisp
-  (use-package counsel
-   :bind ("M-x" . counsel-M-x)
-   :config (counsel-mode t))
-
-  (global-set-key (kbd "C-f") 'counsel-grep-or-swiper)
-#+END_SRC
-
-*** Swiper
-
-#+BEGIN_SRC emacs-lisp
-(use-package swiper
- :bind (("C-f" . counsel-grep-or-swiper)))
-#+END_SRC
-
 ** Company
 
 #+NAME: company
 #+BEGIN_SRC emacs-lisp
-;; (use-package company
-;;  :config (add-hook 'after-init-hook 'global-company-mode))
+  (add-hook 'after-init-hook 'global-company-mode)
 #+END_SRC
 
 ** Flycheck
@@ -445,6 +472,20 @@ Auto completion.
 #+BEGIN_SRC emacs-lisp
 (use-package flycheck
  :init (global-flycheck-mode))
+#+END_SRC
+
+** CSV
+
+#+BEGIN_SRC emacs-lisp
+  (use-package csv-mode)
+#+END_SRC
+
+* JSON
+
+Oí, Jason!
+
+#+BEGIN_SRC emacs-lisp
+  (use-package json-mode)
 #+END_SRC
 
 ** Magit
@@ -459,6 +500,17 @@ Auto completion.
 #+BEGIN_SRC emacs-lisp
 (use-package pdf-tools
  :config (pdf-loader-install))
+#+END_SRC
+
+** rainbow
+
+This highlights hexadecimal numbers which look like colors, in that same color.
+
+#+BEGIN_SRC emacs-lisp
+(use-package rainbow-mode
+  :ensure t
+  :init
+    (add-hook 'prog-mode-hook 'rainbow-mode))
 #+END_SRC
 
 ** Dashboard
@@ -481,10 +533,10 @@ We replace the standard welcome screen with our own.
 This enables us to better manage our =.git= projects.
 
 #+BEGIN_SRC emacs-lisp
-(use-package projectile
- :bind ("C-c p" . 'projectile-command-map)
- :init (projectile-mode 1)
-       (setq projectile-completion-system 'ivy))
+  (use-package projectile
+   :bind ("C-c p" . 'projectile-command-map)
+   :init (projectile-mode 1)
+         (setq projectile-completion-system 'ivy))
 #+END_SRC
 
 * Cosmetics
@@ -517,34 +569,30 @@ modes.
 #+BEGIN_SRC emacs-lisp
   (use-package mixed-pitch
    :hook ((org-mode . mixed-pitch-mode)
-          (Info-mode . mixed-pitch-mode)))
+           (Info-mode . mixed-pitch-mode)))
 #+END_SRC
 
 ** Initial frame
 
 These settings affect the first and subsequent frames spawned by Emacs.
 
-#+BEGIN_SRC emacs-lisp
-(if (display-graphic-p)
-    (progn
-      (setq initial-frame-alist
-            '(
-              (tool-bar-lines . 1)
-              (width . 80) ; chars
-              (height . 52) ; lines
-              (alpha . (90 . 50))))
-      (setq default-frame-alist
-            '(
-              (tool-bar-lines . 1)
-              (width . 80)
-              (height . 52)
-              (alpha . (90 . 50))))))
-#+END_SRC
-
-** Scrollbars
+Thank you Xah Lee![fn::http://ergoemacs.org/emacs/emacs_customize_default_window_size.html]
 
 #+BEGIN_SRC emacs-lisp
-(set-window-scroll-bars (minibuffer-window) nil nil)
+  (if (display-graphic-p)
+      (progn
+        (setq initial-frame-alist
+              '(
+                (tool-bar-lines . 1)
+                (width . 100) ; chars
+                (height . 52) ; lines
+                (alpha . (90 . 50))))
+        (setq default-frame-alist
+              '(
+                (tool-bar-lines . 1)
+                (width . 100)
+                (height . 52)
+               (alpha . (90 . 50))))))
 #+END_SRC
 
 ** Theme
@@ -568,24 +616,39 @@ These settings affect the first and subsequent frames spawned by Emacs.
 These customizations enhance editor usability.
 
 #+BEGIN_SRC emacs-lisp
-(setq-default fill-column 79)
-(defalias 'yes-or-no-p 'y-or-n-p)
+  (setq-default fill-column 79)
+  (defalias 'yes-or-no-p 'y-or-n-p)
+#+END_SRC
+
+Disable minibuffer scroll bar.
+
+#+BEGIN_SRC emacs-lisp
+(set-window-scroll-bars (minibuffer-window) nil nil)
+; (set-window-scroll-bars (ibuffer-sidebar-window) nil nil)
 #+END_SRC
 
 This is just a better default.
 
 #+BEGIN_SRC emacs-lisp
 (setq c-default-style "linux"
-  c-basic-offset 4)
+      c-basic-offset 4)
+#+END_SRC
+
+** auto fill
+
+Automatically break lines longer than =fill-column=.
+
+#+BEGIN_SRC emacs-lisp
+  (add-hook 'org-mode-hook 'turn-on-auto-fill)
 #+END_SRC
 
 ** Recent files
 
 #+BEGIN_SRC emacs-lisp
-(recentf-mode 1)
-(setq recentf-max-menu-items 25)
-(setq recentf-max-saved-items 25)
-(run-at-time nil (* 1 60) 'recentf-save-list)
+  (recentf-mode 1)
+  (setq recentf-max-menu-items 25)
+  (setq recentf-max-saved-items 25)
+  (run-at-time nil (* 5 60) 'recentf-save-list)
 #+END_SRC
 
 ** Better parentheses

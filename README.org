@@ -11,8 +11,6 @@
 
 Use your package manager.
 
-/Use Arch Linux. Dunaát make me say it twice./
-
 *** Windows
 
 Head on over to https://www.gnu.org/savannah-checkouts/gnu/emacs/download.html

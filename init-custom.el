@@ -34,11 +34,6 @@
      ("budget" "%(binary) -f %(ledger-file) budget --exchange USD"))))
  '(line-number-mode nil)
  '(mixed-pitch-variable-pitch-cursor (quote bar))
- '(mode-line-format
-   (quote
-    ("%e" mode-line-front-space mode-line-mule-info mode-line-client mode-line-modified mode-line-remote mode-line-frame-identification mode-line-buffer-identification "  "
-     (vc-mode vc-mode)
-     "  " mode-line-misc-info mode-line-end-spaces)))
  '(nrepl-message-colors
    (quote
     ("#CC9393" "#DFAF8F" "#F0DFAF" "#7F9F7F" "#BFEBBF" "#93E0E3" "#94BFF3" "#DC8CC3")))
@@ -106,7 +101,7 @@
  '(org-time-stamp-custom-formats (quote ("%d %b, %Y (%a)" . "%d %b, %Y (%a), at %H:%M")))
  '(package-selected-packages
    (quote
-    (projectile minimap gnuplot ledger-mode company-mode wombat-theme wombar-theme which-key srefactor-lisp srefactor all-the-icons flycheck ibuffer-sidebar pdf-tools magit rainbow-delimiters smartparens mixed-pitch org-bullets use-package tabbar powerline ivy-hydra flatui-theme evil counsel company benchmark-init)))
+    (linum-relative dumb-jump csv-mode rainbow-mode org-mouse projectile minimap gnuplot ledger-mode company-mode wombat-theme wombar-theme which-key srefactor-lisp srefactor all-the-icons flycheck ibuffer-sidebar pdf-tools magit rainbow-delimiters smartparens mixed-pitch org-bullets use-package tabbar powerline ivy-hydra flatui-theme evil counsel company benchmark-init)))
  '(pdf-view-midnight-colors (quote ("#DCDCCC" . "#383838")))
  '(save-place-mode t)
  '(send-mail-function (quote smtpmail-send-it))
@@ -139,9 +134,10 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(default ((t (:family "Hack" :foundry "SRC" :slant normal :weight normal :height 142 :width normal))))
+ '(default ((t (:family "Hermit" :foundry "UKWN" :slant normal :weight normal :height 122 :width normal))))
  '(cursor ((t (:background "red"))))
- '(fixed-pitch ((t (:height 0.8 :family "Hack"))))
+ '(fixed-pitch ((t (:family "Hermit"))))
+ '(highlight ((t (:background "#454545" :foreground "#ffffff" :underline nil))))
  '(org-document-title ((t (:inherit default :weight bold :font "Liberation Sans" :height 2.0 :underline nil))))
  '(org-level-1 ((t (:inherit default :weight bold :font "Liberation Sans" :height 1.75))))
  '(org-level-2 ((t (:inherit default :weight bold :font "Liberation Sans" :height 1.5))))
@@ -151,4 +147,4 @@
  '(org-level-6 ((t (:inherit default :weight bold :font "Liberation Sans"))))
  '(org-level-7 ((t (:inherit default :weight bold :font "Liberation Sans"))))
  '(org-level-8 ((t (:inherit default :weight bold :font "Liberation Sans"))))
- '(variable-pitch ((t (:family "Dejavu Serif")))))
+ '(variable-pitch ((t (:family "Dejavu Sans")))))
