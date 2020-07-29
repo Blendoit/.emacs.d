@@ -17,8 +17,9 @@
  '(custom-enabled-themes nil)
  '(custom-safe-themes
    (quote
-    ("429c077679e0586d1b6a9f22586129bb4e0793e70b414ff93f023fcfa654b08a" "9893c7f1274df4d4df0573da1ee4dfe32f73f71cdf45bba7596a09e6c637d990" "e274c4d17ef47311855ce93dcc34c512bb285e3a01e9b3b1b735e059a865e48d" "59b58e2d0b77f0e8dc305bba18dc0913ae11ebc1ea91165911f5f3bd46910470" "2946f0682172ff16ffe531ce59ea26044f949e8a51b2d4ab14d74e21fa8f2b67" "de4fe3532d51a731d313e588531e32a26f9824e216fff1306ca270487f833045" "096bb91c8fd17ff6f2f51ddaf51897c9710da5486fbbb2d370e3ff3b209ff446" "700f0a38b888fb3fe656b9d8647d71fa99b3684641cf9e02106a3e3a1ca1d87a" "5cbf5345c2af35887f1518c35c9a62409304b20006f2455ef1313507e0552b1f" default)))
+    ("50fa2844d84cecfa718f92122e095ecc1243fdf004bb1348e9cee856707c6f3d" "429c077679e0586d1b6a9f22586129bb4e0793e70b414ff93f023fcfa654b08a" "9893c7f1274df4d4df0573da1ee4dfe32f73f71cdf45bba7596a09e6c637d990" "e274c4d17ef47311855ce93dcc34c512bb285e3a01e9b3b1b735e059a865e48d" "59b58e2d0b77f0e8dc305bba18dc0913ae11ebc1ea91165911f5f3bd46910470" "2946f0682172ff16ffe531ce59ea26044f949e8a51b2d4ab14d74e21fa8f2b67" "de4fe3532d51a731d313e588531e32a26f9824e216fff1306ca270487f833045" "096bb91c8fd17ff6f2f51ddaf51897c9710da5486fbbb2d370e3ff3b209ff446" "700f0a38b888fb3fe656b9d8647d71fa99b3684641cf9e02106a3e3a1ca1d87a" "5cbf5345c2af35887f1518c35c9a62409304b20006f2455ef1313507e0552b1f" default)))
  '(fci-rule-color "#383838")
+ '(fill-column 79)
  '(ibuffer-sidebar-display-column-titles t)
  '(ibuffer-sidebar-display-summary t)
  '(ibuffer-sidebar-width 18)
@@ -101,7 +102,7 @@
  '(org-time-stamp-custom-formats (quote ("%d %b, %Y (%a)" . "%d %b, %Y (%a), at %H:%M")))
  '(package-selected-packages
    (quote
-    (linum-relative dumb-jump csv-mode rainbow-mode org-mouse projectile minimap gnuplot ledger-mode company-mode wombat-theme wombar-theme which-key srefactor-lisp srefactor all-the-icons flycheck ibuffer-sidebar pdf-tools magit rainbow-delimiters smartparens mixed-pitch org-bullets use-package tabbar powerline ivy-hydra flatui-theme evil counsel company benchmark-init)))
+    (tabbar-ruler tabbar-mode linum-relative dumb-jump csv-mode rainbow-mode org-mouse projectile minimap gnuplot ledger-mode company-mode wombat-theme wombar-theme which-key srefactor-lisp srefactor all-the-icons flycheck ibuffer-sidebar pdf-tools magit rainbow-delimiters smartparens mixed-pitch org-bullets use-package tabbar powerline ivy-hydra flatui-theme evil counsel company benchmark-init)))
  '(pdf-view-midnight-colors (quote ("#DCDCCC" . "#383838")))
  '(save-place-mode t)
  '(send-mail-function (quote smtpmail-send-it))
@@ -135,7 +136,6 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(default ((t (:family "Hermit" :foundry "UKWN" :slant normal :weight normal :height 122 :width normal))))
  '(cursor ((t (:background "red"))))
  '(fixed-pitch ((t (:family "Hermit"))))
  '(highlight ((t (:background "#454545" :foreground "#ffffff" :underline nil))))

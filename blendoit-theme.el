@@ -77,7 +77,7 @@
  '(mode-line-inactive ((t (:inherit mode-line :background "gainsboro" :weight light))))
  '(isearch ((t (:stipple nil :background "yellow" :foreground "black" :weight bold))))
  '(isearch-fail ((t (:background "RosyBrown1"))))
- '(lazy-highlight ((t (:weight "medium" :inherit isearch))))
+ '(lazy-highlight ((t (:inherit isearch))))
  '(match ((t (:background "light yellow"))))
  '(next-error ((t (:inherit (region)))))
  '(query-replace ((t (:inherit isearch))))
