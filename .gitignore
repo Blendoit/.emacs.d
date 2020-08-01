@@ -8,8 +8,7 @@
 *.lof
 
 # These directories are populated on config execution.
-# elpa/**
-elpa/pdf-tools-*/build/**
+elpa/**
 url/**
 auto-save-list/**
 transient/**
