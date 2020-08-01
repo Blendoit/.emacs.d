@@ -129,7 +129,7 @@ mode.
   (global-set-key (kbd "C-b") 'ibuffer-sidebar-toggle-sidebar)
   (global-set-key (kbd "C-o") 'menu-find-file-existing)
   (global-set-key (kbd "C-r") 'counsel-recentf)
-  (global-set-key (kbd "C-n") 'make-frame)
+;  (global-set-key (kbd "C-n") 'make-frame) ; 7aram!
 #+END_SRC
 
 The following bindings lead to more natural exit behaviors.
@@ -181,6 +181,10 @@ configuration file.
     (eval-when-compile (require 'use-package)))
   (setq use-package-always-ensure t)
 #+END_SRC
+
+** Convenient package update
+
+One-function rollup of upgradeable package tagging, download and lazy install.
 
 ** Ivy
 
@@ -512,7 +516,7 @@ We replace the standard welcome screen with our own.
 (use-package dashboard
   :config
     (dashboard-setup-startup-hook)
-    (setq dashboard-startup-banner "~/.emacs.d/blendoit/img/logo-blendux_small.png")
+    (setq dashboard-startup-banner "~/.emacs.d/blendoit/img/Safran_logo.svg")
     (setq dashboard-items '((recents  . 5)
                             (projects . 5)))
     (setq dashboard-banner-logo-title "The editor for the 2nd millenium."))
@@ -600,13 +604,13 @@ Thank you Xah Lee![fn::http://ergoemacs.org/emacs/emacs_customize_default_window
               '(
                 (tool-bar-lines . 1)
                 (width . 100) ; chars
-                (height . 52) ; lines
+                (height . 48) ; lines
                 (alpha . (90 . 50))))
         (setq default-frame-alist
               '(
                 (tool-bar-lines . 1)
                 (width . 100)
-                (height . 52)
+                (height . 48)
                (alpha . (90 . 50))))))
 #+END_SRC
 

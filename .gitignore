@@ -1,12 +1,15 @@
 # .gitignore
 
+*.elc
+
 # TeX artifacts
 *.tex
 *.lot
 *.lof
 
 # These directories are populated on config execution.
-elpa/**
+# elpa/**
+elpa/pdf-tools-*/build/**
 url/**
 auto-save-list/**
 transient/**
