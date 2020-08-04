@@ -8,4 +8,4 @@
 
 ;;; Code:
 
-(org-babel-load-file "~/.emacs.d/blendoit/init-blendoit.org")
+(org-babel-load-file "~/.emacs.d/blendoit/blendoit-init.org")

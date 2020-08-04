@@ -78,7 +78,7 @@ We begin by defining a user shortcut to this very file:
   (defun find-init-blendoit ()
     "Jump to this very file."
      (interactive)
-     (find-file "~/.emacs.d/blendoit/init-blendoit.org"))
+     (find-file "~/.emacs.d/blendoit/blendoit-init.org"))
 
   (global-set-key (kbd "C-c c") 'find-init-blendoit)
 #+END_SRC
@@ -621,7 +621,7 @@ Thank you Xah Lee![fn::http://ergoemacs.org/emacs/emacs_customize_default_window
 ;;   :config
 ;;    (load-theme 'zenburn))
 
-(load-theme 'blendoit)
+(load-theme 'blendoit-light)
 #+END_SRC
 
 ** All the icons
