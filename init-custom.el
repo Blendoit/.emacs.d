@@ -88,7 +88,6 @@
       ("\\section{%s}" . "\\section*{%s}")
       ("\\subsection*{%s}" . "\\subsection*{%s}")
       ("\\subsubsection*{%s}" . "\\subsubsection*{%s}")))))
- '(org-latex-inactive-timestamp-format "\\textcolor{ForestGreen!60}{\\textit{%s}}")
  '(org-latex-packages-alist
    (quote
     (("AUTO" "polyglossia" t
@@ -102,7 +101,6 @@
     ("latexmk -pdf -f -interaction=nonstopmode -pdflatex=\"%latex\" -outdir=%o %f")))
  '(org-latex-toc-command "\\tableofcontents\\clearpage")
  '(org-startup-align-all-tables t)
- '(org-time-stamp-custom-formats (quote ("%d %b, %Y (%a)" . "%d %b, %Y (%a), at %H:%M")))
  '(package-selected-packages
    (quote
     (tabbar-ruler tabbar-mode linum-relative dumb-jump csv-mode rainbow-mode org-mouse projectile minimap gnuplot ledger-mode company-mode wombat-theme wombar-theme which-key srefactor-lisp srefactor all-the-icons flycheck ibuffer-sidebar pdf-tools magit rainbow-delimiters smartparens mixed-pitch org-bullets use-package tabbar powerline ivy-hydra flatui-theme evil counsel company benchmark-init)))
