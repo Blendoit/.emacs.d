@@ -9,3 +9,7 @@
 ;;; Code:
 
 (org-babel-load-file "~/.emacs.d/blendoit/blendoit-init.org")
+
+(provide 'init)
+
+;;; init.el ends here
