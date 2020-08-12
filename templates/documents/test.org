@@ -1,0 +1,29 @@
+#+TITLE: Test Document
+#+DATE: <2020-06-26 Fri>
+#+AUTHOR: Marius Peter
+#+STARTUP: customtime
+#+SETUPFILE: ./personal.org
+
+#+INCLUDE: ./personal-title.org
+
+* Foobar                                                            :tag:etc:
+** Sub 1                                                        :tag:random:
+This is a test sentence.
+** Sub 2                                                     :random:doodle:
+This is a test sentence.
+** Sub 3                                                     :doodle:poodle:
+This is a test sentence.
+* Foobie
+** Sub 1
+This is a test sentence.
+** Sub 2
+This is a test sentence.
+** Sub 3
+This is a test sentence.
+* Foobuzz
+** Sub 1
+This is a test sentence.
+** Sub 2
+This is a test sentence.
+** Sub 3
+This is a test sentence.

@@ -1,0 +1,4 @@
+# -*- mode: org; -*-
+
+#+OPTIONS: toc:2 p:t
+#+SETUPFILE: ~/org/templates/documents/MASTER-Safran

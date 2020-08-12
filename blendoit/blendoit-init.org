@@ -1,29 +1,55 @@
-#+TITLE: Blendoit's literate GNU Emacs config
+#+TITLE: My literate GNU Emacs config
 #+AUTHOR: Marius Peter
 #+DATE: <2020-07-23 Thu>
 
-#+STARTUP: customtime showall
-#+SETUPFILE: ~/org/templates/documents/personal.org
+#+STARTUP: showall customtime
 
-#+INCLUDE: ~/org/templates/documents/personal-title.org
+#+SETUPFILE: ~/.emacs.d/templates/documents/personal.org
+
+#+INCLUDE: ~/.emacs.d/templates/documents/personal.org_title
 
 \begin{abstract}
-GNU Emacs is most often used as a text editor. The utmost level of
-customisation is afforded by enabling the user to rewrite /any/ part of the
-source code and observe the editor's modified behaviour in real time. Since its
-inception in 1984, GNU Emacs has grown to be much more than a full-featured,
-high-productivity text editor---new /modes/ have been written to interact with
-hundreds of file formats, including =.txt=, =.pdf=, =.jpg=, =.csv=, and =.zip= just to
-name a few. This configuration file itself was written in /Org mode/, a
-collection of functions enabling the harmonious mixing of code and comments in
-view of publication: this is the endgame of /literate programming/.
+GNU Emacs is most often used as a text editor.
+The utmost level of customisation is afforded by enabling the user
+to rewrite \textit{any} part of the source code and observe the editor's
+modified behaviour in real time. Since its inception in 1984, GNU Emacs
+has grown to be much more than a full-featured, high-productivity
+text editor---new \textit{modes} have been written to interact with
+hundreds of file formats, including \texttt{.txt}, \texttt{.pdf},
+\texttt{.jpg}, \texttt{.csv}, and \texttt{.zip} just to name a few.
+This configuration file itself was written in \textit{Org mode},
+a collection of functions enabling the harmonious mixing of code
+and comments in view of publication:
+this is the endgame of \textit{literate programming}.
 \end{abstract}
 
-# ** Test
+# * Test
 
 # #+BEGIN_SRC emacs-lisp
 # (org-babel-load-file "~/.emacs.d/blendoit/test.org")
 # #+END_SRC
+
+* README
+:PROPERTIES:
+:UNNUMBERED: t
+:END:
+
+The =README.org= was exported from the first section of my literate configuration
+file, [[file:blendoit-init.org]].
+
+* Document structure
+:PROPERTIES:
+:UNNUMBERED: t
+:END:
+
+** Blending Linux and Windows
+
+The GNU Emacs cabal is attempting to create a complete OS out of a text editor.
+
+Microsoft has a notorious /embrace, extend, extinguish/ approach when it comes
+to rival technologies.
+
+Both are simultaneously possible.
 
 * TODO First-time setup
 
@@ -53,19 +79,23 @@ Makes opening emacs faster for following instances.
 
 #+NAME: emacs-client
 #+BEGIN_SRC emacs-lisp
-
 ; (setq initial-buffer-choice (lambda () (get-buffer "*dashboard*")))
 #+END_SRC
 
-** Profiling --- start
+** Refresh configuration
 
-We start the profiler now , and will interrupt it in section [[Profiling ---
-stop]]. We will then present profiling report in [[Profiling --- report]].
+Add an ~after-save-hook~ that tangles and loads this literary configuration.
 
-#+NAME: profiler-start
-#+BEGIN_SRC emacs-lisp
-; (profiler-start)
-#+END_SRC
+# #+NAME: emacs-client
+# #+BEGIN_SRC emacs-lisp
+# (defun my/tangle-and-load-blendoit-init()
+#   (org-babel-load-file "~/.emacs.d/blendoit/blendoit-init.org")
+# )
+
+# (add-hook 'after-save-hook 'my/tangle-and-load-blendoit-init)
+
+# (my/tangle-and-load-blendoit-init)
+# #+END_SRC
 
 ** Custom file
 
@@ -73,10 +103,20 @@ Load settings created automatically by GNU Emacs Custom. (For example, any
 clickable option/toggle is saved here.) Useful for fooling around with M-x
 customize-group <package>.
 
-#+NAME: custom-file
+#+NAME: custom-file-location
 #+BEGIN_SRC emacs-lisp
   (setq custom-file "~/.emacs.d/init-custom.el")
   (load custom-file)
+#+END_SRC
+
+** Profiling --- start
+
+We start the profiler now , and will interrupt it in section [[Profiling ---
+stop]]. We will then present profiling report in section [[Profiling --- report]].
+
+#+NAME: profiler-start
+#+BEGIN_SRC emacs-lisp
+; (profiler-start)
 #+END_SRC
 
 ** Customization shortcuts
@@ -126,6 +166,18 @@ to this file.
         user-mail-address "blendoit@gmail.com")
 #+END_SRC
 
+** File system paths
+
+In this subsection, we tell Emacs about relevant paths to resources.
+
+On my Windows machine, I add the path to Portable Git.[fn::Download from
+https://git-scm.com/download/win]
+
+#+BEGIN_SRC emacs-lisp
+(if (string-equal system-type "windows-nt")
+    (add-to-list 'exec-path "C:/Users/marius.peter/PortableGit/bin/"))
+#+END_SRC
+
 * Global key bindings
 
 The following bindings strive to further enhance CUA[fn::Common User Access.]
@@ -158,14 +210,18 @@ The following bindings lead to more natural exit behaviors.
 
 ** Mouse zoom
 
- Zoom in/out of selected buffer using Alt + mouse wheel.
+The typical binding on both GNU/Linux and MS Windows is adequate here: ~C-=~ to
+zoom, ~C--~ to unzoom.
 
 #+BEGIN_SRC emacs-lisp
-  (global-set-key [M-mouse-4] 'text-scale-increase)
-  (global-set-key [M-mouse-5] 'text-scale-decrease)
+(global-set-key (kbd "C--") 'text-scale-decrease)
+(global-set-key (kbd "C-=") 'text-scale-increase)
+(global-set-key (kbd "C-+") 'text-scale-increase)
 #+END_SRC
 
 * Packages
+
+Packages are collections of =.el= files providing added functionality to Emacs.
 
 ** Package archives
 
@@ -179,7 +235,7 @@ List of package archives.
   (package-initialize)
 #+END_SRC
 
-** use-package
+** ~use-package~
 
 Ensure =use-package= is installed, as well as all packages described in this
 configuration file.
@@ -192,11 +248,11 @@ configuration file.
   (setq use-package-always-ensure t)
 #+END_SRC
 
-** Convenient package update
+** TODO Convenient package update
 
 One-function rollup of upgradeable package tagging, download and lazy install.
 
-** Ivy
+** ~ivy~
 
 Auto completion.
 
@@ -209,16 +265,7 @@ Auto completion.
   (ivy-mode t)
 #+END_SRC
 
-** Evil
-
-Forgive me, for I have sinned.
-
-#+BEGIN_SRC emacs-lisp
-    (use-package evil)
-    ;; (evil-mode 1)
-#+END_SRC
-
-*** Counsel
+*** ~counsel~
 
   Wonderful counsellor!
 
@@ -230,14 +277,23 @@ Forgive me, for I have sinned.
   (global-set-key (kbd "C-f") 'counsel-grep-or-swiper)
 #+END_SRC
 
-*** Swiper
+*** ~swiper~
 
 #+BEGIN_SRC emacs-lisp
 (use-package swiper
  :bind (("C-f" . counsel-grep-or-swiper)))
 #+END_SRC
 
-** Org
+** ~evil-mode~
+
+Forgive me, for I have sinned.
+
+#+BEGIN_SRC emacs-lisp
+    (use-package evil)
+    ;; (evil-mode 1)
+#+END_SRC
+
+** ~org-mode~
 
 Phew, I can finally introduce Org mode! I am so *excited*.
 
@@ -254,6 +310,13 @@ Microsoft Word. The end goal is, once again, to draw as many new users to Emacs
 as possible!
 
 *** Basic customization
+
+Org base directory is in user home on GNU/Linux, or in =AppData= in MS Windows.
+
+#+NAME: org-basic
+#+BEGIN_SRC emacs-lisp
+  (setq org-directory "~/org")
+#+END_SRC
 
 First, we hide markup symbols for *bold*, /italic/, _underlined_ and +strikethrough+
 text, and ensure our document appears indented upon loading:[fn::It /appears/
@@ -272,7 +335,6 @@ normally found in Word:
 
 #+NAME: org-list-bullets
 #+BEGIN_SRC emacs-lisp
-  (setq org-directory "~/org")
   (font-lock-add-keywords
    'org-mode
    '(("^ *\\([-]\\) "
@@ -285,15 +347,17 @@ normally found in Word:
   - Of lists!
 - (Rendered with pretty bullets in Emacs)
 
+*** Org-bullets
+
 The following prettifies Org mode heading bullets:
 
-#+NAME: org-headings-bullets
-#+BEGIN_SRC emacs-lisp
-  (use-package org-bullets
-    :hook
-    (org-mode . org-bullets-mode)
-  )
-#+END_SRC
+# #+NAME: org-heading-bullets
+# #+BEGIN_SRC emacs-lisp
+#   (use-package org-bullets
+#     :hook
+#     (org-mode . org-bullets-mode)
+#   )
+# #+END_SRC
 
 *** Invisible edits
 
@@ -406,13 +470,13 @@ LaTeX \rightarrow PDF.
 (global-set-key (kbd "C-c e") 'blendoit-org-quick-export)
 #+END_SRC
 
-** undo tree
+** ~undo-tree~
 
 #+BEGIN_SRC emacs-lisp
 (global-undo-tree-mode)
 #+END_SRC
 
-** dumb jump
+** ~dumb-jump~
 
 #+BEGIN_SRC emacs-lisp
 (use-package dumb-jump)
@@ -468,7 +532,7 @@ LaTeX \rightarrow PDF.
 
 #+NAME: company
 #+BEGIN_SRC emacs-lisp
-  (add-hook 'after-init-hook 'global-company-mode)
+;  (add-hook 'after-init-hook 'global-company-mode)
 #+END_SRC
 
 ** Flycheck
@@ -485,7 +549,7 @@ LaTeX \rightarrow PDF.
   (use-package csv-mode)
 #+END_SRC
 
-* JSON
+** JSON
 
 Oí, Jason!
 
@@ -503,8 +567,8 @@ Oí, Jason!
 ** PDF-tools
 
 #+BEGIN_SRC emacs-lisp
-(use-package pdf-tools
- :config (pdf-loader-install))
+(use-package pdf-tools)
+;; (pdf-tools-install)
 #+END_SRC
 
 ** Dashboard
@@ -519,7 +583,7 @@ We replace the standard welcome screen with our own.
     (setq dashboard-startup-banner "~/.emacs.d/blendoit/img/Safran_logo.svg")
     (setq dashboard-items '((recents  . 5)
                             (projects . 5)))
-    (setq dashboard-banner-logo-title "The editor for the 2nd millenium."))
+    (setq dashboard-banner-logo-title "A modern professional text editor."))
 #+END_SRC
 
 ** rainbow
@@ -593,34 +657,19 @@ modes.
 
 ** Initial frame
 
-These settings affect the first and subsequent frames spawned by Emacs.
-
-Thank you Xah Lee![fn::http://ergoemacs.org/emacs/emacs_customize_default_window_size.html]
+These settings affect the first and subsequent frames spawned by Emacs in
+GNU/Linux. Frame transparency increases when focus is lost.
 
 #+BEGIN_SRC emacs-lisp
-  (if (display-graphic-p)
-      (progn
-        (setq initial-frame-alist
-              '(
-                (tool-bar-lines . 1)
-                (width . 100) ; chars
-                (height . 48) ; lines
-                (alpha . (90 . 50))))
-        (setq default-frame-alist
-              '(
-                (tool-bar-lines . 1)
-                (width . 100)
-                (height . 48)
-               (alpha . (90 . 50))))))
+;  (if (and (display-graphic-p) (string-equal system-type "gnu/linux"))
+;      ((set-frame-parameter (selected-frame) 'alpha '(85 . 50))
+;       (add-to-list 'default-frame-alist '(alpha . (85 . 50)))))
 #+END_SRC
 
 ** Theme
 
 #+BEGIN_SRC emacs-lisp
-;;  (use-package zenburn-theme
-;;   :config
-;;    (load-theme 'zenburn))
-
+(setq custom-theme-directory "~/.emacs.d/blendoit/themes/")
 (load-theme 'blendoit-light)
 #+END_SRC
 
@@ -634,8 +683,15 @@ Thank you Xah Lee![fn::http://ergoemacs.org/emacs/emacs_customize_default_window
 
 These customizations enhance editor usability.
 
+A line of text is considered `filled' when it reaches 79 characters in length.
+
 #+BEGIN_SRC emacs-lisp
   (setq-default fill-column 79)
+#+END_SRC
+
+We replace the longer ~yes-or-no-p~ questions with more convenient ~y-or-n-p~.
+
+#+BEGIN_SRC emacs-lisp
   (defalias 'yes-or-no-p 'y-or-n-p)
 #+END_SRC
 
@@ -651,7 +707,11 @@ Disable minibuffer scroll bar.
 Originally, I wished to inhibit certain entries in the GUI menus. Not worth the
 effort at this time.
 
-~menu-bar-mode~ is inhibited in =../custom-init.el=.
+~menu-bar-mode~ is inhibited if on Linux.
+
+#+BEGIN_SRC emacs-lisp
+(setq menu-bar-mode t)
+#+END_SRC
 
 ** Coding standards
 
@@ -670,14 +730,13 @@ This ensures users can resize windows using the GUI.
 (menu-bar-bottom-and-right-window-divider)
 #+END_SRC
 
-
 ** Tabs
 
 #+BEGIN_SRC emacs-lisp
 
 #+END_SRC
 
-** auto fill
+** ~auto-fill~
 
 Automatically break lines longer than =fill-column=.
 
@@ -694,14 +753,22 @@ Automatically break lines longer than =fill-column=.
   (run-at-time nil (* 5 60) 'recentf-save-list)
 #+END_SRC
 
-* Profiling --- stop
+* Late setup
+
+** Profiling --- stop
 
 #+BEGIN_SRC emacs-lisp
 ;; (profiler-stop)
 #+END_SRC
 
-* Profiling --- report
+** Profiling --- report
 
 #+BEGIN_SRC emacs-lisp
 ;; (profiler-report)
 #+END_SRC
+
+* Conclusion
+
+In this configuration file, we described a series of customization steps taken
+to make Emacs more palatable to modern IDE users.
+

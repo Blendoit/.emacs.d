@@ -2,6 +2,9 @@
 
 *.elc
 
+# Backups
+bkp/
+
 # TeX artifacts
 *.tex
 *.lot
