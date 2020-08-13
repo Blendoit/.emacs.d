@@ -27,3 +27,4 @@ srecode-map.el
 .org-id-locations
 network-security.data
 places
+projectile.cache

@@ -1,0 +1,24 @@
+# -*- mode: org; -*-
+
+#+LATEX_CLASS: article
+
+#+LATEX_HEADER: \usepackage[left=1in,right=1in,top=1in,bottom=1.75in]{geometry}
+#+LATEX_HEADER: \usepackage{fourier}
+
+# For referencing the Org document title in the text body and fancy header
+#+LATEX_HEADER: \usepackage{titling}
+
+# For page numbering purposes
+#+LATEX_HEADER: \usepackage{lastpage}
+
+# Keep 'em lists compact!
+#+LATEX_HEADER: \usepackage{enumitem}
+#+LATEX_HEADER: \setlist{noitemsep}
+
+#+LATEX_HEADER: \usepackage{fancyhdr}
+#+LATEX_HEADER: \setlength{\headheight}{40pt}
+#+LATEX_HEADER_EXTRA: \pagestyle{fancy}
+#+LATEX_HEADER_EXTRA: \fancyhead[L]{\rule[-20pt]{0pt}{0pt} \includegraphics[height=20pt]{~/org/templates/documents/Safran_logo.png}}
+#+LATEX_HEADER_EXTRA: \fancyhead[R]{\thetitle \\ \thedate}
+#+LATEX_HEADER_EXTRA: \renewcommand{\headrulewidth}{1.2pt}
+#+LATEX_HEADER_EXTRA: \fancyfoot[C]{Page~\thepage~of~\pageref*{LastPage}\\ \hrulefill \\ \footnotesize This document contains proprietary information of \texttt{Safran Passenger Solutions}. This information may not, in whole or in part, be duplicated, reproduced, disclosed, or used in any way except as expressly authorized in writing by \texttt{Safran Passenger Solutions}.}

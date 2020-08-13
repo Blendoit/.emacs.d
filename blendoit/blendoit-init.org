@@ -1,12 +1,11 @@
 #+TITLE: My literate GNU Emacs config
 #+AUTHOR: Marius Peter
 #+DATE: <2020-07-23 Thu>
+#+EMAIL: blendoit@gmail.com
 
 #+STARTUP: showall customtime
-
-#+SETUPFILE: ~/.emacs.d/templates/documents/personal.org
-
-#+INCLUDE: ~/.emacs.d/templates/documents/personal.org_title
+#+SETUPFILE: ~/.emacs.d/templates/documents/general.org
+#+INCLUDE: ~/.emacs.d/templates/documents/general.org_title
 
 \begin{abstract}
 GNU Emacs is most often used as a text editor.
@@ -29,14 +28,6 @@ this is the endgame of \textit{literate programming}.
 # (org-babel-load-file "~/.emacs.d/blendoit/test.org")
 # #+END_SRC
 
-* README
-:PROPERTIES:
-:UNNUMBERED: t
-:END:
-
-The =README.org= was exported from the first section of my literate configuration
-file, [[file:blendoit-init.org]].
-
 * Document structure
 :PROPERTIES:
 :UNNUMBERED: t
@@ -44,12 +35,11 @@ file, [[file:blendoit-init.org]].
 
 ** Blending Linux and Windows
 
-The GNU Emacs cabal is attempting to create a complete OS out of a text editor.
-
-Microsoft has a notorious /embrace, extend, extinguish/ approach when it comes
-to rival technologies.
-
-Both are simultaneously possible.
+- The GNU Emacs cabal is attempting to create a complete OS out of a text
+  editor.
+- Microsoft has a notorious /embrace, extend, extinguish/ approach when it
+  comes to rival technologies.
+- Both are simultaneously possible.
 
 * TODO First-time setup
 
@@ -189,10 +179,29 @@ mode.
   (global-set-key (kbd "C-`") 'delete-other-windows)
   (global-set-key (kbd "C-s") 'save-buffer)
   (global-set-key (kbd "C-b") 'ibuffer-sidebar-toggle-sidebar)
-  (global-set-key (kbd "C-o") 'menu-find-file-existing)
   (global-set-key (kbd "C-r") 'counsel-recentf)
 ;  (global-set-key (kbd "C-n") 'make-frame) ; 7aram!
 #+END_SRC
+
+*** Graphical file open
+
+Open file with ~C-o~.
+
+#+BEGIN_SRC emacs-lisp
+  (global-set-key (kbd "C-o") 'menu-find-file-existing)
+#+END_SRC
+
+We trick Emacs into opening file dialog with ~C-o~ instead of prompting for a file
+in minibuffer.
+
+#+BEGIN_SRC emacs-lisp
+(defadvice find-file-read-args (around find-file-read-args-always-use-dialog-box act)
+  "Simulate invoking menu item as if by the mouse; see `use-dialog-box'."
+  (let ((last-nonmenu-event nil))
+     ad-do-it))
+#+END_SRC
+
+*** Exit behaviours
 
 The following bindings lead to more natural exit behaviors.
 
@@ -211,7 +220,7 @@ The following bindings lead to more natural exit behaviors.
 ** Mouse zoom
 
 The typical binding on both GNU/Linux and MS Windows is adequate here: ~C-=~ to
-zoom, ~C--~ to unzoom.
+zoom in, ~C--~ to zoom out.
 
 #+BEGIN_SRC emacs-lisp
 (global-set-key (kbd "C--") 'text-scale-decrease)
@@ -322,9 +331,12 @@ First, we hide markup symbols for *bold*, /italic/, _underlined_ and +strikethro
 text, and ensure our document appears indented upon loading:[fn::It /appears/
 indented, but the underlying plaintext file does not contain tab characters!]
 
+For the time being, I will in fact display emphasis markers, because hiding
+them corrupts tables.
+
 #+NAME: org-basic
 #+BEGIN_SRC emacs-lisp
-  (setq org-hide-emphasis-markers t)
+;;  (setq org-hide-emphasis-markers t)
   (setq org-startup-indented t)
 #+END_SRC
 
@@ -347,7 +359,9 @@ normally found in Word:
   - Of lists!
 - (Rendered with pretty bullets in Emacs)
 
-*** Org-bullets
+*** ~org-bullets~
+
+No need for ~org-bullets~. MS Windows garbles the 3^{rd} level bullet.
 
 The following prettifies Org mode heading bullets:
 
@@ -369,7 +383,7 @@ The following prettifies Org mode heading bullets:
 
 The agenda displays a chronological list of headings across all agenda files
 for which the heading or body contain a matching =org-time-stamp=.[fn::An
-=org-time-stamp= can be inserted with =C-c .= (period)]
+~org-time-stamp~ can be inserted with ~C-c .~ (period)]
 
 #+BEGIN_SRC emacs-lisp
 (global-set-key (kbd "C-c a") 'org-agenda-list)
@@ -483,7 +497,7 @@ LaTeX \rightarrow PDF.
 (add-hook 'xref-backend-functions #'dumb-jump-xref-activate)
 #+END_SRC
 
-** gnuplot
+** ~gnuplot~
 
 #+BEGIN_SRC emacs-lisp
 (use-package gnuplot)
@@ -515,7 +529,10 @@ LaTeX \rightarrow PDF.
 ;        (local-set-key (quote mouse-2) (quote ibuffer-mouse-toggle-mark))))
 #+END_SRC
 
-** Which-key
+** TODO Sidebar
+Get inspiration from ~ibuffer-sidebar~ and create a better sidebar.
+
+** ~which-key~
 
 #+BEGIN_SRC emacs-lisp
 (use-package which-key
@@ -528,14 +545,14 @@ LaTeX \rightarrow PDF.
 )
 #+END_SRC
 
-** Company
+** ~company~
 
 #+NAME: company
 #+BEGIN_SRC emacs-lisp
 ;  (add-hook 'after-init-hook 'global-company-mode)
 #+END_SRC
 
-** Flycheck
+** ~flycheck~
 
 #+NAME: flycheck
 #+BEGIN_SRC emacs-lisp
@@ -543,13 +560,13 @@ LaTeX \rightarrow PDF.
  :init (global-flycheck-mode))
 #+END_SRC
 
-** CSV
+** ~csv-mode~
 
 #+BEGIN_SRC emacs-lisp
   (use-package csv-mode)
 #+END_SRC
 
-** JSON
+** ~json-mode~
 
 Oí, Jason!
 
@@ -557,21 +574,21 @@ Oí, Jason!
   (use-package json-mode)
 #+END_SRC
 
-** Magit
+** ~magit~
 
 #+BEGIN_SRC emacs-lisp
   (use-package magit
    :bind ("C-c g" . magit-status))
 #+END_SRC
 
-** PDF-tools
+** ~pdf-tools~
 
 #+BEGIN_SRC emacs-lisp
 (use-package pdf-tools)
 ;; (pdf-tools-install)
 #+END_SRC
 
-** Dashboard
+** ~dashboard~
 
 We replace the standard welcome screen with our own.
 
@@ -586,7 +603,7 @@ We replace the standard welcome screen with our own.
     (setq dashboard-banner-logo-title "A modern professional text editor."))
 #+END_SRC
 
-** rainbow
+** ~rainbow-mode~
 
 This highlights hexadecimal numbers which look like colors, in that same color.
 
@@ -597,7 +614,7 @@ This highlights hexadecimal numbers which look like colors, in that same color.
     (add-hook 'prog-mode-hook 'rainbow-mode))
 #+END_SRC
 
-** Projectile
+** ~projectile~
 
 This enables us to better manage our =.git= projects.
 
@@ -606,6 +623,12 @@ This enables us to better manage our =.git= projects.
    :bind ("C-c p" . 'projectile-command-map)
    :init (projectile-mode 1)
          (setq projectile-completion-system 'ivy))
+#+END_SRC
+
+** ~all-the-icons~
+
+#+BEGIN_SRC emacs-lisp
+(use-package all-the-icons)
 #+END_SRC
 
 ** Better parentheses
@@ -624,35 +647,50 @@ This enables us to better manage our =.git= projects.
 
 * Cosmetics
 
-** Faces & cursors
+** Cursors
 
-In order to imitate other modern text editors, we'll resort to a blinking bar
+In order to imitate other modern text editors, we resort to a blinking bar
 cursor. We choose red, the most captivating color, because the cursor is
 arguably the region on our screen:
 
 1. most often looked at;
 2. most often searched when lost.
 
-The default cursor already blinks.
-
 *** Default cursor
 
-In files containing only fixed-pitch fonts (i.e. files containing only code),
+In files containing only ~fixed-pitch~ fonts (i.e. files containing only code),
 the cursor becomes a high-visibility box.
+
+In files containing a mix of ~variable-pitch~ and ~fixed-pitch~ fonts, the
+cursor is a more MS Word-like bar.
 
 #+BEGIN_SRC emacs-lisp
 (setq-default cursor-type (quote box))
+(setq-default mixed-pitch-variable-pitch-cursor (quote bar))
 #+END_SRC
 
-*** Mixed pitch in Org mode
+** Faces
 
-Fixed-pitch and variable-pitch fonts will be used intelligently in all hooked
+- ~default~: Hack
+  - Legible, modern monospace font
+  - Strict, sharp, uncompromising
+- ~fixed-pitch~: Hack
+- ~variable-pitch~: Liberation Sans
+  - Libre alternative to Arial
+- ~org-block~: Hermit
+  - Slightly wider than Hack
+  - More opinionated shapes
+  - Very legible parentheses
+
+*** ~mixed-pitch~
+
+Fixed-pitch and variable-pitch faces will be used intelligently in all hooked
 modes.
 
 #+BEGIN_SRC emacs-lisp
   (use-package mixed-pitch
    :hook ((org-mode . mixed-pitch-mode)
-           (Info-mode . mixed-pitch-mode)))
+          (Info-mode . mixed-pitch-mode)))
 #+END_SRC
 
 ** Initial frame
@@ -668,15 +706,11 @@ GNU/Linux. Frame transparency increases when focus is lost.
 
 ** Theme
 
+My custom themes.
+
 #+BEGIN_SRC emacs-lisp
 (setq custom-theme-directory "~/.emacs.d/blendoit/themes/")
 (load-theme 'blendoit-light)
-#+END_SRC
-
-** All the icons
-
-#+BEGIN_SRC emacs-lisp
-(use-package all-the-icons)
 #+END_SRC
 
 * Editing preferences
@@ -707,15 +741,13 @@ Disable minibuffer scroll bar.
 Originally, I wished to inhibit certain entries in the GUI menus. Not worth the
 effort at this time.
 
-~menu-bar-mode~ is inhibited if on Linux.
-
 #+BEGIN_SRC emacs-lisp
 (setq menu-bar-mode t)
 #+END_SRC
 
 ** Coding standards
 
-This is just a better default.
+This is just a better default. Don't @ me.
 
 #+BEGIN_SRC emacs-lisp
 (setq c-default-style "linux"
@@ -751,6 +783,12 @@ Automatically break lines longer than =fill-column=.
   (setq recentf-max-menu-items 25)
   (setq recentf-max-saved-items 25)
   (run-at-time nil (* 5 60) 'recentf-save-list)
+#+END_SRC
+
+** ~pop-up-frames~
+
+#+BEGIN_SRC emacs-lisp
+;  (setq pop-up-frames (quote graphic-only))
 #+END_SRC
 
 * Late setup
