@@ -28,18 +28,13 @@ this is the endgame of \textit{literate programming}.
 # (org-babel-load-file "~/.emacs.d/blendoit/test.org")
 # #+END_SRC
 
-* Document structure
-:PROPERTIES:
-:UNNUMBERED: t
-:END:
+# * Blending Linux and Windows
 
-** Blending Linux and Windows
-
-- The GNU Emacs cabal is attempting to create a complete OS out of a text
-  editor.
-- Microsoft has a notorious /embrace, extend, extinguish/ approach when it
-  comes to rival technologies.
-- Both are simultaneously possible.
+# - The GNU Emacs cabal is attempting to create a complete OS out of a text
+#   editor.
+# - Microsoft has a notorious /embrace, extend, extinguish/ approach when it
+#   comes to rival technologies.
+# - Both are simultaneously possible.
 
 * TODO First-time setup
 
@@ -160,7 +155,7 @@ to this file.
 
 In this subsection, we tell Emacs about relevant paths to resources.
 
-On my Windows machine, I add the path to Portable Git.[fn::Download from
+On my MS Windows machine, I add the path to Portable Git.[fn::Download from
 https://git-scm.com/download/win]
 
 #+BEGIN_SRC emacs-lisp
@@ -336,7 +331,7 @@ them corrupts tables.
 
 #+NAME: org-basic
 #+BEGIN_SRC emacs-lisp
-;;  (setq org-hide-emphasis-markers t)
+  (setq org-hide-emphasis-markers t)
   (setq org-startup-indented t)
 #+END_SRC
 
@@ -344,34 +339,6 @@ Then, we customize Org headings to emulate WYSIWYG[fn::What You See Is What You
 Get (input and output are identical), as opposed to What You See Is What You
 Mean (the input contains instructions that can modify the output).] behavior
 normally found in Word:
-
-#+NAME: org-list-bullets
-#+BEGIN_SRC emacs-lisp
-  (font-lock-add-keywords
-   'org-mode
-   '(("^ *\\([-]\\) "
-    (0 (prog1 () (compose-region (match-beginning 1) (match-end 1) "•"))))))
-#+END_SRC
-
-- Look at
-- This beautifully indented
-  - List...
-  - Of lists!
-- (Rendered with pretty bullets in Emacs)
-
-*** ~org-bullets~
-
-No need for ~org-bullets~. MS Windows garbles the 3^{rd} level bullet.
-
-The following prettifies Org mode heading bullets:
-
-# #+NAME: org-heading-bullets
-# #+BEGIN_SRC emacs-lisp
-#   (use-package org-bullets
-#     :hook
-#     (org-mode . org-bullets-mode)
-#   )
-# #+END_SRC
 
 *** Invisible edits
 
@@ -383,7 +350,7 @@ The following prettifies Org mode heading bullets:
 
 The agenda displays a chronological list of headings across all agenda files
 for which the heading or body contain a matching =org-time-stamp=.[fn::An
-~org-time-stamp~ can be inserted with ~C-c .~ (period)]
+=org-time-stamp= can be inserted with ~C-c .~ (period)]
 
 #+BEGIN_SRC emacs-lisp
 (global-set-key (kbd "C-c a") 'org-agenda-list)
@@ -477,9 +444,7 @@ LaTeX \rightarrow PDF.
   "Org export to PDF and open.
   This basically reimplements `C-c C-e l o'."
   (interactive)
-    (org-latex-export-to-pdf)
-    (org-open-file
-      (concat (substring buffer-file-truename 0 -3) "pdf")))
+    (org-open-file (org-latex-export-to-pdf)))
 
 (global-set-key (kbd "C-c e") 'blendoit-org-quick-export)
 #+END_SRC
@@ -515,22 +480,26 @@ LaTeX \rightarrow PDF.
 ** ibuffer-sidebar
 
 #+BEGIN_SRC emacs-lisp
-(use-package ibuffer-sidebar)
-(ibuffer-sidebar-show-sidebar)
+  ;; (use-package ibuffer-sidebar)
+  ;; (ibuffer-sidebar-show-sidebar)
 
-;     :bind ("mouse-1" . ibuffer-mouse-visit-buffer)
-;     :bind ("mouse-3" . ibuffer-mouse-toggle-mark))
+  ;     :bind ("mouse-1" . ibuffer-mouse-visit-buffer)
+  ;     :bind ("mouse-3" . ibuffer-mouse-toggle-mark))
 
-;     (add-hook 'ibuffer-sidebar-mode-hook
-;       (lambda ()
-;        (local-unset-key (quote mouse-1))
-;        (local-unset-key (quote mouse-2))
-;        (local-set-key (quote mouse-1) (quote ibuffer-mouse-visit-buffer))
-;        (local-set-key (quote mouse-2) (quote ibuffer-mouse-toggle-mark))))
+  ;     (add-hook 'ibuffer-sidebar-mode-hook
+  ;       (lambda ()
+  ;        (local-unset-key (quote mouse-1))
+  ;        (local-unset-key (quote mouse-2))
+  ;        (local-set-key (quote mouse-1) (quote ibuffer-mouse-visit-buffer))
+  ;        (local-set-key (quote mouse-2) (quote ibuffer-mouse-toggle-mark))))
 #+END_SRC
 
 ** TODO Sidebar
 Get inspiration from ~ibuffer-sidebar~ and create a better sidebar.
+
+#+BEGIN_SRC emacs-lisp
+;; (load-file)
+#+END_SRC
 
 ** ~which-key~
 
@@ -687,10 +656,15 @@ cursor is a more MS Word-like bar.
 Fixed-pitch and variable-pitch faces will be used intelligently in all hooked
 modes.
 
+~mixed-pitch~ is good at automatically determining which faces should be
+monospaced and proportional; I prefer to define each face in my custom theme.
+
 #+BEGIN_SRC emacs-lisp
-  (use-package mixed-pitch
-   :hook ((org-mode . mixed-pitch-mode)
-          (Info-mode . mixed-pitch-mode)))
+  ;; (use-package mixed-pitch
+  ;;  :hook ((org-mode . mixed-pitch-mode)
+  ;;         (Info-mode . mixed-pitch-mode)))
+
+(add-hook 'text-mode-hook 'variable-pitch-mode)
 #+END_SRC
 
 ** Initial frame
@@ -712,6 +686,22 @@ My custom themes.
 (setq custom-theme-directory "~/.emacs.d/blendoit/themes/")
 (load-theme 'blendoit-light)
 #+END_SRC
+
+*** ~blendoit-light~
+
+A highly legible and unambiguous theme.
+
+The default face is a black foreground on a white background, this matches with
+MS Word.
+
+- Red :: TODO; cursor; negative; danger 
+- Green :: DONE; positive
+- Blue :: document structure
+- Purple :: ~org-mode~ elements
+
+*** ~blendoit-dark~
+
+
 
 * Editing preferences
 
