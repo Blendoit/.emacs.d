@@ -665,6 +665,7 @@ monospaced and proportional; I prefer to define each face in my custom theme.
   ;;         (Info-mode . mixed-pitch-mode)))
 
 (add-hook 'text-mode-hook 'variable-pitch-mode)
+(add-hook 'info-mode-hook 'variable-pitch-mode)
 #+END_SRC
 
 ** Initial frame
@@ -684,7 +685,8 @@ My custom themes.
 
 #+BEGIN_SRC emacs-lisp
 (setq custom-theme-directory "~/.emacs.d/blendoit/themes/")
-(load-theme 'blendoit-light)
+; (load-theme 'blendoit-light)
+(load-theme 'blendoit-dark)
 #+END_SRC
 
 *** ~blendoit-light~
@@ -694,14 +696,14 @@ A highly legible and unambiguous theme.
 The default face is a black foreground on a white background, this matches with
 MS Word.
 
-- Red :: TODO; cursor; negative; danger 
+- Red :: TODO; cursor; negative; danger
 - Green :: DONE; positive
 - Blue :: document structure
 - Purple :: ~org-mode~ elements
 
 *** ~blendoit-dark~
 
-
+Same principle
 
 * Editing preferences
 

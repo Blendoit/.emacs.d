@@ -1,8 +1,8 @@
-(deftheme blendoit-light
+(deftheme blendoit-dark
   "Created 2020-08-15.")
 
 (custom-theme-set-faces
- 'blendoit-light
+ 'blendoit-dark
  '(variable-pitch ((t (:family "Liberation Sans"))))
  '(escape-glyph ((((background dark)) (:foreground "cyan")) (((type pc)) (:foreground "magenta")) (t (:foreground "brown"))))
  '(homoglyph ((((background dark)) (:foreground "cyan")) (((type pc)) (:foreground "magenta")) (t (:foreground "brown"))))
@@ -41,10 +41,10 @@
  '(next-error ((t (:inherit region))))
  '(query-replace ((t (:inherit (isearch)))))
  '(org-formula ((t (:inherit org-table))))
- '(org-meta-line ((t (:foreground "steel blue" :family "Hermit"))))
+ '(org-meta-line ((t (:foreground "white" :family "Hermit"))))
  '(org-document-title ((t (:weight bold :height 2.0))))
  '(org-footnote ((t (:inherit link))))
- '(org-tag ((t (:weight bold :underline (:color nil :style nil) :inherit org-meta-line))))
+ '(org-tag ((t (:inherit org-meta-line :weight bold))))
  '(org-document-info-keyword ((t (:inherit org-meta-line))))
  '(org-code ((t (:background "light grey" :foreground "black"))))
  '(org-checkbox-statistics-todo ((t (:foreground "tomato" :inherit org-checkbox))))
@@ -57,11 +57,11 @@
  '(org-table ((t (:inherit fixed-pitch :foreground "dark slate gray" :box (:line-width 1 :color "light slate gray")))))
  '(org-block ((t (:family "Hermit"))))
  '(org-special-keyword ((t (:inherit org-meta-line))))
- '(org-level-1 ((t (:foreground "dim gray" :weight bold :height 1.6))))
- '(org-level-2 ((t (:foreground "dark gray" :weight bold :height 1.4))))
- '(org-level-3 ((t (:foreground "gray" :weight bold :height 1.2))))
- '(org-level-4 ((t (:foreground "light gray" :weight bold :height 1.1))))
- '(org-level-5 ((t (:foreground "gainsboro" :weight bold :height 1.0))))
+ '(org-level-1 ((t (:foreground "white smoke" :weight bold :height 1.6))))
+ '(org-level-2 ((t (:foreground "gainsboro" :weight bold :height 1.4))))
+ '(org-level-3 ((t (:foreground "light gray" :weight bold :height 1.2))))
+ '(org-level-4 ((t (:foreground "gray" :weight bold :height 1.1))))
+ '(org-level-5 ((t (:foreground "dark gray" :weight bold :height 1.0))))
  '(org-level-6 ((t (:inherit org-level-5))))
  '(org-level-7 ((t (:inherit org-level-5))))
  '(org-level-8 ((t (:inherit org-level-5))))
@@ -80,6 +80,6 @@
  '(ivy-minibuffer-match-highlight ((t (:inherit highlight))))
  '(Info-quoted ((t (:inherit org-block))))
  '(org-priority ((t (:weight bold :inherit org-meta-line))))
- '(default ((t (:background "white" :foreground "black" :height 120 :family "Hack")))))
+ '(default ((t (:background "gray20" :foreground "White" :height 120 :family "Hack")))))
 
-(provide-theme 'blendoit-light)
+(provide-theme 'blendoit-dark)
