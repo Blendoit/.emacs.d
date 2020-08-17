@@ -539,8 +539,10 @@ Get inspiration from ~ibuffer-sidebar~ and create a better sidebar.
 
 Oí, Jason!
 
+Not needed in 27.1?
+
 #+BEGIN_SRC emacs-lisp
-  (use-package json-mode)
+;  (use-package json-mode)
 #+END_SRC
 
 ** ~magit~
@@ -604,14 +606,12 @@ This enables us to better manage our =.git= projects.
 
 #+BEGIN_SRC emacs-lisp
 (show-paren-mode 1)
+(setq show-paren-delay 0)
 
-  (use-package smartparens
-    :config
-    (add-hook 'prog-mode-hook #'smartparens-mode))
+(use-package rainbow-delimiters
+ :config (add-hook 'prog-mode-hook #'rainbow-delimiters-mode))
 
-  (use-package rainbow-delimiters
-    :config
-    (add-hook 'prog-mode-hook #'rainbow-delimiters-mode))
+(electric-pair-mode)
 #+END_SRC
 
 * Cosmetics
@@ -674,9 +674,9 @@ These settings affect the first and subsequent frames spawned by Emacs in
 GNU/Linux. Frame transparency increases when focus is lost.
 
 #+BEGIN_SRC emacs-lisp
-;  (if (and (display-graphic-p) (string-equal system-type "gnu/linux"))
-;      ((set-frame-parameter (selected-frame) 'alpha '(85 . 50))
-;       (add-to-list 'default-frame-alist '(alpha . (85 . 50)))))
+  (when (and (display-graphic-p) (string-equal system-type "gnu/linux"))
+    (set-frame-parameter (selected-frame) 'alpha '(90 . 50))
+    (add-to-list 'default-frame-alist '(alpha . (60 . 50))))
 #+END_SRC
 
 ** Theme
@@ -685,8 +685,8 @@ My custom themes.
 
 #+BEGIN_SRC emacs-lisp
 (setq custom-theme-directory "~/.emacs.d/blendoit/themes/")
-; (load-theme 'blendoit-light)
-(load-theme 'blendoit-dark)
+(load-theme 'blendoit-light)
+; (load-theme 'blendoit-dark)
 #+END_SRC
 
 *** ~blendoit-light~
@@ -725,7 +725,6 @@ Disable minibuffer scroll bar.
 
 #+BEGIN_SRC emacs-lisp
 (set-window-scroll-bars (minibuffer-window) nil nil)
-; (set-window-scroll-bars (ibuffer-sidebar-window) nil nil)
 #+END_SRC
 
 ** Clean up menus
