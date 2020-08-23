@@ -40,10 +40,30 @@ this is the endgame of \textit{literate programming}.
 
 Spacemacs-like dialog for default settings.
 
+Bootstrap main configuration from USB drive.
+
 #+NAME: first-setup
 #+BEGIN_SRC emacs-lisp
   ;; Prompt enterprise or personal install. Create file in .emacs.d/ on Linux,
   ;; AppData/ on Windows. Ask user for details and preferred bindings.
+
+; Check if .emacs.d exists
+
+; If it does, warn user
+
+; Copy init-bootstrap.el from USB to where operating systems expects init.el
+#+END_SRC
+
+** File system paths
+
+In this subsection, we tell Emacs about relevant paths to resources.
+
+On my MS Windows machine, I add the path to Portable Git.[fn::Download from
+https://git-scm.com/download/win]
+
+#+BEGIN_SRC emacs-lisp
+(if (string-equal system-type "windows-nt")
+    (add-to-list 'exec-path "C:/Users/marius.peter/PortableGit/bin/"))
 #+END_SRC
 
 * Early setup
@@ -151,18 +171,6 @@ to this file.
         user-mail-address "blendoit@gmail.com")
 #+END_SRC
 
-** File system paths
-
-In this subsection, we tell Emacs about relevant paths to resources.
-
-On my MS Windows machine, I add the path to Portable Git.[fn::Download from
-https://git-scm.com/download/win]
-
-#+BEGIN_SRC emacs-lisp
-(if (string-equal system-type "windows-nt")
-    (add-to-list 'exec-path "C:/Users/marius.peter/PortableGit/bin/"))
-#+END_SRC
-
 * Global key bindings
 
 The following bindings strive to further enhance CUA[fn::Common User Access.]
@@ -204,7 +212,7 @@ The following bindings lead to more natural exit behaviors.
   (defun delete-window-or-previous-buffer ()
     "Delete window; if sole window, previous buffer."
      (interactive)
-     (if (> (length (window-list)) 2)
+     (if (> (length (window-list)) 1)
        (delete-window)
        (previous-buffer)))
 
@@ -605,12 +613,8 @@ This enables us to better manage our =.git= projects.
 ** Better parentheses
 
 #+BEGIN_SRC emacs-lisp
-(show-paren-mode 1)
-(setq show-paren-delay 0)
-
 (use-package rainbow-delimiters
  :config (add-hook 'prog-mode-hook #'rainbow-delimiters-mode))
-
 (electric-pair-mode)
 #+END_SRC
 
@@ -651,24 +655,36 @@ cursor is a more MS Word-like bar.
   - More opinionated shapes
   - Very legible parentheses
 
-*** ~mixed-pitch~
+*** ~variable-pitch-mode~
 
-Fixed-pitch and variable-pitch faces will be used intelligently in all hooked
-modes.
-
-~mixed-pitch~ is good at automatically determining which faces should be
-monospaced and proportional; I prefer to define each face in my custom theme.
+We use ~variable-pitch-mode~ for appropriate modes.
 
 #+BEGIN_SRC emacs-lisp
-  ;; (use-package mixed-pitch
-  ;;  :hook ((org-mode . mixed-pitch-mode)
-  ;;         (Info-mode . mixed-pitch-mode)))
-
-(add-hook 'text-mode-hook 'variable-pitch-mode)
+(add-hook 'org-mode-hook 'variable-pitch-mode)
 (add-hook 'info-mode-hook 'variable-pitch-mode)
 #+END_SRC
 
-** Initial frame
+*** TODO Default font size
+
+Make default font size larger on displays of which the resolution is greater
+than =1920x1080=.
+
+#+BEGIN_SRC emacs-lisp
+#+END_SRC
+
+** Initial and default frames
+
+We set the dimensions of the inital and default frames.
+
+#+BEGIN_SRC emacs-lisp
+  (add-to-list 'default-frame-alist '(width  . 80))
+  (add-to-list 'default-frame-alist '(height . 32))
+
+  (add-to-list 'initial-frame-alist '(width  . 80))
+  (add-to-list 'initial-frame-alist '(height . 32))
+#+END_SRC
+
+*** GNU/Linux
 
 These settings affect the first and subsequent frames spawned by Emacs in
 GNU/Linux. Frame transparency increases when focus is lost.
@@ -725,6 +741,12 @@ Disable minibuffer scroll bar.
 
 #+BEGIN_SRC emacs-lisp
 (set-window-scroll-bars (minibuffer-window) nil nil)
+#+END_SRC
+
+Save cursor location in visited buffer after closing it or Emacs.
+
+#+BEGIN_SRC emacs-lisp
+(save-place-mode 1)
 #+END_SRC
 
 ** Clean up menus

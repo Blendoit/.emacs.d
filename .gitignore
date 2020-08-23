@@ -17,7 +17,7 @@ auto-save-list/**
 transient/**
 
 # Tangled .el files from .org
-blendoit/*.el
+# blendoit/*.el
 
 # Misc
 *.eld
