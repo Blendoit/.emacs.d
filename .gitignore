@@ -2,9 +2,6 @@
 
 *.elc
 
-# Backups
-bkp/
-
 # TeX artifacts
 *.tex
 *.lot
@@ -16,8 +13,8 @@ url/**
 auto-save-list/**
 transient/**
 
-# Tangled .el files from .org
-# blendoit/*.el
+# Tangled config .el file from .org
+blendoit/blendoit-init.el
 
 # Misc
 *.eld

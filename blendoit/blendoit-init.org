@@ -44,14 +44,26 @@ Bootstrap main configuration from USB drive.
 
 #+NAME: first-setup
 #+BEGIN_SRC emacs-lisp
-  ;; Prompt enterprise or personal install. Create file in .emacs.d/ on Linux,
-  ;; AppData/ on Windows. Ask user for details and preferred bindings.
+    ;; Prompt enterprise or personal install. Create file in .emacs.d/ on Linux,
+    ;; AppData/ on Windows. Ask user for details and preferred bindings.
 
-; Check if .emacs.d exists
+  ; Check if .emacs.d exists
 
-; If it does, warn user
+  ; If it does, warn user
 
-; Copy init-bootstrap.el from USB to where operating systems expects init.el
+  ; Copy init-bootstrap.el from USB to where operating systems expects init.el
+
+  ;;   (defun blendoit/first-time-setup-windows-nt ()
+  ;;     "Execute the first-time setup on MS Windows.
+  ;; If no `.emacs.d/' config exists on local system, copy
+  ;; init-bootstrap.el to `~.emacs.d/'."
+  ;;      (interactive)
+  ;;      (find-file "~/.emacs.d/blendoit/blendoit-init.org"))
+
+
+
+  ;; (cond ((string-equal system-type "windows-nt")blendoit/first-time-setup-windows-nt)
+	;; ((string-equal system-type "gnu/linux") blendoit/first-time-setup-linux))
 #+END_SRC
 
 ** File system paths
