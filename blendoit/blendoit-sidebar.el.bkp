@@ -8,11 +8,11 @@
 ;; Keywords: multimedia, frobnicate
 ;; URL: http://example.com/jrhacker/superfrobnicate
 
-...
-
 ;; Commentary:
 
 ;; This package provides an auto-hiding sidebar with a list of open buffers.
+
+;; Code:
 
 ;;;###autoload
 (define-minor-mode blendoit-sidebar-mode)

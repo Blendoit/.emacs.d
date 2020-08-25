@@ -4,8 +4,8 @@
 #+EMAIL: blendoit@gmail.com
 
 #+STARTUP: showall customtime
-#+SETUPFILE: ~/.emacs.d/templates/documents/general.org
-#+INCLUDE: ~/.emacs.d/templates/documents/general.org_title
+# #+SETUPFILE: ~/.emacs.d/templates/documents/general.org
+# #+INCLUDE: ~/.emacs.d/templates/documents/general.org_title
 
 \begin{abstract}
 GNU Emacs is most often used as a text editor.
@@ -99,30 +99,17 @@ Makes opening emacs faster for following instances.
 ; (setq initial-buffer-choice (lambda () (get-buffer "*dashboard*")))
 #+END_SRC
 
-** Refresh configuration
-
-Add an ~after-save-hook~ that tangles and loads this literary configuration.
-
-# #+NAME: emacs-client
-# #+BEGIN_SRC emacs-lisp
-# (defun my/tangle-and-load-blendoit-init()
-#   (org-babel-load-file "~/.emacs.d/blendoit/blendoit-init.org")
-# )
-
-# (add-hook 'after-save-hook 'my/tangle-and-load-blendoit-init)
-
-# (my/tangle-and-load-blendoit-init)
-# #+END_SRC
-
 ** Custom file
 
 Load settings created automatically by GNU Emacs Custom. (For example, any
 clickable option/toggle is saved here.) Useful for fooling around with M-x
 customize-group <package>.
 
+user-emacs-directory
+
 #+NAME: custom-file-location
 #+BEGIN_SRC emacs-lisp
-  (setq custom-file "~/.emacs.d/init-custom.el")
+  (setq custom-file (concat user-emacs-directory "init-custom.el"))
   (load custom-file)
 #+END_SRC
 
@@ -145,7 +132,7 @@ We begin by defining a user shortcut to this very file:
   (defun find-init-blendoit ()
     "Jump to this very file."
      (interactive)
-     (find-file "~/.emacs.d/blendoit/blendoit-init.org"))
+     (find-file my/literate-config))
 
   (global-set-key (kbd "C-c c") 'find-init-blendoit)
 #+END_SRC
@@ -270,6 +257,8 @@ configuration file.
     (package-install 'use-package)
     (eval-when-compile (require 'use-package)))
   (setq use-package-always-ensure t)
+(require 'use-package)
+(use-package bind-key)
 #+END_SRC
 
 ** TODO Convenient package update
@@ -339,7 +328,7 @@ Org base directory is in user home on GNU/Linux, or in =AppData= in MS Windows.
 
 #+NAME: org-basic
 #+BEGIN_SRC emacs-lisp
-  (setq org-directory "~/org")
+  (setq org-directory (concat user-emacs-directory "~/org"))
 #+END_SRC
 
 First, we hide markup symbols for *bold*, /italic/, _underlined_ and +strikethrough+
@@ -351,7 +340,7 @@ them corrupts tables.
 
 #+NAME: org-basic
 #+BEGIN_SRC emacs-lisp
-  (setq org-hide-emphasis-markers t)
+  (setq org-hide-emphasis-markers nil)
   (setq org-startup-indented t)
 #+END_SRC
 
@@ -497,23 +486,6 @@ LaTeX \rightarrow PDF.
      ("C-c C" . ledger-mode-clean-buffer))
 #+END_SRC
 
-** ibuffer-sidebar
-
-#+BEGIN_SRC emacs-lisp
-  ;; (use-package ibuffer-sidebar)
-  ;; (ibuffer-sidebar-show-sidebar)
-
-  ;     :bind ("mouse-1" . ibuffer-mouse-visit-buffer)
-  ;     :bind ("mouse-3" . ibuffer-mouse-toggle-mark))
-
-  ;     (add-hook 'ibuffer-sidebar-mode-hook
-  ;       (lambda ()
-  ;        (local-unset-key (quote mouse-1))
-  ;        (local-unset-key (quote mouse-2))
-  ;        (local-set-key (quote mouse-1) (quote ibuffer-mouse-visit-buffer))
-  ;        (local-set-key (quote mouse-2) (quote ibuffer-mouse-toggle-mark))))
-#+END_SRC
-
 ** TODO Sidebar
 Get inspiration from ~ibuffer-sidebar~ and create a better sidebar.
 
@@ -588,7 +560,7 @@ We replace the standard welcome screen with our own.
 (use-package dashboard
   :config
     (dashboard-setup-startup-hook)
-    (setq dashboard-startup-banner "~/.emacs.d/blendoit/img/Safran_logo.svg")
+    (setq dashboard-startup-banner (concat user-emacs-directory "img/Safran_logo.svg"))
     (setq dashboard-items '((recents  . 5)
                             (projects . 5)))
     (setq dashboard-banner-logo-title "A modern professional text editor."))
@@ -712,7 +684,7 @@ GNU/Linux. Frame transparency increases when focus is lost.
 My custom themes.
 
 #+BEGIN_SRC emacs-lisp
-(setq custom-theme-directory "~/.emacs.d/blendoit/themes/")
+(setq custom-theme-directory (concat user-emacs-directory "themes/"))
 (load-theme 'blendoit-light)
 ; (load-theme 'blendoit-dark)
 #+END_SRC
@@ -759,6 +731,24 @@ Save cursor location in visited buffer after closing it or Emacs.
 
 #+BEGIN_SRC emacs-lisp
 (save-place-mode 1)
+#+END_SRC
+
+Saving any file in ~user-emacs-directory~ (by default on Emacs, =~/emacs.d=)
+shall byte-recompile the entire =.emacs/= directory, for increased speed.
+
+This is pretty neat, not gonna lie.
+
+#+BEGIN_SRC emacs-lisp
+  (defun my/byte-compile-user-config ()
+    "Byte-compile dotfiles if current file is in `user-emacs-directory'.
+    Also tangles `my-literate-config'."
+    (interactive)
+    (if (string-equal buffer-file-name my/literate-config)
+        (org-babel-tangle))
+    (if (string-prefix-p user-emacs-directory default-directory)
+        (byte-recompile-directory user-emacs-directory 0)))
+
+  (add-hook 'after-save-hook my/byte-compile-user-config)
 #+END_SRC
 
 ** Clean up menus
