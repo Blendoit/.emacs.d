@@ -43,8 +43,7 @@
  '(nrepl-message-colors
    '("#CC9393" "#DFAF8F" "#F0DFAF" "#7F9F7F" "#BFEBBF" "#93E0E3" "#94BFF3" "#DC8CC3"))
  '(org-agenda-diary-file "~/org/PERSONAL/diary/diary.org")
- '(org-agenda-files
-   '("~/org/WORK/Safran/programs/MA700/timeline/MA700-timeline.org" "~/org/PERSONAL/diary/diary.org"))
+ '(org-agenda-files '("~/org/PERSONAL/diary/diary.org"))
  '(org-agenda-include-diary t)
  '(org-agenda-insert-diary-strategy 'date-tree-last)
  '(org-agenda-skip-scheduled-if-deadline-is-shown 'not-today)
@@ -93,7 +92,6 @@
  '(org-latex-toc-command "\\tableofcontents\\clearpage")
  '(org-log-done 'time)
  '(org-startup-align-all-tables t)
- '(org-tags-column -57)
  '(package-selected-packages
    '(org-sticky-header awesome-tab tabbar-ruler tabbar-mode linum-relative dumb-jump csv-mode rainbow-mode org-mouse projectile minimap gnuplot ledger-mode company-mode wombat-theme wombar-theme which-key srefactor-lisp srefactor all-the-icons flycheck ibuffer-sidebar pdf-tools magit rainbow-delimiters smartparens mixed-pitch org-bullets use-package tabbar powerline ivy-hydra flatui-theme evil counsel company benchmark-init))
  '(pdf-view-midnight-colors '("#DCDCCC" . "#383838"))

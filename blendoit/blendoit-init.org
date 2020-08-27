@@ -258,12 +258,16 @@ configuration file.
     (eval-when-compile (require 'use-package)))
   (setq use-package-always-ensure t)
 (require 'use-package)
-(use-package bind-key)
+(require 'bind-key)
 #+END_SRC
 
 ** TODO Convenient package update
 
 One-function rollup of upgradeable package tagging, download and lazy install.
+
+#+BEGIN_SRC 
+
+#+END_SRC
 
 ** ~ivy~
 
@@ -736,19 +740,17 @@ Save cursor location in visited buffer after closing it or Emacs.
 Saving any file in ~user-emacs-directory~ (by default on Emacs, =~/emacs.d=)
 shall byte-recompile the entire =.emacs/= directory, for increased speed.
 
-This is pretty neat, not gonna lie.
-
 #+BEGIN_SRC emacs-lisp
-  (defun my/byte-compile-user-config ()
-    "Byte-compile dotfiles if current file is in `user-emacs-directory'.
-    Also tangles `my-literate-config'."
-    (interactive)
-    (if (string-equal buffer-file-name my/literate-config)
-        (org-babel-tangle))
-    (if (string-prefix-p user-emacs-directory default-directory)
-        (byte-recompile-directory user-emacs-directory 0)))
+  ;; (defun my/byte-compile-user-config ()
+  ;;   "Byte-compile dotfiles if current file is in `user-emacs-directory'.
+  ;;   Also tangles `my-literate-config'."
+  ;;   (interactive)
+  ;;   (if (string-equal buffer-file-name my/literate-config)
+  ;;       (org-babel-tangle))
+  ;;   (if (string-prefix-p user-emacs-directory default-directory)
+  ;;       (byte-recompile-directory (concat user-emacs-directory "blendoit/") 0)))
 
-  (add-hook 'after-save-hook my/byte-compile-user-config)
+  ;; (add-hook 'after-save-hook my/byte-compile-user-config)
 #+END_SRC
 
 ** Clean up menus
