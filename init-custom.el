@@ -56,6 +56,7 @@
      (ledger . t)
      (gnuplot . t)
      (latex . t)))
+ '(org-latex-active-timestamp-format "\\textcolor{RoyalBlue!80}{\\textit{%s}}")
  '(org-latex-classes
    '(("article" "\\documentclass[11pt]{article}"
       ("\\section{%s}" . "\\section*{%s}")
@@ -80,6 +81,7 @@
       ("\\section{%s}" . "\\section*{%s}")
       ("\\subsection*{%s}" . "\\subsection*{%s}")
       ("\\subsubsection*{%s}" . "\\subsubsection*{%s}"))))
+ '(org-latex-inactive-timestamp-format "\\textcolor{ForestGreen!80}{\\textit{%s}}")
  '(org-latex-packages-alist
    '(("AUTO" "polyglossia" t
       ("xelatex" "lualatex"))

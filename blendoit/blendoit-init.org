@@ -129,12 +129,12 @@ We begin by defining a user shortcut to this very file:
 
 #+NAME: shortcut-config
 #+BEGIN_SRC emacs-lisp
-  (defun find-init-blendoit ()
+  (defun my/find-literate-config ()
     "Jump to this very file."
-     (interactive)
-     (find-file my/literate-config))
+    (interactive)
+    (find-file my/literate-config))
 
-  (global-set-key (kbd "C-c c") 'find-init-blendoit)
+  (global-set-key (kbd "C-c c") 'my/find-literate-config)
 #+END_SRC
 
 Now, different shortcuts for other customization actions:
@@ -190,17 +190,7 @@ mode.
 Open file with ~C-o~.
 
 #+BEGIN_SRC emacs-lisp
-  (global-set-key (kbd "C-o") 'menu-find-file-existing)
-#+END_SRC
-
-We trick Emacs into opening file dialog with ~C-o~ instead of prompting for a file
-in minibuffer.
-
-#+BEGIN_SRC emacs-lisp
-(defadvice find-file-read-args (around find-file-read-args-always-use-dialog-box act)
-  "Simulate invoking menu item as if by the mouse; see `use-dialog-box'."
-  (let ((last-nonmenu-event nil))
-     ad-do-it))
+  (global-set-key (kbd "C-o") 'find-file)
 #+END_SRC
 
 *** Exit behaviours
@@ -301,13 +291,14 @@ Auto completion.
  :bind (("C-f" . counsel-grep-or-swiper)))
 #+END_SRC
 
-** ~evil-mode~
+** TODO ~evil-mode~
 
 Forgive me, for I have sinned.
 
 #+BEGIN_SRC emacs-lisp
-    (use-package evil)
-    ;; (evil-mode 1)
+  (use-package evil)
+;  (setq evil-toggle-key "C-c d") ; devil...
+;  (evil-mode 1)
 #+END_SRC
 
 ** ~org-mode~
@@ -366,7 +357,14 @@ for which the heading or body contain a matching =org-time-stamp=.[fn::An
 =org-time-stamp= can be inserted with ~C-c .~ (period)]
 
 #+BEGIN_SRC emacs-lisp
-(global-set-key (kbd "C-c a") 'org-agenda-list)
+  (global-set-key (kbd "C-c a") 'org-agenda-list)
+
+  (defun my/find-diary-file ()
+    "Load `org-agenda-diary-file'."
+    (interactive)
+    (find-file org-agenda-diary-file))
+
+  (global-set-key (kbd "C-c d") 'my/find-diary-file)
 #+END_SRC
 
 *** Timestamps
@@ -453,13 +451,13 @@ This creates a shorter binding for the most common Org export: Org \rightarrow
 LaTeX \rightarrow PDF.
 
 #+BEGIN_SRC emacs-lisp
-(defun blendoit-org-quick-export ()
+(defun my/org-quick-export ()
   "Org export to PDF and open.
   This basically reimplements `C-c C-e l o'."
   (interactive)
     (org-open-file (org-latex-export-to-pdf)))
 
-(global-set-key (kbd "C-c e") 'blendoit-org-quick-export)
+(global-set-key (kbd "C-c e") 'my/org-quick-export)
 #+END_SRC
 
 ** ~undo-tree~
@@ -481,7 +479,7 @@ LaTeX \rightarrow PDF.
 (use-package gnuplot)
 #+END_SRC
 
-** Ledger
+** ~ledger~
 
 #+BEGIN_SRC emacs-lisp
   (use-package ledger-mode
@@ -523,6 +521,13 @@ Get inspiration from ~ibuffer-sidebar~ and create a better sidebar.
 #+BEGIN_SRC emacs-lisp
 (use-package flycheck
  :init (global-flycheck-mode))
+#+END_SRC
+
+** TODO ~flyspell~
+
+#+NAME: flycheck
+#+BEGIN_SRC emacs-lisp
+
 #+END_SRC
 
 ** ~csv-mode~
