@@ -4,7 +4,7 @@
 #+EMAIL: blendoit@gmail.com
 
 #+STARTUP: showall customtime
-# #+SETUPFILE: ~/.emacs.d/templates/documents/general.org
+#+SETUPFILE: ~/.emacs.d/templates/documents/general.org
 # #+INCLUDE: ~/.emacs.d/templates/documents/general.org_title
 
 \begin{abstract}
@@ -39,8 +39,6 @@ this is the endgame of \textit{literate programming}.
 * TODO First-time setup
 
 Spacemacs-like dialog for default settings.
-
-Bootstrap main configuration from USB drive.
 
 #+NAME: first-setup
 #+BEGIN_SRC emacs-lisp
@@ -180,12 +178,10 @@ mode.
 #+BEGIN_SRC emacs-lisp
   (global-set-key (kbd "C-`") 'delete-other-windows)
   (global-set-key (kbd "C-s") 'save-buffer)
-  (global-set-key (kbd "C-b") 'ibuffer-sidebar-toggle-sidebar)
   (global-set-key (kbd "C-r") 'counsel-recentf)
-;  (global-set-key (kbd "C-n") 'make-frame) ; 7aram!
 #+END_SRC
 
-*** Graphical file open
+*** ~find-file~
 
 Open file with ~C-o~.
 
@@ -515,6 +511,22 @@ Get inspiration from ~ibuffer-sidebar~ and create a better sidebar.
 ;  (add-hook 'after-init-hook 'global-company-mode)
 #+END_SRC
 
+** ~powerline~
+
+#+NAME: powerline
+#+BEGIN_SRC emacs-lisp
+(use-package powerline)
+(powerline-default-theme)
+#+END_SRC
+
+** ~yasnippet~
+
+#+NAME: yasnippet
+#+BEGIN_SRC emacs-lisp
+(use-package yasnippet)
+(yas-global-mode 1)
+#+END_SRC
+
 ** ~flycheck~
 
 #+NAME: flycheck
@@ -525,7 +537,7 @@ Get inspiration from ~ibuffer-sidebar~ and create a better sidebar.
 
 ** TODO ~flyspell~
 
-#+NAME: flycheck
+#+NAME: flyspell
 #+BEGIN_SRC emacs-lisp
 
 #+END_SRC
@@ -670,10 +682,10 @@ than =1920x1080=.
 We set the dimensions of the inital and default frames.
 
 #+BEGIN_SRC emacs-lisp
-  (add-to-list 'default-frame-alist '(width  . 80))
+  (add-to-list 'default-frame-alist '(width  . 100))
   (add-to-list 'default-frame-alist '(height . 32))
 
-  (add-to-list 'initial-frame-alist '(width  . 80))
+  (add-to-list 'initial-frame-alist '(width  . 100))
   (add-to-list 'initial-frame-alist '(height . 32))
 #+END_SRC
 
