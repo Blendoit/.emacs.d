@@ -22,47 +22,40 @@ and comments in view of publication:
 this is the endgame of \textit{literate programming}.
 \end{abstract}
 
-# * Test
+* Introduction
+:PROPERTIES:
+:UNNUMBERED: t
+:END:
 
-# #+BEGIN_SRC emacs-lisp
-# (org-babel-load-file "~/.emacs.d/blendoit/test.org")
-# #+END_SRC
-
-# * Blending Linux and Windows
-
-# - The GNU Emacs cabal is attempting to create a complete OS out of a text
-#   editor.
-# - Microsoft has a notorious /embrace, extend, extinguish/ approach when it
-#   comes to rival technologies.
-# - Both are simultaneously possible.
+The following sections were laid out very deliberately, so that our Emacs Lisp
+environment loads in a logical fashion. For instance, we only begin loading
+packages once we ensured ~use-package~ was working properly.
 
 * TODO First-time setup
 
 Spacemacs-like dialog for default settings.
 
 #+NAME: first-setup
-#+BEGIN_SRC emacs-lisp
-    ;; Prompt enterprise or personal install. Create file in .emacs.d/ on Linux,
-    ;; AppData/ on Windows. Ask user for details and preferred bindings.
-
-  ; Check if .emacs.d exists
-
-  ; If it does, warn user
-
-  ; Copy init-bootstrap.el from USB to where operating systems expects init.el
-
-  ;;   (defun blendoit/first-time-setup-windows-nt ()
-  ;;     "Execute the first-time setup on MS Windows.
-  ;; If no `.emacs.d/' config exists on local system, copy
-  ;; init-bootstrap.el to `~.emacs.d/'."
-  ;;      (interactive)
-  ;;      (find-file "~/.emacs.d/blendoit/blendoit-init.org"))
-
-
-
-  ;; (cond ((string-equal system-type "windows-nt")blendoit/first-time-setup-windows-nt)
-	;; ((string-equal system-type "gnu/linux") blendoit/first-time-setup-linux))
-#+END_SRC
+# #+BEGIN_SRC emacs-lisp
+#     ;; Prompt enterprise or personal install. Create file in .emacs.d/ on Linux,
+#     ;; AppData/ on Windows. Ask user for details and preferred bindings.
+#
+#   ; Check if .emacs.d exists
+#
+#   ; If it does, warn user
+#
+#   ; Copy init-bootstrap.el from USB to where operating systems expects init.el
+#
+#   ;;   (defun blendoit/first-time-setup-windows-nt ()
+#   ;;     "Execute the first-time setup on MS Windows.
+#   ;; If no `.emacs.d/' config exists on local system, copy
+#   ;; init-bootstrap.el to `~.emacs.d/'."
+#   ;;      (interactive)
+#   ;;      (find-file "~/.emacs.d/blendoit/blendoit-init.org"))
+#
+#   ;; (cond ((string-equal system-type "windows-nt")blendoit/first-time-setup-windows-nt)
+#         ;; ((string-equal system-type "gnu/linux") blendoit/first-time-setup-linux))
+# #+END_SRC
 
 ** File system paths
 
@@ -88,6 +81,16 @@ activated.
 (setq gc-cons-threshold 100000000)
 #+END_SRC
 
+** Profiling --- start
+
+We start the profiler now , and will interrupt it in section [[Profiling ---
+stop]]. We will then present profiling report in section [[Profiling --- report]].
+
+#+NAME: profiler-start
+#+BEGIN_SRC emacs-lisp
+; (profiler-start)
+#+END_SRC
+
 ** Emacs client
 
 Makes opening emacs faster for following instances.
@@ -111,19 +114,10 @@ user-emacs-directory
   (load custom-file)
 #+END_SRC
 
-** Profiling --- start
-
-We start the profiler now , and will interrupt it in section [[Profiling ---
-stop]]. We will then present profiling report in section [[Profiling --- report]].
-
-#+NAME: profiler-start
-#+BEGIN_SRC emacs-lisp
-; (profiler-start)
-#+END_SRC
-
 ** Customization shortcuts
 
-We begin by defining a user shortcut to this very file:
+We begin by defining a user shortcut to this very file. We load this as early as
+possible, this facilitates debugging.
 
 #+NAME: shortcut-config
 #+BEGIN_SRC emacs-lisp
@@ -157,6 +151,29 @@ to this file.
       kept-new-versions 20   ; how many of the newest versions to keep
       kept-old-versions 5    ; and how many of the old
       )
+#+END_SRC
+
+** Initial and default frames
+
+We set the dimensions of the inital and default frames.
+
+#+BEGIN_SRC emacs-lisp
+  (add-to-list 'default-frame-alist '(width  . 100))
+  (add-to-list 'default-frame-alist '(height . 32))
+
+  (add-to-list 'initial-frame-alist '(width  . 100))
+  (add-to-list 'initial-frame-alist '(height . 32))
+#+END_SRC
+
+*** GNU/Linux
+
+These settings affect the first and subsequent frames spawned by Emacs in
+GNU/Linux. Frame transparency increases when focus is lost.
+
+#+BEGIN_SRC emacs-lisp
+  (when (and (display-graphic-p) (string-equal system-type "gnu/linux"))
+    (set-frame-parameter (selected-frame) 'alpha '(90 . 50))
+    (add-to-list 'default-frame-alist '(alpha . (90 . 50))))
 #+END_SRC
 
 ** Secrets
@@ -210,6 +227,8 @@ The following bindings lead to more natural exit behaviors.
 The typical binding on both GNU/Linux and MS Windows is adequate here: ~C-=~ to
 zoom in, ~C--~ to zoom out.
 
+It seems that starting with Emacs 27.1, Control + mousewheel works.
+
 #+BEGIN_SRC emacs-lisp
 (global-set-key (kbd "C--") 'text-scale-decrease)
 (global-set-key (kbd "C-=") 'text-scale-increase)
@@ -224,7 +243,7 @@ Packages are collections of =.el= files providing added functionality to Emacs.
 
 List of package archives.
 
-#+NAME: packages
+#+NAME: package-archives
 #+BEGIN_SRC emacs-lisp
   (require 'package)
   (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
@@ -232,10 +251,18 @@ List of package archives.
   (package-initialize)
 #+END_SRC
 
+** TODO Convenient package update
+
+One-function rollup of upgradeable package tagging, download and lazy install.
+
+#+BEGIN_SRC
+
+#+END_SRC
+
 ** ~use-package~
 
-Ensure =use-package= is installed, as well as all packages described in this
-configuration file.
+First and foremost, we ensure =use-package= is installed, as well as all
+packages described in this configuration file.
 
 #+BEGIN_SRC emacs-lisp
   (unless (package-installed-p 'use-package)
@@ -247,56 +274,6 @@ configuration file.
 (require 'bind-key)
 #+END_SRC
 
-** TODO Convenient package update
-
-One-function rollup of upgradeable package tagging, download and lazy install.
-
-#+BEGIN_SRC 
-
-#+END_SRC
-
-** ~ivy~
-
-Auto completion.
-
-#+BEGIN_SRC emacs-lisp
-  (use-package ivy
-   :config
-   (setq ivy-use-virtual-buffers t
-         ivy-count-format "%d/%d "
-         enable-recursive-minibuffers t))
-  (ivy-mode t)
-#+END_SRC
-
-*** ~counsel~
-
-  Wonderful counsellor!
-
-#+BEGIN_SRC emacs-lisp
-  (use-package counsel
-   :bind ("M-x" . counsel-M-x)
-   :config (counsel-mode t))
-
-  (global-set-key (kbd "C-f") 'counsel-grep-or-swiper)
-#+END_SRC
-
-*** ~swiper~
-
-#+BEGIN_SRC emacs-lisp
-(use-package swiper
- :bind (("C-f" . counsel-grep-or-swiper)))
-#+END_SRC
-
-** TODO ~evil-mode~
-
-Forgive me, for I have sinned.
-
-#+BEGIN_SRC emacs-lisp
-  (use-package evil)
-;  (setq evil-toggle-key "C-c d") ; devil...
-;  (evil-mode 1)
-#+END_SRC
-
 ** ~org-mode~
 
 Phew, I can finally introduce Org mode! I am so *excited*.
@@ -304,10 +281,10 @@ Phew, I can finally introduce Org mode! I am so *excited*.
 Org mode replaces aword processor, a presentation creator, and a spreadsheet
 editor. IMHO, the spreadsheet ability captures more than 80% use cases wherein
 one wishes to include a table in a text document destined for physical
-publication. (It is clear that Excel spreadsheets are /not/ destined for physical
-publication---simply attempt to print an Excel spreadsheet with the default
-settings.)  In my opinion, Org mode matches all /useful/ features of the
-Microsoft Office suite 1-to-1.
+publication. (It is clear that Excel spreadsheets are /not/ destined for
+physical publication---simply attempt to print an Excel spreadsheet with the
+default settings.)  In my opinion, Org mode matches all /useful/ features of
+the Microsoft Office suite 1-to-1.
 
 What follows are customizations designed to make Org mode behave more like
 Microsoft Word. The end goal is, once again, to draw as many new users to Emacs
@@ -322,9 +299,10 @@ Org base directory is in user home on GNU/Linux, or in =AppData= in MS Windows.
   (setq org-directory (concat user-emacs-directory "~/org"))
 #+END_SRC
 
-First, we hide markup symbols for *bold*, /italic/, _underlined_ and +strikethrough+
-text, and ensure our document appears indented upon loading:[fn::It /appears/
-indented, but the underlying plaintext file does not contain tab characters!]
+First, we hide markup symbols for *bold*, /italic/, _underlined_ and
++strikethrough+ text, and ensure our document appears indented upon
+loading:[fn::It /appears/ indented, but the underlying plaintext file does not
+contain tab characters!]
 
 For the time being, I will in fact display emphasis markers, because hiding
 them corrupts tables.
@@ -375,12 +353,14 @@ format:
 
 *** LaTeX export
 
-The following makes =CLOSED= items appear green in LaTeX. Very stylish, much
-flair!
+The following makes =TODO= items appear red and =CLOSED= items appear green in
+Org's LaTeX exports. Very stylish, much flair!
 
 #+BEGIN_SRC emacs-lisp
+  (setq org-latex-active-timestamp-format
+        "\\textcolor{SteelBlue}{\\texttt{%s}}")
   (setq org-latex-inactive-timestamp-format
-    "\\textcolor{ForestGreen!60}{\\textit{%s}}")
+        "\\textcolor{ForestGreen}{\\texttt{%s}}")
 #+END_SRC
 
 *** Publish
@@ -402,17 +382,14 @@ because an online tutorial recommended we do so.
            :auto-preamble t
            :auto-sitemap t
            :sitemap-title "" )
-
           ("Safran-VIP-static"
            :base-directory "~/org/WORK/Safran/programs/B787/VIP/doc/org/"
            :base-extension "css\\|js\\|png\\|jpg\\|gif\\|pdf\\|mp3\\|mp4\\|ogg\\|swf"
            :publishing-directory "~/org/WORK/Safran/programs/B787/VIP/doc/wiki/"
            :recursive t
            :publishing-function org-publish-attachment )
-
           ("Safran-VIP-all"
            :components ("Safran-VIP-html" "Safran-VIP-static"))
-
           ("Safran-MA700-html"
            :base-directory "~/org/WORK/Safran/programs/MA700/doc/org/"
            :base-extension "org"
@@ -422,23 +399,14 @@ because an online tutorial recommended we do so.
            :auto-preamble t
            :auto-sitemap t
            :sitemap-title "" )
-
           ("Safran-MA700-static"
            :base-directory "~/org/WORK/Safran/programs/MA700/doc/org/"
            :base-extension "css\\|js\\|png\\|jpg\\|gif\\|pdf\\|mp3\\|mp4\\|ogg\\|swf"
            :publishing-directory "~/org/WORK/Safran/programs/MA700/doc/wiki/"
            :recursive t
            :publishing-function org-publish-attachment )
-
           ("Safran-MA700-all"
            :components ("Safran-MA700-html" "Safran-MA700-static"))))
-
-  (add-to-list 'org-latex-packages-alist '("table" "xcolor"
-                                           t ("pdflatex")))
-  (add-to-list 'org-latex-packages-alist '("AUTO" "babel"
-                                           t ("pdflatex")))
-  (add-to-list 'org-latex-packages-alist '("AUTO" "polyglossia"
-                                           t ("xelatex" "lualatex")))
 #+END_SRC
 
 *** Export
@@ -456,42 +424,80 @@ LaTeX \rightarrow PDF.
 (global-set-key (kbd "C-c e") 'my/org-quick-export)
 #+END_SRC
 
-** ~undo-tree~
+** TODO ~evil-mode~
+
+Forgive me, for I have sinned.
+
+This is the 2^{nd} most significant customization after ~org-mode~. Enabling
+~evil-mode~ completely changes editing keys. For more information on =vi=
+keybindings, visit [[https://hea-www.harvard.edu/~fine/Tech/vi.html]].
 
 #+BEGIN_SRC emacs-lisp
-(global-undo-tree-mode)
+  (use-package evil)
+;  (setq evil-toggle-key "C-c d") ; devil...
+;  (evil-mode 1)
 #+END_SRC
 
-** ~dumb-jump~
+** Spelling, completion, and snippets
+
+The following customizations open the doors to vastly increased typing speed
+and accuracy.
+
+*** ~flycheck~
+
+Syntax highlighting for Emacs.
+
+#+NAME: flycheck
+#+BEGIN_SRC emacs-lisp
+  (use-package flycheck)
+  (global-flycheck-mode)
+#+END_SRC
+
+*** TODO ~flyspell~
+
+#+NAME: flyspell
+#+BEGIN_SRC emacs-lisp
+  (add-hook 'text-mode-hook 'flyspell-mode)
+#+END_SRC
+
+*** ~yas-nippet~
+
+#+NAME: yasnippet
+#+BEGIN_SRC emacs-lisp
+(use-package yasnippet)
+(yas-global-mode 1)
+#+END_SRC
+
+*** ~company~
+
+#+NAME: company
+#+BEGIN_SRC emacs-lisp
+;  (add-hook 'after-init-hook 'global-company-mode)
+#+END_SRC
+
+** Utilities
+*** ~magit~
+
+Wonderful Git porcelain for Emacs. Enables the administration of a Git
+repository in a pain-free way.
 
 #+BEGIN_SRC emacs-lisp
-(use-package dumb-jump)
-(add-hook 'xref-backend-functions #'dumb-jump-xref-activate)
+  (use-package magit
+   :bind ("C-c g" . magit-status))
 #+END_SRC
 
-** ~gnuplot~
+*** ~projectile~
+
+This enables us to better manage our =.git= projects.
 
 #+BEGIN_SRC emacs-lisp
-(use-package gnuplot)
+  (use-package projectile
+   :bind ("C-c p" . 'projectile-command-map)
+   :init (projectile-mode 1)
+         (setq projectile-completion-system 'ivy))
 #+END_SRC
 
-** ~ledger~
-
-#+BEGIN_SRC emacs-lisp
-  (use-package ledger-mode
-    :bind
-     ("C-c r" . ledger-report)
-     ("C-c C" . ledger-mode-clean-buffer))
-#+END_SRC
-
-** TODO Sidebar
-Get inspiration from ~ibuffer-sidebar~ and create a better sidebar.
-
-#+BEGIN_SRC emacs-lisp
-;; (load-file)
-#+END_SRC
-
-** ~which-key~
+*** ~which-key~
 
 #+BEGIN_SRC emacs-lisp
 (use-package which-key
@@ -504,75 +510,84 @@ Get inspiration from ~ibuffer-sidebar~ and create a better sidebar.
 )
 #+END_SRC
 
-** ~company~
+*** ~dumb-jump~
 
-#+NAME: company
 #+BEGIN_SRC emacs-lisp
-;  (add-hook 'after-init-hook 'global-company-mode)
+(use-package dumb-jump)
+(add-hook 'xref-backend-functions #'dumb-jump-xref-activate)
 #+END_SRC
 
-** ~powerline~
+*** ~undo-tree~
 
-#+NAME: powerline
 #+BEGIN_SRC emacs-lisp
-(use-package powerline)
-(powerline-default-theme)
+(global-undo-tree-mode)
 #+END_SRC
 
-** ~yasnippet~
+*** ~ivy~
 
-#+NAME: yasnippet
+Auto completion.
+
 #+BEGIN_SRC emacs-lisp
-(use-package yasnippet)
-(yas-global-mode 1)
+  (use-package ivy
+   :config
+   (setq ivy-use-virtual-buffers t
+         ivy-count-format "%d/%d "
+         enable-recursive-minibuffers t))
+  (ivy-mode t)
 #+END_SRC
 
-** ~flycheck~
+**** ~counsel~
 
-#+NAME: flycheck
+  Wonderful counsellor!
+
 #+BEGIN_SRC emacs-lisp
-(use-package flycheck
- :init (global-flycheck-mode))
+  (use-package counsel
+   :bind ("M-x" . counsel-M-x)
+   :config (counsel-mode t))
+
+  (global-set-key (kbd "C-f") 'counsel-grep-or-swiper)
 #+END_SRC
 
-** TODO ~flyspell~
+**** ~swiper~
 
-#+NAME: flyspell
 #+BEGIN_SRC emacs-lisp
-
+(use-package swiper
+ :bind (("C-f" . counsel-grep-or-swiper)))
 #+END_SRC
 
-** ~csv-mode~
+** File formats
+
+*** ~csv-mode~
 
 #+BEGIN_SRC emacs-lisp
   (use-package csv-mode)
 #+END_SRC
 
-** ~json-mode~
-
-Oí, Jason!
-
-Not needed in 27.1?
-
-#+BEGIN_SRC emacs-lisp
-;  (use-package json-mode)
-#+END_SRC
-
-** ~magit~
-
-#+BEGIN_SRC emacs-lisp
-  (use-package magit
-   :bind ("C-c g" . magit-status))
-#+END_SRC
-
-** ~pdf-tools~
+*** ~pdf-tools~
 
 #+BEGIN_SRC emacs-lisp
 (use-package pdf-tools)
 ;; (pdf-tools-install)
 #+END_SRC
 
-** ~dashboard~
+*** ~ledger~
+
+#+BEGIN_SRC emacs-lisp
+  (use-package ledger-mode
+    :bind
+     ("C-c r" . ledger-report)
+     ("C-c C" . ledger-mode-clean-buffer))
+#+END_SRC
+
+*** ~gnuplot~
+
+#+BEGIN_SRC emacs-lisp
+(use-package gnuplot)
+#+END_SRC
+
+** Cosmetics
+
+*** ~dashboard~
 
 We replace the standard welcome screen with our own.
 
@@ -587,7 +602,36 @@ We replace the standard welcome screen with our own.
     (setq dashboard-banner-logo-title "A modern professional text editor."))
 #+END_SRC
 
-** ~rainbow-mode~
+*** ~powerline~
+
+#+NAME: powerline
+#+BEGIN_SRC emacs-lisp
+(use-package powerline)
+(powerline-default-theme)
+#+END_SRC
+
+*** TODO Sidebar
+Get inspiration from ~ibuffer-sidebar~ and create a better sidebar.
+
+#+BEGIN_SRC emacs-lisp
+;; (load-file)
+#+END_SRC
+
+*** Better parentheses
+
+#+BEGIN_SRC emacs-lisp
+(use-package rainbow-delimiters
+ :config (add-hook 'prog-mode-hook #'rainbow-delimiters-mode))
+(electric-pair-mode)
+#+END_SRC
+
+*** ~all-the-icons~
+
+#+BEGIN_SRC emacs-lisp
+(use-package all-the-icons)
+#+END_SRC
+
+*** ~rainbow-mode~
 
 This highlights hexadecimal numbers which look like colors, in that same color.
 
@@ -598,34 +642,48 @@ This highlights hexadecimal numbers which look like colors, in that same color.
     (add-hook 'prog-mode-hook 'rainbow-mode))
 #+END_SRC
 
-** ~projectile~
+* Theme
 
-This enables us to better manage our =.git= projects.
-
-#+BEGIN_SRC emacs-lisp
-  (use-package projectile
-   :bind ("C-c p" . 'projectile-command-map)
-   :init (projectile-mode 1)
-         (setq projectile-completion-system 'ivy))
-#+END_SRC
-
-** ~all-the-icons~
+We load my custom theme.
 
 #+BEGIN_SRC emacs-lisp
-(use-package all-the-icons)
+(setq custom-theme-directory (concat user-emacs-directory "themes/"))
+(load-theme 'blendoit-light)
+; (load-theme 'blendoit-dark)
 #+END_SRC
 
-** Better parentheses
+** My light and dark themes
 
-#+BEGIN_SRC emacs-lisp
-(use-package rainbow-delimiters
- :config (add-hook 'prog-mode-hook #'rainbow-delimiters-mode))
-(electric-pair-mode)
-#+END_SRC
+A highly legible unambiguous and thoughtful theme.
 
-* Cosmetics
+*** Colors
 
-** Cursors
+The default face is a black foreground on a white background, this matches MS
+Word. We are striving for a simple, intuitive color scheme.
+
+Most of the visual cues derived from color are identical in both light and dark
+themes (Table [[theme-color-1]]).
+
+#+NAME: theme-color-1
+#+CAPTION[Light and dark themes' colors]: Light and dark themes' colors.
+#+ATTR_LATEX: :booktabs t
+| Color                           | ~blendoit-light~                | ~blendoit-dark~    |
+|---------------------------------+---------------------------------+--------------------|
+| Black                           | default text                    | default background |
+| Lighter shades                  | lesser headers                  | /n/a/              |
+| White                           | default background              | default text       |
+| Darker shades                   | /n/a/                           | lesser headers     |
+| \color{Red} Red                 | negative                        | /same/             |
+| \color{Tomato} Tomato           | timestamp `TODO'                | /same/             |
+| \color{Green} Green             | positive                        | /same/             |
+| \color{ForestGreen} ForestGreen | timestamp `DONE'                | /same/             |
+| \color{Blue} Blue               | interactable content; links     | /same/             |
+| \color{SteelBlue} SteelBlue     | anything Org mode; anchor color | /same/             |
+| \color{DeepSkyBlue} DeepSkyBlue | ~highlight~                     | /same/             |
+| \color{DodgerBlue} DodgerBlue   | ~isearch~                       | /same/             |
+| \color{Purple} Purple           |                                 |                    |
+
+*** Cursors
 
 In order to imitate other modern text editors, we resort to a blinking bar
 cursor. We choose red, the most captivating color, because the cursor is
@@ -633,8 +691,6 @@ arguably the region on our screen:
 
 1. most often looked at;
 2. most often searched when lost.
-
-*** Default cursor
 
 In files containing only ~fixed-pitch~ fonts (i.e. files containing only code),
 the cursor becomes a high-visibility box.
@@ -647,7 +703,7 @@ cursor is a more MS Word-like bar.
 (setq-default mixed-pitch-variable-pitch-cursor (quote bar))
 #+END_SRC
 
-** Faces
+*** Faces
 
 - ~default~: Hack
   - Legible, modern monospace font
@@ -660,7 +716,7 @@ cursor is a more MS Word-like bar.
   - More opinionated shapes
   - Very legible parentheses
 
-*** ~variable-pitch-mode~
+**** ~variable-pitch-mode~
 
 We use ~variable-pitch-mode~ for appropriate modes.
 
@@ -669,7 +725,7 @@ We use ~variable-pitch-mode~ for appropriate modes.
 (add-hook 'info-mode-hook 'variable-pitch-mode)
 #+END_SRC
 
-*** TODO Default font size
+**** TODO Default font size
 
 Make default font size larger on displays of which the resolution is greater
 than =1920x1080=.
@@ -677,54 +733,7 @@ than =1920x1080=.
 #+BEGIN_SRC emacs-lisp
 #+END_SRC
 
-** Initial and default frames
-
-We set the dimensions of the inital and default frames.
-
-#+BEGIN_SRC emacs-lisp
-  (add-to-list 'default-frame-alist '(width  . 100))
-  (add-to-list 'default-frame-alist '(height . 32))
-
-  (add-to-list 'initial-frame-alist '(width  . 100))
-  (add-to-list 'initial-frame-alist '(height . 32))
-#+END_SRC
-
-*** GNU/Linux
-
-These settings affect the first and subsequent frames spawned by Emacs in
-GNU/Linux. Frame transparency increases when focus is lost.
-
-#+BEGIN_SRC emacs-lisp
-  (when (and (display-graphic-p) (string-equal system-type "gnu/linux"))
-    (set-frame-parameter (selected-frame) 'alpha '(90 . 50))
-    (add-to-list 'default-frame-alist '(alpha . (90 . 50))))
-#+END_SRC
-
-** Theme
-
-My custom themes.
-
-#+BEGIN_SRC emacs-lisp
-(setq custom-theme-directory (concat user-emacs-directory "themes/"))
-(load-theme 'blendoit-light)
-; (load-theme 'blendoit-dark)
-#+END_SRC
-
-*** ~blendoit-light~
-
-A highly legible and unambiguous theme.
-
-The default face is a black foreground on a white background, this matches with
-MS Word.
-
-- Red :: TODO; cursor; negative; danger
-- Green :: DONE; positive
-- Blue :: document structure
-- Purple :: ~org-mode~ elements
-
-*** ~blendoit-dark~
-
-Same principle
+** TODO ~minimal~
 
 * Editing preferences
 
@@ -776,7 +785,8 @@ Originally, I wished to inhibit certain entries in the GUI menus. Not worth the
 effort at this time.
 
 #+BEGIN_SRC emacs-lisp
-(setq menu-bar-mode t)
+(menu-bar-mode -1)
+(tool-bar-mode -1)
 #+END_SRC
 
 ** Coding standards
@@ -843,4 +853,3 @@ Automatically break lines longer than =fill-column=.
 
 In this configuration file, we described a series of customization steps taken
 to make Emacs more palatable to modern IDE users.
-

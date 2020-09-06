@@ -1,5 +1,5 @@
 (deftheme blendoit-light
-  "Created 2020-09-04.")
+  "Created 2020-09-05.")
 
 (custom-theme-set-faces
  'blendoit-light
@@ -31,11 +31,11 @@
  '(fringe ((t (:background "grey95"))))
  '(header-line ((t (:inherit mode-line :background "grey90" :foreground "grey20" :box nil))))
  '(tooltip ((t (:foreground "black" :background "lightyellow" :inherit (variable-pitch)))))
- '(mode-line ((t (:box (:line-width -1 :style released-button) :foreground "white" :background "steel blue" :family "Hermit"))))
+ '(mode-line ((t (:family "Hermit" :background "steel blue" :foreground "white" :box (:line-width -1 :style released-button)))))
  '(mode-line-buffer-id ((t (:weight bold))))
  '(mode-line-emphasis ((t (:weight bold))))
  '(mode-line-highlight ((t (:box (:line-width 2 :color "grey40" :style released-button)))))
- '(mode-line-inactive ((t (:box (:line-width -1 :color "gainsboro") :foreground "gainsboro" :background "SteelBlue4" :family "Hermit"))))
+ '(mode-line-inactive ((t (:family "Hermit" :background "SteelBlue4" :foreground "gainsboro" :box (:line-width -1 :color "gainsboro")))))
  '(isearch ((t (:background "DodgerBlue1" :foreground "white"))))
  '(isearch-fail ((t (:background "RosyBrown1"))))
  '(lazy-highlight ((t (:foreground "DodgerBlue1" :box 2))))
@@ -73,16 +73,17 @@
  '(org-level-6 ((t (:inherit org-level-5))))
  '(org-level-7 ((t (:inherit org-level-5))))
  '(org-level-8 ((t (:inherit org-level-5))))
- '(org-checkbox ((t (:weight bold :inherit org-meta-line))))
+ '(org-checkbox ((t (:inherit org-meta-line :weight bold))))
  '(org-todo ((t (:background "tomato" :foreground "White" :weight bold :height 1.2 :family "Hermit"))))
  '(org-done ((t (:background "ForestGreen" :foreground "White" :weight bold :height 1.2 :family "Hermit"))))
  '(org-date ((t (:inherit org-tag))))
  '(Info-quoted ((t (:inherit org-block))))
- '(org-priority ((t (:weight bold :inherit org-meta-line))))
- '(default ((t (:background "white" :foreground "black" :height 140 :family "Hack"))))
- '(powerline-active1 ((t (:family "Hack" :foreground "white" :background "grey17" :inherit mode-line))))
+ '(org-priority ((t (:inherit org-meta-line :weight bold))))
+ '(powerline-active1 ((t (:inherit mode-line :background "grey17" :foreground "white" :family "Hack"))))
  '(powerline-active2 ((t (:inherit (mode-line) :foreground "white" :background "grey40"))))
  '(powerline-inactive1 ((t (:inherit mode-line-inactive :background "grey11" :family "Hack"))))
- '(powerline-inactive2 ((t (:inherit (mode-line-inactive) :background "grey20")))))
+ '(powerline-inactive2 ((t (:inherit (mode-line-inactive) :background "grey20"))))
+ '(default ((t (:background "white" :foreground "black" :height 140 :family "Hack"))))
+ '(org-drawer ((t (:inherit org-meta-line)))))
 
 (provide-theme 'blendoit-light)
