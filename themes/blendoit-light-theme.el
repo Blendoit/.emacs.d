@@ -1,5 +1,5 @@
 (deftheme blendoit-light
-  "Created 2020-09-05.")
+  "Created 2020-09-06.")
 
 (custom-theme-set-faces
  'blendoit-light
@@ -83,7 +83,9 @@
  '(powerline-active2 ((t (:inherit (mode-line) :foreground "white" :background "grey40"))))
  '(powerline-inactive1 ((t (:inherit mode-line-inactive :background "grey11" :family "Hack"))))
  '(powerline-inactive2 ((t (:inherit (mode-line-inactive) :background "grey20"))))
+ '(org-drawer ((t (:inherit org-meta-line))))
+ '(magit-section-heading ((t (:inherit org-level-1))))
  '(default ((t (:background "white" :foreground "black" :height 140 :family "Hack"))))
- '(org-drawer ((t (:inherit org-meta-line)))))
+ '(org-tag ((t (:inherit org-meta-line :weight bold)))))
 
 (provide-theme 'blendoit-light)

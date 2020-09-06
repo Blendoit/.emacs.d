@@ -1,4 +1,0 @@
-# -*- mode: org; -*-
-
-#+OPTIONS: tags:nil toc:nil title:nil
-#+SETUPFILE: ~/org/templates/documents/MASTER-Safran

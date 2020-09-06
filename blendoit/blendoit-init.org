@@ -2,12 +2,11 @@
 #+AUTHOR: Marius Peter
 #+DATE: <2020-07-23 Thu>
 #+EMAIL: blendoit@gmail.com
-
 #+STARTUP: showall customtime
 #+SETUPFILE: ~/.emacs.d/templates/documents/general.org
-# #+INCLUDE: ~/.emacs.d/templates/documents/general.org_title
+#+INCLUDE: ~/.emacs.d/templates/documents/general.org_title
 
-\begin{abstract}
+#+LATEX: \begin{abstract}
 GNU Emacs is most often used as a text editor.
 The utmost level of customisation is afforded by enabling the user
 to rewrite \textit{any} part of the source code and observe the editor's
@@ -20,7 +19,7 @@ This configuration file itself was written in \textit{Org mode},
 a collection of functions enabling the harmonious mixing of code
 and comments in view of publication:
 this is the endgame of \textit{literate programming}.
-\end{abstract}
+#+LATEX: \end{abstract}
 
 * Introduction
 :PROPERTIES:
@@ -159,10 +158,10 @@ We set the dimensions of the inital and default frames.
 
 #+BEGIN_SRC emacs-lisp
   (add-to-list 'default-frame-alist '(width  . 100))
-  (add-to-list 'default-frame-alist '(height . 32))
+  (add-to-list 'default-frame-alist '(height . 50))
 
   (add-to-list 'initial-frame-alist '(width  . 100))
-  (add-to-list 'initial-frame-alist '(height . 32))
+  (add-to-list 'initial-frame-alist '(height . 50))
 #+END_SRC
 
 *** GNU/Linux
@@ -204,6 +203,14 @@ Open file with ~C-o~.
 
 #+BEGIN_SRC emacs-lisp
   (global-set-key (kbd "C-o") 'find-file)
+#+END_SRC
+
+*** ~counsel-locate~
+
+Locate file.
+
+#+BEGIN_SRC emacs-lisp
+  (global-set-key (kbd "C-c l") 'counsel-locate)
 #+END_SRC
 
 *** Exit behaviours
@@ -255,7 +262,7 @@ List of package archives.
 
 One-function rollup of upgradeable package tagging, download and lazy install.
 
-#+BEGIN_SRC
+#+BEGIN_SRC emacs-lisp
 
 #+END_SRC
 
@@ -272,6 +279,17 @@ packages described in this configuration file.
   (setq use-package-always-ensure t)
 (require 'use-package)
 (require 'bind-key)
+#+END_SRC
+
+** ~delight~
+
+With this package, we suppress the mention of certain minor modes in the mode
+line/powerline.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package delight)
+  (delight '((org-indent-mode)
+             (bufface-mode)))
 #+END_SRC
 
 ** ~org-mode~
@@ -449,7 +467,8 @@ Syntax highlighting for Emacs.
 
 #+NAME: flycheck
 #+BEGIN_SRC emacs-lisp
-  (use-package flycheck)
+  (use-package flycheck
+    :delight)
   (global-flycheck-mode)
 #+END_SRC
 
@@ -457,6 +476,8 @@ Syntax highlighting for Emacs.
 
 #+NAME: flyspell
 #+BEGIN_SRC emacs-lisp
+  (use-package flyspell
+    :delight)
   (add-hook 'text-mode-hook 'flyspell-mode)
 #+END_SRC
 
@@ -464,7 +485,8 @@ Syntax highlighting for Emacs.
 
 #+NAME: yasnippet
 #+BEGIN_SRC emacs-lisp
-(use-package yasnippet)
+(use-package yasnippet
+  :delight)
 (yas-global-mode 1)
 #+END_SRC
 
@@ -493,6 +515,7 @@ This enables us to better manage our =.git= projects.
 #+BEGIN_SRC emacs-lisp
   (use-package projectile
    :bind ("C-c p" . 'projectile-command-map)
+   :delight
    :init (projectile-mode 1)
          (setq projectile-completion-system 'ivy))
 #+END_SRC
@@ -500,14 +523,9 @@ This enables us to better manage our =.git= projects.
 *** ~which-key~
 
 #+BEGIN_SRC emacs-lisp
-(use-package which-key
-:init
- (which-key-mode)
-;; :config
-;;  (setq which-key-idle-delay 1000)
-;;  (setq which-key-idle-secondary-delay 0.05)
-;;  (setq which-key-show-early-on-C-h t)
-)
+  (use-package which-key
+    :init (which-key-mode)
+    :delight)
 #+END_SRC
 
 *** ~dumb-jump~
@@ -520,6 +538,8 @@ This enables us to better manage our =.git= projects.
 *** ~undo-tree~
 
 #+BEGIN_SRC emacs-lisp
+(use-package undo-tree
+  :delight)
 (global-undo-tree-mode)
 #+END_SRC
 
@@ -529,10 +549,10 @@ Auto completion.
 
 #+BEGIN_SRC emacs-lisp
   (use-package ivy
-   :config
-   (setq ivy-use-virtual-buffers t
-         ivy-count-format "%d/%d "
-         enable-recursive-minibuffers t))
+    :delight
+    :config (setq ivy-use-virtual-buffers t
+                  ivy-count-format "%d/%d "
+                  enable-recursive-minibuffers t))
   (ivy-mode t)
 #+END_SRC
 
@@ -543,6 +563,7 @@ Auto completion.
 #+BEGIN_SRC emacs-lisp
   (use-package counsel
    :bind ("M-x" . counsel-M-x)
+   :delight
    :config (counsel-mode t))
 
   (global-set-key (kbd "C-f") 'counsel-grep-or-swiper)
@@ -592,9 +613,10 @@ Auto completion.
 We replace the standard welcome screen with our own.
 
 #+BEGIN_SRC emacs-lisp
-(setq inhibit-startup-message t)
-(use-package dashboard
-  :config
+  (setq inhibit-startup-message t)
+  (use-package dashboard
+    :delight
+    :config
     (dashboard-setup-startup-hook)
     (setq dashboard-startup-banner (concat user-emacs-directory "img/Safran_logo.svg"))
     (setq dashboard-items '((recents  . 5)
@@ -636,10 +658,10 @@ Get inspiration from ~ibuffer-sidebar~ and create a better sidebar.
 This highlights hexadecimal numbers which look like colors, in that same color.
 
 #+BEGIN_SRC emacs-lisp
-(use-package rainbow-mode
-  :ensure t
-  :init
-    (add-hook 'prog-mode-hook 'rainbow-mode))
+  (use-package rainbow-mode
+    :init
+    (add-hook 'prog-mode-hook 'rainbow-mode)
+    :delight)
 #+END_SRC
 
 * Theme
@@ -699,8 +721,7 @@ In files containing a mix of ~variable-pitch~ and ~fixed-pitch~ fonts, the
 cursor is a more MS Word-like bar.
 
 #+BEGIN_SRC emacs-lisp
-(setq-default cursor-type (quote box))
-(setq-default mixed-pitch-variable-pitch-cursor (quote bar))
+(setq-default cursor-type (quote bar))
 #+END_SRC
 
 *** Faces
