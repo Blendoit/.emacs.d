@@ -1,4 +1,4 @@
-#+TITLE: My literate GNU Emacs config
+#+TITLE: My Literate GNU Emacs Config
 #+AUTHOR: Marius Peter
 #+DATE: <2020-07-23 Thu>
 #+EMAIL: blendoit@gmail.com
@@ -22,13 +22,22 @@ this is the endgame of \textit{literate programming}.
 #+LATEX: \end{abstract}
 
 * Introduction
-:PROPERTIES:
-:UNNUMBERED: t
-:END:
 
-The following sections were laid out very deliberately, so that our Emacs Lisp
-environment loads in a logical fashion. For instance, we only begin loading
-packages once we ensured ~use-package~ was working properly.
+The following sections were laid out very deliberately. When we start Emacs,
+Emacs Lisp source blocks contained in this document are evaluated
+sequentially. This means that our editing environment is bootstrapped at every
+Emacs startup! For instance, we only begin loading packages once we ensured
+~use-package~ is working properly.
+
+Customizing Emacs goes far, far beyond this document---feel free to experiment
+and discover.
+
+- ~C-h f~ describe function
+- ~C-h v~ describe variable
+- ~C-h k~ describe key
+
+These three commands will attempt to describe the element currently under our
+cursor, however you can start typing to search for another symbol.
 
 * TODO First-time setup
 
@@ -82,8 +91,8 @@ activated.
 
 ** Profiling --- start
 
-We start the profiler now , and will interrupt it in section [[Profiling ---
-stop]]. We will then present profiling report in section [[Profiling --- report]].
+We start the profiler now , and will interrupt it in Section [[Profiling ---
+stop]]. We will then present profiling report in Section [[Profiling --- report]].
 
 #+NAME: profiler-start
 #+BEGIN_SRC emacs-lisp
@@ -246,7 +255,15 @@ It seems that starting with Emacs 27.1, Control + mousewheel works.
 
 Packages are collections of =.el= files providing added functionality to Emacs.
 
-** Package archives
+** Meta
+
+How do we bootstrap packages? First, let's figure out:
+
+1. Where we get our packages from
+2. How we upgrade packages
+3. How we ensure our required packages are installed
+
+*** Package archives
 
 List of package archives.
 
@@ -258,7 +275,7 @@ List of package archives.
   (package-initialize)
 #+END_SRC
 
-** TODO Convenient package update
+*** TODO Convenient package update
 
 One-function rollup of upgradeable package tagging, download and lazy install.
 
@@ -266,10 +283,10 @@ One-function rollup of upgradeable package tagging, download and lazy install.
 
 #+END_SRC
 
-** ~use-package~
+*** ~use-package~
 
-First and foremost, we ensure =use-package= is installed, as well as all
-packages described in this configuration file.
+We ensure =use-package= is installed, as well as all packages described in this
+configuration file.
 
 #+BEGIN_SRC emacs-lisp
   (unless (package-installed-p 'use-package)
@@ -281,10 +298,11 @@ packages described in this configuration file.
 (require 'bind-key)
 #+END_SRC
 
-** ~delight~
+*** ~delight~
 
 With this package, we suppress the mention of certain minor modes in the mode
-line/powerline.
+line/powerline. We include it in Meta (cf. [[Meta]]) because it concerns all
+other packages.
 
 #+BEGIN_SRC emacs-lisp
   (use-package delight)
@@ -481,7 +499,7 @@ Syntax highlighting for Emacs.
   (add-hook 'text-mode-hook 'flyspell-mode)
 #+END_SRC
 
-*** ~yas-nippet~
+*** ~yasnippet~
 
 #+NAME: yasnippet
 #+BEGIN_SRC emacs-lisp
@@ -664,7 +682,7 @@ This highlights hexadecimal numbers which look like colors, in that same color.
     :delight)
 #+END_SRC
 
-* Theme
+* Themes
 
 We load my custom theme.
 
