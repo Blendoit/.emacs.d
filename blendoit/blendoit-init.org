@@ -25,9 +25,9 @@ this is the endgame of \textit{literate programming}.
 
 The following sections were laid out very deliberately. When we start Emacs,
 Emacs Lisp source blocks contained in this document are evaluated
-sequentially. This means that our editing environment is bootstrapped at every
-Emacs startup! For instance, we only begin loading packages once we ensured
-~use-package~ is working properly.
+sequentially---our editing environment is constructed in real time as we
+execute the blocks in order. For instance, we only begin loading packages once
+we ensured ~use-package~ is working properly.
 
 Customizing Emacs goes far, far beyond this document---feel free to experiment
 and discover.
@@ -198,43 +198,51 @@ GNU/Linux. Frame transparency increases when focus is lost.
 The following bindings strive to further enhance CUA[fn::Common User Access.]
 mode.
 
-** Navigation
+** Keyboard navigation
 
 #+BEGIN_SRC emacs-lisp
   (global-set-key (kbd "C-`") 'delete-other-windows)
-  (global-set-key (kbd "C-s") 'save-buffer)
-  (global-set-key (kbd "C-r") 'counsel-recentf)
 #+END_SRC
 
-*** ~find-file~
+*** Saving a file
 
-Open file with ~C-o~.
+#+BEGIN_SRC emacs-lisp
+  (global-set-key (kbd "C-s") 'save-buffer)
+#+END_SRC
+
+*** Opening a file
 
 #+BEGIN_SRC emacs-lisp
   (global-set-key (kbd "C-o") 'find-file)
 #+END_SRC
 
-*** ~counsel-locate~
+*** Opening a recently visited file
 
-Locate file.
+#+BEGIN_SRC emacs-lisp
+  (global-set-key (kbd "C-r") 'counsel-recentf)
+#+END_SRC
+
+*** Locating a file
 
 #+BEGIN_SRC emacs-lisp
   (global-set-key (kbd "C-c l") 'counsel-locate)
 #+END_SRC
 
-*** Exit behaviours
-
-The following bindings lead to more natural exit behaviors.
+*** Closing window and quitting Emacs
 
 #+BEGIN_SRC emacs-lisp
-  (defun delete-window-or-previous-buffer ()
+  (defun my/delete-window-or-previous-buffer ()
     "Delete window; if sole window, previous buffer."
      (interactive)
      (if (> (length (window-list)) 1)
        (delete-window)
        (previous-buffer)))
+#+END_SRC
 
-(global-set-key (kbd "C-w") 'delete-window-or-previous-buffer)
+The following bindings lead to more natural exit behaviors.
+
+#+BEGIN_SRC emacs-lisp
+(global-set-key (kbd "C-w") 'my/delete-window-or-previous-buffer)
 (global-set-key (kbd "C-q") 'save-buffers-kill-terminal)
 #+END_SRC
 
@@ -682,9 +690,106 @@ This highlights hexadecimal numbers which look like colors, in that same color.
     :delight)
 #+END_SRC
 
+* Editing preferences
+
+These customizations enhance editor usability. They are not brought about
+
+** Editor
+
+*** Coding standards
+
+This is just a better default. Don't @ me.
+
+#+BEGIN_SRC emacs-lisp
+(setq c-default-style "linux"
+      c-basic-offset 4)
+#+END_SRC
+
+*** Recent files
+
+The keybinding for opening a recently visited file is described in paragraph
+[[Opening a recently visited file]].
+
+#+BEGIN_SRC emacs-lisp
+  (recentf-mode 1)
+  (setq recentf-max-menu-items 25)
+  (setq recentf-max-saved-items 25)
+  (run-at-time nil (* 5 60) 'recentf-save-list)
+#+END_SRC
+
+** Frame
+
+*** Clean up menus
+
+Originally, I wished to inhibit certain entries in the GUI menus. Not worth the
+effort at this time.
+
+#+BEGIN_SRC emacs-lisp
+(menu-bar-mode -1)
+(tool-bar-mode -1)
+#+END_SRC
+
+*** Dividers
+
+This ensures users can resize windows using the GUI. It also creates a useful
+separation between the bottom of the frame and the echo area.
+
+#+BEGIN_SRC emacs-lisp
+(menu-bar-bottom-and-right-window-divider)
+#+END_SRC
+
+*** TODO Mode line
+Complete mode line rewrite. Might require new package.
+
+Top of the buffer is more intuitive.
+
+#+BEGIN_SRC emacs-lisp
+
+#+END_SRC
+
+** Window
+
+** Buffer
+
+Save cursor location in visited buffer after closing it or Emacs.
+
+#+BEGIN_SRC emacs-lisp
+(save-place-mode 1)
+#+END_SRC
+
+*** Column filling
+
+A line of text is considered ``filled'' when it reaches 79 characters in
+length.
+
+#+BEGIN_SRC emacs-lisp
+  (setq-default fill-column 79)
+#+END_SRC
+
+Automatically break lines longer than =fill-column=.
+
+#+BEGIN_SRC emacs-lisp
+  (add-hook 'org-mode-hook 'turn-on-auto-fill)
+#+END_SRC
+
+** Minibuffer
+
+We replace the longer ~yes-or-no-p~ questions with more convenient ~y-or-n-p~.
+
+#+BEGIN_SRC emacs-lisp
+  (defalias 'yes-or-no-p 'y-or-n-p)
+#+END_SRC
+
+Disable minibuffer scroll bar.
+
+#+BEGIN_SRC emacs-lisp
+(set-window-scroll-bars (minibuffer-window) nil nil)
+#+END_SRC
+
 * Themes
 
-We load my custom theme.
+Without a carefully designed theme, our editor could become unusable. Thus, we
+describe two themes that were developed purposefully and iteratively.
 
 #+BEGIN_SRC emacs-lisp
 (setq custom-theme-directory (concat user-emacs-directory "themes/"))
@@ -774,107 +879,11 @@ than =1920x1080=.
 
 ** TODO ~minimal~
 
-* Editing preferences
-
-These customizations enhance editor usability.
-
-A line of text is considered `filled' when it reaches 79 characters in length.
-
-#+BEGIN_SRC emacs-lisp
-  (setq-default fill-column 79)
-#+END_SRC
-
-We replace the longer ~yes-or-no-p~ questions with more convenient ~y-or-n-p~.
-
-#+BEGIN_SRC emacs-lisp
-  (defalias 'yes-or-no-p 'y-or-n-p)
-#+END_SRC
-
-Disable minibuffer scroll bar.
-
-#+BEGIN_SRC emacs-lisp
-(set-window-scroll-bars (minibuffer-window) nil nil)
-#+END_SRC
-
-Save cursor location in visited buffer after closing it or Emacs.
-
-#+BEGIN_SRC emacs-lisp
-(save-place-mode 1)
-#+END_SRC
-
-Saving any file in ~user-emacs-directory~ (by default on Emacs, =~/emacs.d=)
-shall byte-recompile the entire =.emacs/= directory, for increased speed.
-
-#+BEGIN_SRC emacs-lisp
-  ;; (defun my/byte-compile-user-config ()
-  ;;   "Byte-compile dotfiles if current file is in `user-emacs-directory'.
-  ;;   Also tangles `my-literate-config'."
-  ;;   (interactive)
-  ;;   (if (string-equal buffer-file-name my/literate-config)
-  ;;       (org-babel-tangle))
-  ;;   (if (string-prefix-p user-emacs-directory default-directory)
-  ;;       (byte-recompile-directory (concat user-emacs-directory "blendoit/") 0)))
-
-  ;; (add-hook 'after-save-hook my/byte-compile-user-config)
-#+END_SRC
-
-** Clean up menus
-
-Originally, I wished to inhibit certain entries in the GUI menus. Not worth the
-effort at this time.
-
-#+BEGIN_SRC emacs-lisp
-(menu-bar-mode -1)
-(tool-bar-mode -1)
-#+END_SRC
-
-** Coding standards
-
-This is just a better default. Don't @ me.
-
-#+BEGIN_SRC emacs-lisp
-(setq c-default-style "linux"
-      c-basic-offset 4)
-#+END_SRC
-
-** Dividers
-
-This ensures users can resize windows using the GUI.
-
-#+BEGIN_SRC emacs-lisp
-(menu-bar-bottom-and-right-window-divider)
-#+END_SRC
-
-** Tabs
-
-#+BEGIN_SRC emacs-lisp
-
-#+END_SRC
-
-** ~auto-fill~
-
-Automatically break lines longer than =fill-column=.
-
-#+BEGIN_SRC emacs-lisp
-  (add-hook 'org-mode-hook 'turn-on-auto-fill)
-#+END_SRC
-
-** Recent files
-
-#+BEGIN_SRC emacs-lisp
-  (recentf-mode 1)
-  (setq recentf-max-menu-items 25)
-  (setq recentf-max-saved-items 25)
-  (run-at-time nil (* 5 60) 'recentf-save-list)
-#+END_SRC
-
-** ~pop-up-frames~
-
-#+BEGIN_SRC emacs-lisp
-;  (setq pop-up-frames (quote graphic-only))
-#+END_SRC
-
 * Late setup
+
+At this point, our editor is almost ready to run. Phew! All that's left to do
+is to interrupt our profiling activities, and smartly store the result of our
+profiling.
 
 ** Profiling --- stop
 
