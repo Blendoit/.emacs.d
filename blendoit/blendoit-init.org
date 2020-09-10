@@ -306,18 +306,6 @@ configuration file.
 (require 'bind-key)
 #+END_SRC
 
-*** ~delight~
-
-With this package, we suppress the mention of certain minor modes in the mode
-line/powerline. We include it in Meta (cf. [[Meta]]) because it concerns all
-other packages.
-
-#+BEGIN_SRC emacs-lisp
-  (use-package delight)
-  (delight '((org-indent-mode)
-             (bufface-mode)))
-#+END_SRC
-
 ** ~org-mode~
 
 Phew, I can finally introduce Org mode! I am so *excited*.
@@ -493,8 +481,7 @@ Syntax highlighting for Emacs.
 
 #+NAME: flycheck
 #+BEGIN_SRC emacs-lisp
-  (use-package flycheck
-    :delight)
+  (use-package flycheck)
   (global-flycheck-mode)
 #+END_SRC
 
@@ -502,29 +489,49 @@ Syntax highlighting for Emacs.
 
 #+NAME: flyspell
 #+BEGIN_SRC emacs-lisp
-  (use-package flyspell
-    :delight)
+  (use-package flyspell)
   (add-hook 'text-mode-hook 'flyspell-mode)
 #+END_SRC
 
-*** ~yasnippet~
+*** Insert template from keyword
+
+Thanks to yasnippet, we can type certain keywords, press =TAB=, and this will
+automatically insert a text snippet. We may then navigate through the snippet
+by using =TAB= (next field) and =SHIFT-TAB= (previous field).
+
+For instance: Typing =src= then pressing =TAB= will expand the keyword to the
+following text:
+
+: #+BEGIN_SRC emacs-lisp
+:
+: #+END_SRC
+
+We notice that emacs-lisp is highlighted---this is the first modifiable field.
 
 #+NAME: yasnippet
 #+BEGIN_SRC emacs-lisp
-(use-package yasnippet
-  :delight)
+(use-package yasnippet)
 (yas-global-mode 1)
 #+END_SRC
 
-*** ~company~
+*** Complete anything interactively
 
 #+NAME: company
 #+BEGIN_SRC emacs-lisp
 ;  (add-hook 'after-init-hook 'global-company-mode)
 #+END_SRC
 
+*** Delete all consecutive whitespaces
+
+#+NAME: company
+#+BEGIN_SRC emacs-lisp
+(use-package hungry-delete
+:init (hungry-delete-mode))
+#+END_SRC
+
 ** Utilities
-*** ~magit~
+
+*** Versioning of files
 
 Wonderful Git porcelain for Emacs. Enables the administration of a Git
 repository in a pain-free way.
@@ -534,68 +541,61 @@ repository in a pain-free way.
    :bind ("C-c g" . magit-status))
 #+END_SRC
 
-*** ~projectile~
+*** Navigate between projects
 
 This enables us to better manage our =.git= projects.
 
 #+BEGIN_SRC emacs-lisp
   (use-package projectile
    :bind ("C-c p" . 'projectile-command-map)
-   :delight
    :init (projectile-mode 1)
          (setq projectile-completion-system 'ivy))
 #+END_SRC
 
-*** ~which-key~
+*** Display keyboard shortcuts on screen
 
 #+BEGIN_SRC emacs-lisp
   (use-package which-key
-    :init (which-key-mode)
-    :delight)
+    :init (which-key-mode))
 #+END_SRC
 
-*** ~dumb-jump~
+*** Jump to symbol's definition
 
 #+BEGIN_SRC emacs-lisp
 (use-package dumb-jump)
 (add-hook 'xref-backend-functions #'dumb-jump-xref-activate)
 #+END_SRC
 
-*** ~undo-tree~
+*** Graphical representation of file history
 
 #+BEGIN_SRC emacs-lisp
-(use-package undo-tree
-  :delight)
+(use-package undo-tree)
 (global-undo-tree-mode)
 #+END_SRC
 
-*** ~ivy~
-
-Auto completion.
+*** Auto-completion framework
 
 #+BEGIN_SRC emacs-lisp
   (use-package ivy
-    :delight
     :config (setq ivy-use-virtual-buffers t
                   ivy-count-format "%d/%d "
                   enable-recursive-minibuffers t))
   (ivy-mode t)
 #+END_SRC
 
-**** ~counsel~
+**** Smartly suggesting interactive search matches
 
   Wonderful counsellor!
 
 #+BEGIN_SRC emacs-lisp
   (use-package counsel
    :bind ("M-x" . counsel-M-x)
-   :delight
    :config (counsel-mode t))
 
   (global-set-key (kbd "C-f") 'counsel-grep-or-swiper)
 #+END_SRC
 
-**** ~swiper~
+**** Searching for items
 
 #+BEGIN_SRC emacs-lisp
 (use-package swiper
@@ -604,20 +604,23 @@ Auto completion.
 
 ** File formats
 
-*** ~csv-mode~
+*** =csv= and Excel
 
 #+BEGIN_SRC emacs-lisp
   (use-package csv-mode)
 #+END_SRC
 
-*** ~pdf-tools~
+*** Interacting with PDFs
+
+Org mode shines particularly when exporting to PDF---Org files can reliably be
+shared and exported to PDF in a reproducible fashion.
 
 #+BEGIN_SRC emacs-lisp
 (use-package pdf-tools)
 ;; (pdf-tools-install)
 #+END_SRC
 
-*** ~ledger~
+*** Accounting
 
 #+BEGIN_SRC emacs-lisp
   (use-package ledger-mode
@@ -626,7 +629,7 @@ Auto completion.
      ("C-c C" . ledger-mode-clean-buffer))
 #+END_SRC
 
-*** ~gnuplot~
+*** Plotting & charting
 
 #+BEGIN_SRC emacs-lisp
 (use-package gnuplot)
@@ -634,14 +637,13 @@ Auto completion.
 
 ** Cosmetics
 
-*** ~dashboard~
+*** Start page
 
 We replace the standard welcome screen with our own.
 
 #+BEGIN_SRC emacs-lisp
   (setq inhibit-startup-message t)
   (use-package dashboard
-    :delight
     :config
     (dashboard-setup-startup-hook)
     (setq dashboard-startup-banner (concat user-emacs-directory "img/Safran_logo.svg"))
@@ -650,12 +652,11 @@ We replace the standard welcome screen with our own.
     (setq dashboard-banner-logo-title "A modern professional text editor."))
 #+END_SRC
 
-*** ~powerline~
+*** Mode line
 
 #+NAME: powerline
 #+BEGIN_SRC emacs-lisp
   (use-package powerline)
-  (powerline-default-theme)
 #+END_SRC
 
 *** TODO Sidebar
@@ -671,23 +672,17 @@ Get inspiration from ~ibuffer-sidebar~ and create a better sidebar.
 (use-package rainbow-delimiters
  :config (add-hook 'prog-mode-hook #'rainbow-delimiters-mode))
 (electric-pair-mode)
+     (show-paren-mode 1)
 #+END_SRC
 
-*** ~all-the-icons~
-
-#+BEGIN_SRC emacs-lisp
-(use-package all-the-icons)
-#+END_SRC
-
-*** ~rainbow-mode~
+*** Colored keywords for those colors
 
 This highlights hexadecimal numbers which look like colors, in that same color.
 
 #+BEGIN_SRC emacs-lisp
   (use-package rainbow-mode
     :init
-    (add-hook 'prog-mode-hook 'rainbow-mode)
-    :delight)
+    (add-hook 'prog-mode-hook 'rainbow-mode))
 #+END_SRC
 
 * Editing preferences
@@ -738,65 +733,47 @@ separation between the bottom of the frame and the echo area.
 (menu-bar-bottom-and-right-window-divider)
 #+END_SRC
 
-*** TODO Mode line
+*** TODO Header & mode line
 Complete mode line rewrite. Might require new package.
 
-Top of the buffer is more intuitive.
+Top of the buffer is more intuitive for buffer info, bottom is more intuitive
+for buffer action.
+
+This is pretty much a gutted out powerline.
+
+**** Header line
 
 #+BEGIN_SRC emacs-lisp
-  ;; (setq header-line-format
-  ;;       '(:eval
-  ;;         (let* ((active (powerline-selected-window-active))
-  ;;                (mode-line-buffer-id (if active 'mode-line-buffer-id 'mode-line-buffer-id-inactive))
-  ;;                (mode-line (if active 'mode-line 'mode-line-inactive))
-  ;;                (face0 (if active 'powerline-active0 'powerline-inactive0))
-  ;;                (face1 (if active 'powerline-active1 'powerline-inactive1))
-  ;;                (face2 (if active 'powerline-active2 'powerline-inactive2))
-  ;;                (separator-left (intern (format "powerline-%s-%s"
-  ;;                                                (powerline-current-separator)
-  ;;                                                (car powerline-default-separator-dir))))
-  ;;                (separator-right (intern (format "powerline-%s-%s"
-  ;;                                                 (powerline-current-separator)
-  ;;                                                 (cdr powerline-default-separator-dir))))
-  ;;                (lhs (list (powerline-raw "%*" face0 'l)
-  ;;                           (when powerline-display-buffer-size
-  ;;                             (powerline-buffer-size face0 'l))
-  ;;                           (when powerline-display-mule-info
-  ;;                             (powerline-raw mode-line-mule-info face0 'l))
-  ;;                           (powerline-buffer-id `(mode-line-buffer-id ,face0) 'l)
-  ;;                           (when (and (boundp 'which-func-mode) which-func-mode)
-  ;;                             (powerline-raw which-func-format face0 'l))
-  ;;                           (powerline-raw " " face0)
-  ;;                           (funcall separator-left face0 face1)
-  ;;                           (when (and (boundp 'erc-track-minor-mode) erc-track-minor-mode)
-  ;;                             (powerline-raw erc-modified-channels-object face1 'l))
-  ;;                           (powerline-major-mode face1 'l)
-  ;;                           (powerline-process face1)
-  ;;                           (powerline-minor-modes face1 'l)
-  ;;                           (powerline-narrow face1 'l)
-  ;;                           (powerline-raw " " face1)
-  ;;                           (funcall separator-left face1 face2)
-  ;;                           (powerline-vc face2 'r)
-  ;;                           (when (bound-and-true-p nyan-mode)
-  ;;                             (powerline-raw (list (nyan-create)) face2 'l))))
-  ;;                (rhs (list (powerline-raw global-mode-string face2 'r)
-  ;;                           (funcall separator-right face2 face1)
-  ;;                           (unless window-system
-  ;;                             (powerline-raw (char-to-string #xe0a1) face1 'l))
-  ;;                           (powerline-raw "%4l" face1 'l)
-  ;;                           (powerline-raw ":" face1 'l)
-  ;;                           (powerline-raw "%3c" face1 'r)
-  ;;                           (funcall separator-right face1 face0)
-  ;;                           (powerline-raw " " face0)
-  ;;                           (powerline-raw "%6p" face0 'r)
-  ;;                           (when powerline-display-hud
-  ;;                             (powerline-hud face0 face2))
-  ;;                           (powerline-fill face0 0)
-  ;;                           )))
-  ;;           (concat("%b")
-  ;;                  (separator)
-  ;;                  (buttons))))
+  (defun my/header-line ()
+    "My header line, yo."
+    (setq header-line-format
+          '("%e"
+            (:eval
+             (let* ((active (powerline-selected-window-active))
+                    (face0 (if active 'powerline-active0 'powerline-inactive0))
+                    (lhs (list (powerline-raw "%b" face0)))
+                    (rhs (list (if (buffer-modified-p)
+                                   (powerline-raw "Modified" face0 'r)
+                                 "I did it!")
+                               (powerline-fill face0 0))))
+               (concat (powerline-render lhs)
+                       (powerline-fill face0
+                                       (powerline-width rhs))
+                       (powerline-render rhs)))))))
+
+  (add-hook 'find-file-hook #'my/header-line)
 #+END_SRC
+
+**** Mode line
+
+#+BEGIN_SRC emacs-lisp
+  (defun my/mode-line ()
+    "My header line, yo."
+    (setq mode-line-format "%b"))
+
+  (add-hook 'find-file-hook #'my/mode-line)
+#+END_SRC
+
 
 ** Window
 
