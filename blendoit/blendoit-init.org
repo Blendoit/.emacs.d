@@ -8,7 +8,7 @@
 
 #+LATEX: \begin{abstract}
 GNU Emacs is most often used as a text editor.
-The utmost level of customisation is afforded by enabling the user
+The utmost level of customization is afforded by enabling the user
 to rewrite \textit{any} part of the source code and observe the editor's
 modified behaviour in real time. Since its inception in 1984, GNU Emacs
 has grown to be much more than a full-featured, high-productivity
@@ -24,7 +24,7 @@ this is the endgame of \textit{literate programming}.
 * Introduction
 
 The following sections were laid out very deliberately. When we start Emacs,
-Emacs Lisp source blocks contained in this document are evaluated
+Emacs Lisp source code blocks contained in this document are evaluated
 sequentially---our editing environment is constructed in real time as we
 execute the blocks in order. For instance, we only begin loading packages once
 we ensured ~use-package~ is working properly.
@@ -73,7 +73,7 @@ On my MS Windows machine, I add the path to Portable Git.[fn::Download from
 https://git-scm.com/download/win]
 
 #+BEGIN_SRC emacs-lisp
-(if (string-equal system-type "windows-nt")
+  (when (string-equal system-type "windows-nt")
     (add-to-list 'exec-path "C:/Users/marius.peter/PortableGit/bin/"))
 #+END_SRC
 
@@ -186,11 +186,16 @@ GNU/Linux. Frame transparency increases when focus is lost.
 
 ** Secrets
 
-#+INCLUDE: ./secrets.org
+The code contained in the =secrets.org= file is loaded by Emacs, but not
+rendered in this PDF for the sake of privacy. It contains individually
+identifying information such as names and e-mail addresses, which are used to
+populate Org templates (Section [[~org-mode~]]).
+
+You need to create this =secrets.org= file, as it is ignored by =git= by
+default.
 
 #+BEGIN_SRC emacs-lisp
-  (setq user-full-name "Marius Peter"
-        user-mail-address "blendoit@gmail.com")
+  (org-babel-load-file "~/.emacs.d/blendoit/secrets.org")
 #+END_SRC
 
 * Global key bindings
@@ -385,61 +390,44 @@ format:
 
 *** LaTeX export
 
-The following makes =TODO= items appear red and =CLOSED= items appear green in
-Org's LaTeX exports. Very stylish, much flair!
+We customize the format for org time stamps to make them pop in our exported
+LaTeX documents.
 
 #+BEGIN_SRC emacs-lisp
   (setq org-latex-active-timestamp-format
-        "\\textcolor{SteelBlue}{\\texttt{%s}}")
+        "\\texttt{%s}")
   (setq org-latex-inactive-timestamp-format
-        "\\textcolor{ForestGreen}{\\texttt{%s}}")
+        "\\texttt{%s}")
 #+END_SRC
 
-*** Publish
-
-In the following /alist/ (association list), we describe the projects publishable
-via =org-publish=. We separate the publishing of =.org= files and attachments,
-because an online tutorial recommended we do so.
+The following packages are loaded for every LaTeX export
 
 #+BEGIN_SRC emacs-lisp
-(require 'ox-publish)
-(setq org-publish-project-alist
-        '(
-          ("Safran-VIP-html"
-           :base-directory "~/org/WORK/Safran/programs/B787/VIP/doc/org/"
-           :base-extension "org"
-           :publishing-directory "~/org/WORK/Safran/programs/B787/VIP/doc/wiki/"
-           :recursive t
-           :publishing-function org-html-publish-to-html
-           :auto-preamble t
-           :auto-sitemap t
-           :sitemap-title "" )
-          ("Safran-VIP-static"
-           :base-directory "~/org/WORK/Safran/programs/B787/VIP/doc/org/"
-           :base-extension "css\\|js\\|png\\|jpg\\|gif\\|pdf\\|mp3\\|mp4\\|ogg\\|swf"
-           :publishing-directory "~/org/WORK/Safran/programs/B787/VIP/doc/wiki/"
-           :recursive t
-           :publishing-function org-publish-attachment )
-          ("Safran-VIP-all"
-           :components ("Safran-VIP-html" "Safran-VIP-static"))
-          ("Safran-MA700-html"
-           :base-directory "~/org/WORK/Safran/programs/MA700/doc/org/"
-           :base-extension "org"
-           :publishing-directory "~/org/WORK/Safran/programs/MA700/doc/wiki/"
-           :recursive t
-           :publishing-function org-html-publish-to-html
-           :auto-preamble t
-           :auto-sitemap t
-           :sitemap-title "" )
-          ("Safran-MA700-static"
-           :base-directory "~/org/WORK/Safran/programs/MA700/doc/org/"
-           :base-extension "css\\|js\\|png\\|jpg\\|gif\\|pdf\\|mp3\\|mp4\\|ogg\\|swf"
-           :publishing-directory "~/org/WORK/Safran/programs/MA700/doc/wiki/"
-           :recursive t
-           :publishing-function org-publish-attachment )
-          ("Safran-MA700-all"
-           :components ("Safran-MA700-html" "Safran-MA700-static"))))
+  (setq org-latex-packages-alist
+     '(("AUTO" "polyglossia" t
+        ("xelatex" "lualatex"))
+       ("AUTO" "babel" t
+        ("pdflatex"))
+       ("AUTO" "booktabs" t
+        ("pdflatex"))
+       ("table,svgnames" "xcolor" t
+        ("pdflatex"))))
 #+END_SRC
+
+Little bonus for GNU/Linux users: syntax highlighting for source code blocks in
+LaTeX exports.
+
+#+BEGIN_SRC emacs-lisp
+  (when (string-equal system-type "gnu/linux")
+    (add-to-list 'org-latex-packages-alist '("AUTO" "minted" t
+                                             ("pdflatex" "lualatex")))
+    (setq org-latex-listings 'minted)
+     (setq org-latex-minted-options
+       '(("style" "friendly") ())))
+#+END_SRC
+
+The following makes =TODO= items appear red and =CLOSED= items appear green in
+Org's LaTeX exports. Very stylish, much flair!
 
 *** Export
 

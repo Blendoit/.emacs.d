@@ -1,8 +1,10 @@
+# -*- mode: org; -*- #
+
 #+OPTIONS: title:nil toc:nil
 # Increase spacing between header rule and main text body
 #+LATEX: \rule[-2in]{0pt}{0pt}\\
 #+LATEX: \Huge\textbf{\thetitle}\\[1in]
-#+LATEX: \LARGE\theauthor\\
+#+LATEX: \LARGE\texttt{\theauthor}\\
 #+LATEX: \thedate
 
 #+LATEX: \clearpage
