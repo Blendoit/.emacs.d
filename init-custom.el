@@ -81,8 +81,6 @@
       ("\\subsubsection*{%s}" . "\\subsubsection*{%s}"))))
  '(org-latex-logfiles-extensions
    '("aux" "bcf" "blg" "fdb_latexmk" "fls" "figlist" "idx" "log" "nav" "out" "ptc" "run.xml" "snm" "toc" "vrb" "xdv"))
- '(org-latex-pdf-process
-   '("latexmk -pdf -f -interaction=nonstopmode -shell-escape -pdflatex=\"lualatex\" -outdir=%o %f"))
  '(org-latex-toc-command "\\tableofcontents\\clearpage")
  '(org-log-done 'time)
  '(org-startup-align-all-tables t)

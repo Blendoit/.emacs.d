@@ -7,18 +7,16 @@
 #+INCLUDE: ~/.emacs.d/templates/documents/general.org_title
 
 #+LATEX: \begin{abstract}
-GNU Emacs is most often used as a text editor.
-The utmost level of customization is afforded by enabling the user
-to rewrite \textit{any} part of the source code and observe the editor's
-modified behaviour in real time. Since its inception in 1984, GNU Emacs
-has grown to be much more than a full-featured, high-productivity
-text editor---new \textit{modes} have been written to interact with
-hundreds of file formats, including \texttt{.txt}, \texttt{.pdf},
-\texttt{.jpg}, \texttt{.csv}, and \texttt{.zip} just to name a few.
-This configuration file itself was written in \textit{Org mode},
-a collection of functions enabling the harmonious mixing of code
-and comments in view of publication:
-this is the endgame of \textit{literate programming}.
+GNU Emacs is most often used as a text editor. The utmost level of
+customization is afforded by enabling the user to rewrite \textit{any} part of
+the source code and observe the editor's modified behaviour in real time. Since
+its inception in 1984, GNU Emacs has grown to be much more than a
+full-featured, high-productivity text editor---new \textit{modes} have been
+written to interact with hundreds of file formats, including \texttt{.txt},
+\texttt{.pdf}, \texttt{.jpg}, \texttt{.csv}, and \texttt{.zip} just to name a
+few. This configuration file itself was written in \textit{Org mode}, a
+collection of functions enabling the harmonious mixing of code and comments in
+view of publication: this is the endgame of \textit{literate programming}.
 #+LATEX: \end{abstract}
 
 * Introduction
@@ -389,6 +387,27 @@ format:
 #+END_SRC
 
 *** LaTeX export
+
+We'll be compiling our documents with LuaTeX. This will afford us some
+future-proofing, since it was designated as the successor to pdfTeX by the
+latter's creators.
+
+First, we define the command executed when an Org file is exported to
+LaTeX. We'll use =latexmk=, the Perl script which automagically runs binaries
+related to LaTeX in the correct order and the right amount of times.
+
+Options and why we need them:
+- ~-shell-excape~ :: required by minted to color source blocks
+- ~-pdflatex=lualatex~ :: we use lualatex to generate our PDF
+- ~-interaction=nonstopmode~ :: go as far as possible without prompting user
+  for input
+
+#+BEGIN_SRC emacs-lisp
+  (setq org-latex-pdf-process
+        '("latexmk -pdf -f \
+  -pdflatex=lualatex -shell-escape \
+  -interaction=nonstopmode -outdir=%o %f"))
+#+END_SRC
 
 We customize the format for org time stamps to make them pop in our exported
 LaTeX documents.
