@@ -198,8 +198,15 @@ default.
 
 * Global key bindings
 
-The following bindings strive to further enhance CUA[fn::Common User Access.]
-mode.
+The following bindings strive to further enhance CUA mode.[fn::Common User
+Access. This is a term coined by IBM which has influenced user navigation cues
+on all modern desktop OSes. From IBM's CUA, we get the =Ctrl-v= and =Ctrl-v=
+keyboard shortcuts.]
+
+#+BEGIN_SRC emacs-lisp
+ (cua-mode)
+#+END_SRC
+
 
 ** Keyboard navigation
 
@@ -348,12 +355,24 @@ them corrupts tables.
   (setq org-startup-indented t)
 #+END_SRC
 
-Then, we customize Org headings to emulate WYSIWYG[fn::What You See Is What You
-Get (input and output are identical), as opposed to What You See Is What You
-Mean (the input contains instructions that can modify the output).] behavior
-normally found in Word:
+*** Languages executable in smart documents
 
-*** Invisible edits
+The following languages can be written inside =SRC= blocks, in view of being
+executed by the Org Babel backend.
+
+#+BEGIN_SRC emacs-lisp
+  (setq org-babel-load-languages
+        '((shell . t)
+          (python . t)
+          (plantuml . t)
+          (emacs-lisp . t)
+          (awk . t)
+          (ledger . t)
+          (gnuplot . t)
+          (latex . t)))
+#+END_SRC
+
+*** Prevent or warn on invisible edits
 
 #+BEGIN_SRC emacs-lisp
 (setq org-catch-invisible-edits t)
@@ -409,8 +428,9 @@ Options and why we need them:
   -interaction=nonstopmode -outdir=%o %f"))
 #+END_SRC
 
-We customize the format for org time stamps to make them pop in our exported
-LaTeX documents.
+We customize the format for org time stamps to make them appear monospaced in
+our exported LaTeX documents. This makes them visually distinguishable from
+body text.
 
 #+BEGIN_SRC emacs-lisp
   (setq org-latex-active-timestamp-format
@@ -419,7 +439,7 @@ LaTeX documents.
         "\\texttt{%s}")
 #+END_SRC
 
-The following packages are loaded for every LaTeX export
+The following packages are loaded for every time we export to LaTeX.
 
 #+BEGIN_SRC emacs-lisp
   (setq org-latex-packages-alist
@@ -427,7 +447,7 @@ The following packages are loaded for every LaTeX export
         ("xelatex" "lualatex"))
        ("AUTO" "babel" t
         ("pdflatex"))
-       ("AUTO" "booktabs" t
+       ("" "booktabs" t
         ("pdflatex"))
        ("table,svgnames" "xcolor" t
         ("pdflatex"))))
@@ -445,6 +465,64 @@ LaTeX exports.
        '(("style" "friendly") ())))
 #+END_SRC
 
+Now, we set the files to be deleted when a LaTeX \rightarrow PDF compilation
+occurs. We only care about two files, in the end: the Org mode file for
+edition, and the PDF for distribution.
+
+#+BEGIN_SRC emacs-lisp
+  (setq org-latex-logfiles-extensions
+        '("aux" "bcf" "blg" "fdb_latexmk"
+          "fls" "figlist" "idx" "log" "nav"
+          "out" "ptc" "run.xml" "snm" "toc" "vrb" "xdv"
+          "tex" "lot" "lof"))
+#+END_SRC
+
+By default, Org agenda inserts diary entries as the first under the selected
+date. It is preferable to insert entries in the order that they were recorded,
+i.e. chronologically.
+
+#+BEGIN_SRC emacs-lisp
+ (setq org-agenda-insert-diary-strategy 'date-tree-last)
+#+END_SRC
+
+What follows are the document class structures that can be exported in LaTeX.
+
+#+BEGIN_SRC emacs-lisp
+ (setq org-latex-classes
+   '(("article" "\\documentclass[11pt]{article}"
+      ("\\section{%s}" . "\\section*{%s}")
+      ("\\subsection{%s}" . "\\subsection*{%s}")
+      ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
+      ("\\paragraph{%s}" . "\\paragraph*{%s}")
+      ("\\subparagraph{%s}" . "\\subparagraph*{%s}"))
+     ("report" "\\documentclass[11pt]{report}"
+      ("\\part{%s}" . "\\part*{%s}")
+      ("\\chapter{%s}" . "\\chapter*{%s}")
+      ("\\section{%s}" . "\\section*{%s}")
+      ("\\subsection{%s}" . "\\subsection*{%s}")
+      ("\\subsubsection{%s}" . "\\subsubsection*{%s}"))
+     ("book" "\\documentclass[12pt]{book}"
+      ("\\part{%s}" . "\\part*{%s}")
+      ("\\chapter{%s}" . "\\chapter*{%s}")
+      ("\\section{%s}" . "\\section*{%s}")
+      ("\\subsection{%s}" . "\\subsection*{%s}")
+      ("\\subsubsection{%s}" . "\\subsubsection*{%s}"))
+     ("book-blendoit" "\\documentclass[12pt]{book}"
+      ("\\chapter{%s}" . "\\chapter*{%s}")
+      ("\\section{%s}" . "\\section*{%s}")
+      ("\\subsection*{%s}" . "\\subsection*{%s}")
+      ("\\subsubsection*{%s}" . "\\subsubsection*{%s}"))))
+#+END_SRC
+
+By default, body text can immediately follow the table of contents. It is
+however cleaner to separate table of contents with the rest of the work.
+
+#+BEGIN_SRC emacs-lisp
+ (setq org-latex-toc-command "\\tableofcontents\\clearpage")
+#+END_SRC
+
+
+
 The following makes =TODO= items appear red and =CLOSED= items appear green in
 Org's LaTeX exports. Very stylish, much flair!
 
@@ -456,7 +534,7 @@ LaTeX \rightarrow PDF.
 #+BEGIN_SRC emacs-lisp
 (defun my/org-quick-export ()
   "Org export to PDF and open.
-  This basically reimplements `C-c C-e l o'."
+  This basically reimplements `C-c C-e C-a l o'."
   (interactive)
     (org-open-file (org-latex-export-to-pdf)))
 
@@ -468,8 +546,8 @@ LaTeX \rightarrow PDF.
 Forgive me, for I have sinned.
 
 This is the 2^{nd} most significant customization after ~org-mode~. Enabling
-~evil-mode~ completely changes editing keys. For more information on =vi=
-keybindings, visit [[https://hea-www.harvard.edu/~fine/Tech/vi.html]].
+~evil-mode~ completely changes editing keys.[fn::For more information on =vi=
+keybindings, visit [[https://hea-www.harvard.edu/~fine/Tech/vi.html]].]
 
 #+BEGIN_SRC emacs-lisp
   (use-package evil)
@@ -629,12 +707,32 @@ shared and exported to PDF in a reproducible fashion.
 
 *** Accounting
 
+Ledger is a creation of John Wiegley's. It enables double-entry accounting in a
+simple plaintext format, and reliable verification of account balances through
+time.[fn::For more information, visit https://www.ledger-cli.org/.]
+
 #+BEGIN_SRC emacs-lisp
   (use-package ledger-mode
     :bind
      ("C-c r" . ledger-report)
      ("C-c C" . ledger-mode-clean-buffer))
 #+END_SRC
+
+These reports can be generated within Emacs. It is quite useful to pipe their
+output to an automated ``smart document''.
+
+#+BEGIN_SRC emacs-lisp
+ (setq ledger-reports
+   '(("bal" "%(binary) -f %(ledger-file) bal")
+     ("bal-USD" "%(binary) -f %(ledger-file) bal --exchange USD")
+     ("reg" "%(binary) -f %(ledger-file) reg")
+     ("net-worth" "%(binary) -f %(ledger-file) bal ^Assets ^Liabilities --exchange USD")
+     ("net-income" "%(binary) -f %(ledger-file) bal ^Income ^Expenses --exchange USD --depth 2 --invert")
+     ("payee" "%(binary) -f %(ledger-file) reg @%(payee)")
+     ("account" "%(binary) -f %(ledger-file) reg %(account)")
+     ("budget" "%(binary) -f %(ledger-file) budget --exchange USD")))
+#+END_SRC
+
 
 *** Plotting & charting
 
@@ -751,36 +849,14 @@ This is pretty much a gutted out powerline.
 **** Header line
 
 #+BEGIN_SRC emacs-lisp
-  (defun my/header-line ()
-    "My header line, yo."
-    (setq header-line-format
-          '("%e"
-            (:eval
-             (let* ((active (powerline-selected-window-active))
-                    (face0 (if active 'powerline-active0 'powerline-inactive0))
-                    (lhs (list (powerline-raw "%b" face0)))
-                    (rhs (list (if (buffer-modified-p)
-                                   (powerline-raw "Modified" face0 'r)
-                                 "I did it!")
-                               (powerline-fill face0 0))))
-               (concat (powerline-render lhs)
-                       (powerline-fill face0
-                                       (powerline-width rhs))
-                       (powerline-render rhs)))))))
-
-  (add-hook 'find-file-hook #'my/header-line)
+  (setq header-line-format "%b")
 #+END_SRC
 
 **** Mode line
 
 #+BEGIN_SRC emacs-lisp
-  (defun my/mode-line ()
-    "My header line, yo."
-    (setq mode-line-format "%b"))
-
-  (add-hook 'find-file-hook #'my/mode-line)
+(setq mode-line-format nil)
 #+END_SRC
-
 
 ** Window
 
@@ -879,7 +955,7 @@ In files containing a mix of ~variable-pitch~ and ~fixed-pitch~ fonts, the
 cursor is a more MS Word-like bar.
 
 #+BEGIN_SRC emacs-lisp
-(setq-default cursor-type (quote bar))
+(setq-default cursor-type 'bar)
 #+END_SRC
 
 *** Faces
