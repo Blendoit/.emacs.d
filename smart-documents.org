@@ -1,4 +1,6 @@
-#+TITLE: My Literate GNU Emacs Config
+# -*- mode: org; -*- #
+
+#+TITLE: Smart Documents
 #+AUTHOR: Marius Peter
 #+DATE: <2020-07-23 Thu>
 #+EMAIL: blendoit@gmail.com
@@ -6,26 +8,36 @@
 #+SETUPFILE: ~/.emacs.d/templates/documents/general.org
 #+INCLUDE: ~/.emacs.d/templates/documents/general.org_title
 
+#+LATEX_HEADER: \setmainfont{urw gothic}
+
 #+LATEX: \begin{abstract}
-GNU Emacs is most often used as a text editor. The utmost level of
-customization is afforded by enabling the user to rewrite \textit{any} part of
-the source code and observe the editor's modified behaviour in real time. Since
-its inception in 1984, GNU Emacs has grown to be much more than a
-full-featured, high-productivity text editor---new \textit{modes} have been
-written to interact with hundreds of file formats, including \texttt{.txt},
-\texttt{.pdf}, \texttt{.jpg}, \texttt{.csv}, and \texttt{.zip} just to name a
-few. This configuration file itself was written in \textit{Org mode}, a
-collection of functions enabling the harmonious mixing of code and comments in
-view of publication: this is the endgame of \textit{literate programming}.
+The idea of /Smart Documents/ came to me as I was reflecting on how to improve
+the document production process in my workplace. So much time was wasted on
+formatting; output PDFs were awfully inconsistent, and conveyed poor brand
+awareness from a typographical standpoint.
+
 #+LATEX: \end{abstract}
 
 * Introduction
 
+GNU Emacs is most often used as a text editor. The utmost level of
+customization is afforded by enabling the user to rewrite /any/ part of the
+source code and observe the editor's modified behaviour in real time. Since its
+inception in 1984, GNU Emacs has grown to be much more than a full-featured,
+high-productivity text editor---new /modes/ have been written to interact with
+hundreds of file formats, including =.txt=, =.pdf=, =.jpg=, =.csv=, and =.zip=
+just to name a few. This configuration file itself was written in /Org mode/, a
+collection of functions enabling the harmonious mixing of code and comments in
+view of publication: this is the endgame of /literate programming/, and the
+basis of my vision for /Smart Documents/.
+
 The following sections were laid out very deliberately. When we start Emacs,
-Emacs Lisp source code blocks contained in this document are evaluated
+the source code blocks contained in this document are evaluated
 sequentially---our editing environment is constructed in real time as we
 execute the blocks in order. For instance, we only begin loading packages once
-we ensured ~use-package~ is working properly.
+we ensured ~use-package~ is working properly.[fn::For more information on the
+detailed steps Emacs takes upon starting, refer to
+[[https://www.gnu.org/software/emacs/manual/html_node/elisp/Startup-Summary.html]].]
 
 Customizing Emacs goes far, far beyond this document---feel free to experiment
 and discover.
@@ -35,33 +47,47 @@ and discover.
 - ~C-h k~ describe key
 
 These three commands will attempt to describe the element currently under our
-cursor, however you can start typing to search for another symbol.
+cursor, however one can start typing to search for another symbol.
+
+** =init.el=
+
+When Emacs first starts up, it looks for the following files in order and
+attempts to load the contents of the first existing file. From the manual:
+
+#+BEGIN_QUOTE
+Traditionally, file =~/.emacs= is used as the init file, although Emacs also
+looks at =~/.emacs.el=, =~/.emacs.d/init.el=, =~/.config/emacs/init.el=, or
+other
+locations.[fn::[[https://www.gnu.org/software/emacs/manual/html_node/emacs/Init-File.html]]]
+#+END_QUOTE
+
+ If no file is found, Emacs then loads in its purely vanilla state.
 
 * TODO First-time setup
 
-Spacemacs-like dialog for default settings.
+** TODO User details
 
-#+NAME: first-setup
-# #+BEGIN_SRC emacs-lisp
-#     ;; Prompt enterprise or personal install. Create file in .emacs.d/ on Linux,
-#     ;; AppData/ on Windows. Ask user for details and preferred bindings.
-#
-#   ; Check if .emacs.d exists
-#
-#   ; If it does, warn user
-#
-#   ; Copy init-bootstrap.el from USB to where operating systems expects init.el
-#
-#   ;;   (defun blendoit/first-time-setup-windows-nt ()
-#   ;;     "Execute the first-time setup on MS Windows.
-#   ;; If no `.emacs.d/' config exists on local system, copy
-#   ;; init-bootstrap.el to `~.emacs.d/'."
-#   ;;      (interactive)
-#   ;;      (find-file "~/.emacs.d/blendoit/blendoit-init.org"))
-#
-#   ;; (cond ((string-equal system-type "windows-nt")blendoit/first-time-setup-windows-nt)
-#         ;; ((string-equal system-type "gnu/linux") blendoit/first-time-setup-linux))
-# #+END_SRC
+The advantage of working with /Smart Documents/ is that they can automatically
+be populated with our details in the header, footer, or other appropriate
+element.
+
+#+NAME: user-details
+#+BEGIN_SRC emacs-lisp
+  (defun my/tokenize-user-details ()
+    "Tokenize user details."
+ 
+    (cons 'user-full-name user-full-name))
+
+    (unless (file-exists-p (concat user-emacs-directory
+                                   "meta/user-details"))
+      (setq user-full-name (read-string "Enter full user name:"))
+      (setq user-mail-address (read-string "Enter user e-mail address:"))
+      (setq user-details '(user-full-name
+                           user-mail-address))
+      (append-to-file "Foobar\n" nil "~/.emacs.d/meta/foobar"))
+#+END_SRC
+
+
 
 ** File system paths
 
@@ -97,27 +123,13 @@ stop]]. We will then present profiling report in Section [[Profiling --- report]
 ; (profiler-start)
 #+END_SRC
 
-** Emacs client
+** TODO Emacs client
 
 Makes opening emacs faster for following instances.
 
 #+NAME: emacs-client
 #+BEGIN_SRC emacs-lisp
 ; (setq initial-buffer-choice (lambda () (get-buffer "*dashboard*")))
-#+END_SRC
-
-** Custom file
-
-Load settings created automatically by GNU Emacs Custom. (For example, any
-clickable option/toggle is saved here.) Useful for fooling around with M-x
-customize-group <package>.
-
-user-emacs-directory
-
-#+NAME: custom-file-location
-#+BEGIN_SRC emacs-lisp
-  (setq custom-file (concat user-emacs-directory "init-custom.el"))
-  (load custom-file)
 #+END_SRC
 
 ** Customization shortcuts
@@ -141,6 +153,58 @@ Now, different shortcuts for other customization actions:
 #+BEGIN_SRC emacs-lisp
   (global-set-key (kbd "C-c v") 'customize-variable)
   (global-set-key (kbd "C-c f") 'customize-face)
+#+END_SRC
+
+** Locations
+
+In this section, we'll be tidying up the =.emacs.d/= directory---by default,
+many Emacs packages create files useful for themselves in our
+~user-emacs-directory~. This leads to undesirable clutter. Certain packages
+create files that log recently visited files ([[Recently visited files]]); log
+location of known projects ([[Projects' bookmarks]]); log location in recently
+visited files ([[Location in previously visited file]]) The commonality
+between all these files is that they tend to reference... other files. Thus, I
+decided to refer to them as meta-files. First, let's designate a folder to collect
+our meta-files together:
+
+#+BEGIN_SRC emacs-lisp
+(setq my/meta-files-location (concat user-emacs-directory "meta/"))
+#+END_SRC
+
+*** Custom file
+
+Load settings created automatically by GNU Emacs Custom. (For example, any
+clickable option/toggle is saved here.) Useful for fooling around with ~M-x
+customize-group <package>~.
+
+#+NAME: custom-file-location
+#+BEGIN_SRC emacs-lisp
+  (setq custom-file (concat user-emacs-directory "init-custom.el"))
+  (load custom-file)
+#+END_SRC
+
+*** Recently visited files
+
+#+BEGIN_SRC emacs-lisp
+  (setq recentf-save-file (concat
+                           my/meta-files-location
+                           "recentf"))
+#+END_SRC
+
+*** Projects' bookmarks
+
+#+BEGIN_SRC emacs-lisp
+  (setq projectile-known-projects-file (concat
+                                        my/meta-files-location
+                                        "projectile-bookmarks.eld"))
+#+END_SRC
+
+*** Location in previously visited file
+
+#+BEGIN_SRC emacs-lisp
+  (setq save-place-file (concat
+                         my/meta-files-location
+                         "places"))
 #+END_SRC
 
 ** Backups
@@ -184,16 +248,14 @@ GNU/Linux. Frame transparency increases when focus is lost.
 
 ** Secrets
 
-The code contained in the =secrets.org= file is loaded by Emacs, but not
+The code containe din the =secrets.org= file is loaded by Emacs, but not
 rendered in this PDF for the sake of privacy. It contains individually
 identifying information such as names and e-mail addresses, which are used to
-populate Org templates (Section [[~org-mode~]]).
-
-You need to create this =secrets.org= file, as it is ignored by =git= by
-default.
+populate Org templates (Section [[~org-mode~]]). You need to create this
+=secrets.org= file, as it is ignored by =git= by default.
 
 #+BEGIN_SRC emacs-lisp
-  (org-babel-load-file "~/.emacs.d/blendoit/secrets.org")
+  (org-babel-load-file "~/.emacs.d/secrets.org")
 #+END_SRC
 
 * Global key bindings
@@ -207,12 +269,7 @@ keyboard shortcuts.]
  (cua-mode)
 #+END_SRC
 
-
 ** Keyboard navigation
-
-#+BEGIN_SRC emacs-lisp
-  (global-set-key (kbd "C-`") 'delete-other-windows)
-#+END_SRC
 
 *** Saving a file
 
@@ -230,6 +287,12 @@ keyboard shortcuts.]
 
 #+BEGIN_SRC emacs-lisp
   (global-set-key (kbd "C-r") 'counsel-recentf)
+#+END_SRC
+
+*** Make only window
+
+#+BEGIN_SRC emacs-lisp
+  (global-set-key (kbd "C-`") 'delete-other-windows)
 #+END_SRC
 
 *** Locating a file
@@ -402,7 +465,7 @@ format:
 
 #+BEGIN_SRC emacs-lisp
   (setq org-time-stamp-custom-formats
-    '("%d %b, %Y (%a)" . "%d %b, %Y (%a), at %H:%M"))
+    '("%d %b. %Y (%a)" . "%d %b. %Y (%a), at %H:%M"))
 #+END_SRC
 
 *** LaTeX export
@@ -526,19 +589,19 @@ however cleaner to separate table of contents with the rest of the work.
 The following makes =TODO= items appear red and =CLOSED= items appear green in
 Org's LaTeX exports. Very stylish, much flair!
 
-*** Export
+*** TODO Export
 
 This creates a shorter binding for the most common Org export: Org \rightarrow
 LaTeX \rightarrow PDF.
 
 #+BEGIN_SRC emacs-lisp
-(defun my/org-quick-export ()
-  "Org export to PDF and open.
-  This basically reimplements `C-c C-e C-a l o'."
-  (interactive)
+  (defun my/org-quick-export ()
+    "Org async export to PDF and open.
+    This basically reimplements `C-c C-e C-a l o'."
+    (interactive)
     (org-open-file (org-latex-export-to-pdf)))
 
-(global-set-key (kbd "C-c e") 'my/org-quick-export)
+  (global-set-key (kbd "C-c e") 'my/org-quick-export)
 #+END_SRC
 
 ** TODO ~evil-mode~
@@ -757,7 +820,7 @@ We replace the standard welcome screen with our own.
     (setq dashboard-banner-logo-title "A modern professional text editor."))
 #+END_SRC
 
-*** Mode line
+*** TODO Mode line
 
 #+NAME: powerline
 #+BEGIN_SRC emacs-lisp
@@ -780,7 +843,7 @@ Get inspiration from ~ibuffer-sidebar~ and create a better sidebar.
      (show-paren-mode 1)
 #+END_SRC
 
-*** Colored keywords for those colors
+*** Highlight ``color keywords'' in their color
 
 This highlights hexadecimal numbers which look like colors, in that same color.
 
@@ -788,6 +851,15 @@ This highlights hexadecimal numbers which look like colors, in that same color.
   (use-package rainbow-mode
     :init
     (add-hook 'prog-mode-hook 'rainbow-mode))
+#+END_SRC
+
+*** UTF-8 bullet points in =Org mode=
+
+#+BEGIN_SRC emacs-lisp
+  (use-package org-bullets
+    :config
+    (when (string-equal system-type "gnu/linux")
+      (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))))
 #+END_SRC
 
 * Editing preferences
@@ -910,7 +982,7 @@ describe two themes that were developed purposefully and iteratively.
 
 ** My light and dark themes
 
-A highly legible unambiguous and thoughtful theme.
+A highly legible, unambiguous, and classic theme.
 
 *** Colors
 
@@ -958,20 +1030,20 @@ cursor is a more MS Word-like bar.
 (setq-default cursor-type 'bar)
 #+END_SRC
 
-*** Faces
+*** Fonts
 
-- ~default~: Hack
+- Hack :: ~default~ and ~fixed-pitch~
   - Legible, modern monospace font
   - Strict, sharp, uncompromising
-- ~fixed-pitch~: Hack
-- ~variable-pitch~: Liberation Sans
+- Liberation Sans :: ~variable-pitch~
   - Libre alternative to Arial
-- ~org-block~: Hermit
+  - Unoffensive
+- Hermit :: ~org-block~, anything Org/meta in general
   - Slightly wider than Hack
   - More opinionated shapes
   - Very legible parentheses
 
-**** ~variable-pitch-mode~
+**** Using proportional fonts when needed
 
 We use ~variable-pitch-mode~ for appropriate modes.
 
@@ -983,7 +1055,7 @@ We use ~variable-pitch-mode~ for appropriate modes.
 **** TODO Default font size
 
 Make default font size larger on displays of which the resolution is greater
-than =1920x1080=.
+than 1920\times1080.
 
 #+BEGIN_SRC emacs-lisp
 #+END_SRC

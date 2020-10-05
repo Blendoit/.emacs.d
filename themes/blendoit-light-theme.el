@@ -1,5 +1,5 @@
 (deftheme blendoit-light
-  "Created 2020-09-07.")
+  "Created 2020-10-04.")
 
 (custom-theme-set-faces
  'blendoit-light
@@ -16,7 +16,7 @@
  '(trailing-whitespace ((((class color) (background light)) (:background "red1")) (((class color) (background dark)) (:background "red1")) (t (:inverse-video t))))
  '(font-lock-builtin-face ((t (:foreground "dark slate blue"))))
  '(font-lock-comment-delimiter-face ((t (:foreground "dim gray" :inherit font-lock-comment-face))))
- '(font-lock-comment-face ((t (:slant italic :foreground "slate gray" :inherit variable-pitch))))
+ '(font-lock-comment-face ((t (:foreground "slate gray" :slant italic :height 1.1))))
  '(font-lock-constant-face ((t (:foreground "dark cyan"))))
  '(font-lock-function-name-face ((((class color) (min-colors 88) (background light)) (:foreground "Blue1")) (((class color) (min-colors 88) (background dark)) (:foreground "LightSkyBlue")) (((class color) (min-colors 16) (background light)) (:foreground "Blue")) (((class color) (min-colors 16) (background dark)) (:foreground "LightSkyBlue")) (((class color) (min-colors 8)) (:weight bold :foreground "blue")) (t (:weight bold :inverse-video t))))
  '(font-lock-keyword-face ((t (:foreground "slate blue"))))
@@ -59,10 +59,10 @@
  '(org-code ((t (:background "light grey" :foreground "black" :family "Hack"))))
  '(org-checkbox-statistics-todo ((t (:inherit org-checkbox :foreground "tomato"))))
  '(org-checkbox-statistics-done ((t (:inherit org-checkbox :foreground "ForestGreen"))))
- '(org-verbatim ((t (:inherit shadow))))
- '(font-lock-doc-face ((t (:Family "Liberation Sans" :inherit font-lock-string-face))))
+ '(org-verbatim ((t (:inherit fixed-pitch :foreground "DodgerBlue1" :foundry "Hack"))))
+ '(font-lock-doc-face ((t (:inherit font-lock-string-face :Family "Liberation Sans"))))
  '(org-document-info ((t (:weight bold))))
- '(org-table ((t (:foreground "SteelBlue" :inherit fixed-pitch))))
+ '(org-table ((t (:height 0.8 :family "Hack"))))
  '(org-block ((t (:height 0.8 :family "Hermit"))))
  '(org-special-keyword ((t (:inherit org-meta-line))))
  '(org-level-1 ((t (:foreground "black" :weight bold :height 1.6))))
