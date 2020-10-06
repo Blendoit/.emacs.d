@@ -12,9 +12,8 @@
 
 #+LATEX: \begin{abstract}
 The idea of /Smart Documents/ came to me as I was reflecting on how to improve
-the document production process in my workplace. So much time was wasted on
-formatting; output PDFs were awfully inconsistent, and conveyed poor brand
-awareness from a typographical standpoint.
+the document production process in my workplace. I really wanted to improve the
+way we produced documents.
 
 #+LATEX: \end{abstract}
 
@@ -26,10 +25,10 @@ source code and observe the editor's modified behaviour in real time. Since its
 inception in 1984, GNU Emacs has grown to be much more than a full-featured,
 high-productivity text editor---new /modes/ have been written to interact with
 hundreds of file formats, including =.txt=, =.pdf=, =.jpg=, =.csv=, and =.zip=
-just to name a few. This configuration file itself was written in /Org mode/, a
-collection of functions enabling the harmonious mixing of code and comments in
-view of publication: this is the endgame of /literate programming/, and the
-basis of my vision for /Smart Documents/.
+just to name a few. This paper itself was written in /Org mode/, a collection
+of functions enabling the harmonious mixing of code and comments in view of
+publication: this is the endgame of /literate programming/, and the basis of my
+vision for /Smart Documents/.
 
 The following sections were laid out very deliberately. When we start Emacs,
 the source code blocks contained in this document are evaluated
@@ -40,28 +39,15 @@ detailed steps Emacs takes upon starting, refer to
 [[https://www.gnu.org/software/emacs/manual/html_node/elisp/Startup-Summary.html]].]
 
 Customizing Emacs goes far, far beyond this document---feel free to experiment
-and discover.
+and discover. Here are three commands that will help you understand all the
+symbols in this file, if you are browsing this paper within Emacs itself:
 
 - ~C-h f~ describe function
 - ~C-h v~ describe variable
 - ~C-h k~ describe key
 
-These three commands will attempt to describe the element currently under our
-cursor, however one can start typing to search for another symbol.
-
-** =init.el=
-
 When Emacs first starts up, it looks for the following files in order and
 attempts to load the contents of the first existing file. From the manual:
-
-#+BEGIN_QUOTE
-Traditionally, file =~/.emacs= is used as the init file, although Emacs also
-looks at =~/.emacs.el=, =~/.emacs.d/init.el=, =~/.config/emacs/init.el=, or
-other
-locations.[fn::[[https://www.gnu.org/software/emacs/manual/html_node/emacs/Init-File.html]]]
-#+END_QUOTE
-
- If no file is found, Emacs then loads in its purely vanilla state.
 
 * TODO First-time setup
 
@@ -87,8 +73,6 @@ element.
       (append-to-file "Foobar\n" nil "~/.emacs.d/meta/foobar"))
 #+END_SRC
 
-
-
 ** File system paths
 
 In this subsection, we tell Emacs about relevant paths to resources.
@@ -103,16 +87,50 @@ https://git-scm.com/download/win]
 
 * Early setup
 
-** Garbage collection
+** The first file to load, =early-init.el=
 
-First, we increase the RAM threshold beyond which the garbage collector is
-activated.
+This is the very first user-writable file loaded by Emacs.[fn::This feature
+became available in version 27.1.] In it, we disable GUI elements that would
+otherwise be loaded and displayed once Emacs is ready to accept user input.
 
-#+NAME: garbage-collection
 #+BEGIN_SRC emacs-lisp
-(setq gc-cons-threshold 100000000)
+  (setq my/early-init-file (concat user-emacs-directory "early-init.el"))
+
+  (unless (file-exists-p my/early-init-file)
+    (write-region
+     "(menu-bar-mode -1)
+  (tool-bar-mode -1)
+  (menu-bar-bottom-and-right-window-divider)
+  (setq gc-cons-threshold 100000000)" nil my/early-init-file)
+    (menu-bar-mode -1)
+    (tool-bar-mode -1)
+    (menu-bar-bottom-and-right-window-divider)
+    (setq gc-cons-threshold 100000000))
 #+END_SRC
 
+** The second file to load, =init.el=
+
+#+BEGIN_QUOTE
+Traditionally, file =~/.emacs= is used as the init file, although Emacs also
+looks at =~/.emacs.el=, =~/.emacs.d/init.el=, =~/.config/emacs/init.el=, or
+other
+locations.[fn::[[https://www.gnu.org/software/emacs/manual/html_node/emacs/Init-File.html]]]
+#+END_QUOTE
+
+#+BEGIN_SRC emacs-lisp
+(setq my/init-file (concat user-emacs-directory "init.el"))
+
+(unless (file-exists-p my/init-file)
+  (write-region
+   "(menu-bar-mode -1)
+(tool-bar-mode -1)
+(menu-bar-bottom-and-right-window-divider)" nil my/early-init-file)
+  (menu-bar-mode -1)
+  (tool-bar-mode -1)
+  (menu-bar-bottom-and-right-window-divider))
+#+END_SRC
+
+ If no file is found, Emacs then loads in its purely vanilla state.
 ** Profiling --- start
 
 We start the profiler now , and will interrupt it in Section [[Profiling ---
@@ -142,7 +160,7 @@ possible, this facilitates debugging.
   (defun my/find-literate-config ()
     "Jump to this very file."
     (interactive)
-    (find-file my/literate-config))
+    (find-file (concat my/literate-config ".org"))
 
   (global-set-key (kbd "C-c c") 'my/find-literate-config)
 #+END_SRC
@@ -796,7 +814,6 @@ output to an automated ``smart document''.
      ("budget" "%(binary) -f %(ledger-file) budget --exchange USD")))
 #+END_SRC
 
-
 *** Plotting & charting
 
 #+BEGIN_SRC emacs-lisp
@@ -890,25 +907,6 @@ The keybinding for opening a recently visited file is described in paragraph
 #+END_SRC
 
 ** Frame
-
-*** Clean up menus
-
-Originally, I wished to inhibit certain entries in the GUI menus. Not worth the
-effort at this time.
-
-#+BEGIN_SRC emacs-lisp
-(menu-bar-mode -1)
-(tool-bar-mode -1)
-#+END_SRC
-
-*** Dividers
-
-This ensures users can resize windows using the GUI. It also creates a useful
-separation between the bottom of the frame and the echo area.
-
-#+BEGIN_SRC emacs-lisp
-(menu-bar-bottom-and-right-window-divider)
-#+END_SRC
 
 *** TODO Header & mode line
 Complete mode line rewrite. Might require new package.
@@ -1065,8 +1063,24 @@ than 1920\times1080.
 * Late setup
 
 At this point, our editor is almost ready to run. Phew! All that's left to do
-is to interrupt our profiling activities, and smartly store the result of our
-profiling.
+is to prepare for the next startup, interrupt our profiling activities, and
+smartly store the result of our profiling.
+
+** TODO Speeding up the next startup
+
+#+BEGIN_SRC emacs-lisp
+  (defun byte-compile-if-literate-config ()
+    "Byte compile the current file if it is `my/literate-config-org'."
+(interactive)
+    (when (string-equal
+           buffer-file-name
+           "/home/blendux/.emacs.d/smart-documents.org")
+      (delete-file (concat my/literate-config ".elc"))
+      (byte-compile (concat my/literate-config ".el")))
+      (message "c'mon work fucker"))
+
+  (add-hook 'after-save-file 'byte-compile-if-literate-config)
+#+END_SRC
 
 ** Profiling --- stop
 

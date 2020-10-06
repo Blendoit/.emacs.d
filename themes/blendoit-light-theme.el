@@ -1,5 +1,5 @@
 (deftheme blendoit-light
-  "Created 2020-10-04.")
+  "Created 2020-10-05.")
 
 (custom-theme-set-faces
  'blendoit-light
@@ -56,10 +56,10 @@
  '(org-document-title ((t (:weight bold :height 2.0))))
  '(org-footnote ((t (:inherit link))))
  '(org-document-info-keyword ((t (:inherit org-meta-line))))
- '(org-code ((t (:background "light grey" :foreground "black" :family "Hack"))))
+ '(org-code ((t (:background "light grey" :foreground "black" :height 0.9 :family "Hack"))))
  '(org-checkbox-statistics-todo ((t (:inherit org-checkbox :foreground "tomato"))))
  '(org-checkbox-statistics-done ((t (:inherit org-checkbox :foreground "ForestGreen"))))
- '(org-verbatim ((t (:inherit fixed-pitch :foreground "DodgerBlue1" :foundry "Hack"))))
+ '(org-verbatim ((t (:inherit fixed-pitch :height 0.9 :foreground "DodgerBlue1" :foundry "Hack"))))
  '(font-lock-doc-face ((t (:inherit font-lock-string-face :Family "Liberation Sans"))))
  '(org-document-info ((t (:weight bold))))
  '(org-table ((t (:height 0.8 :family "Hack"))))
@@ -73,18 +73,17 @@
  '(org-level-6 ((t (:inherit org-level-5))))
  '(org-level-7 ((t (:inherit org-level-5))))
  '(org-level-8 ((t (:inherit org-level-5))))
- '(org-checkbox ((t (:inherit org-meta-line :weight bold))))
+ '(org-checkbox ((t (:weight bold :inherit org-meta-line))))
  '(org-todo ((t (:background "tomato" :foreground "White" :weight bold :height 1.2 :family "Hermit"))))
  '(org-done ((t (:background "ForestGreen" :foreground "White" :weight bold :height 1.2 :family "Hermit"))))
  '(org-date ((t (:inherit org-tag))))
  '(Info-quoted ((t (:inherit org-block))))
- '(org-priority ((t (:inherit org-meta-line :weight bold))))
+ '(org-priority ((t (:weight bold :inherit org-meta-line))))
  '(powerline-active1 ((t (:inherit mode-line :background "grey17" :foreground "white" :family "Hack"))))
  '(powerline-active2 ((t (:inherit (mode-line) :foreground "white" :background "grey40"))))
  '(powerline-inactive1 ((t (:inherit mode-line-inactive :background "grey11" :family "Hack"))))
  '(powerline-inactive2 ((t (:inherit (mode-line-inactive) :background "grey20"))))
  '(org-drawer ((t (:inherit org-meta-line))))
- '(org-tag ((t (:inherit org-meta-line :underline t))))
  '(default ((t (:background "white" :foreground "black" :height 140 :family "Hack")))))
 
 (provide-theme 'blendoit-light)

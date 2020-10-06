@@ -18,3 +18,5 @@ _minted*
 # Tangled config .el file from .org
 smart-documents.el
 
+# Misc
+.org-id-locations
