@@ -8,6 +8,9 @@
 #+SETUPFILE: ~/.emacs.d/templates/documents/general.org
 #+INCLUDE: ~/.emacs.d/templates/documents/general.org_title
 
+# By default, Org Babel does not tangle blocks.
+#+PROPERTY: header-args :tangle yes
+
 #+LATEX_HEADER: \setmainfont{urw gothic}
 
 #+LATEX: \begin{abstract}
@@ -61,16 +64,16 @@ element.
 #+BEGIN_SRC emacs-lisp
   (defun my/tokenize-user-details ()
     "Tokenize user details."
- 
+  
     (cons 'user-full-name user-full-name))
 
-    (unless (file-exists-p (concat user-emacs-directory
-                                   "meta/user-details"))
-      (setq user-full-name (read-string "Enter full user name:"))
-      (setq user-mail-address (read-string "Enter user e-mail address:"))
-      (setq user-details '(user-full-name
-                           user-mail-address))
-      (append-to-file "Foobar\n" nil "~/.emacs.d/meta/foobar"))
+  (unless (file-exists-p (concat user-emacs-directory
+                                 "meta/user-details"))
+    (setq user-full-name (read-string "Enter full user name:"))
+    (setq user-mail-address (read-string "Enter user e-mail address:"))
+    (setq user-details '(user-full-name
+                         user-mail-address))
+    (append-to-file "Foobar\n" nil "~/.emacs.d/meta/foobar"))
 #+END_SRC
 
 ** File system paths
@@ -89,23 +92,27 @@ https://git-scm.com/download/win]
 
 ** The first file to load, =early-init.el=
 
-This is the very first user-writable file loaded by Emacs.[fn::This feature
+This is the very first user-editable file loaded by Emacs.[fn::This feature
 became available in version 27.1.] In it, we disable GUI elements that would
 otherwise be loaded and displayed once Emacs is ready to accept user input.
 
 #+BEGIN_SRC emacs-lisp
   (setq my/early-init-file (concat user-emacs-directory "early-init.el"))
 
-  (unless (file-exists-p my/early-init-file)
+  (defun my/create-early-init-file ()
+    "Create `early-init.el' file in `user-emacs-directory'."
     (write-region
      "(menu-bar-mode -1)
   (tool-bar-mode -1)
   (menu-bar-bottom-and-right-window-divider)
-  (setq gc-cons-threshold 100000000)" nil my/early-init-file)
+  (setq gc-cons-threshold 100000000)" nil my/early-init-file))
+
+  (unless (file-exists-p my/early-init-file)
     (menu-bar-mode -1)
     (tool-bar-mode -1)
     (menu-bar-bottom-and-right-window-divider)
-    (setq gc-cons-threshold 100000000))
+    (setq gc-cons-threshold 100000000)
+    (my/create-early-init-file))
 #+END_SRC
 
 ** The second file to load, =init.el=
@@ -118,19 +125,25 @@ locations.[fn::[[https://www.gnu.org/software/emacs/manual/html_node/emacs/Init-
 #+END_QUOTE
 
 #+BEGIN_SRC emacs-lisp
-(setq my/init-file (concat user-emacs-directory "init.el"))
+  (setq my/init-file (concat user-emacs-directory "init.el"))
 
-(unless (file-exists-p my/init-file)
-  (write-region
-   "(menu-bar-mode -1)
-(tool-bar-mode -1)
-(menu-bar-bottom-and-right-window-divider)" nil my/early-init-file)
-  (menu-bar-mode -1)
+  (defun my/create-init-file ()
+    "Create `init.el' file in `user-emacs-directory'."
+    (write-region
+     "(menu-bar-mode -1)
   (tool-bar-mode -1)
-  (menu-bar-bottom-and-right-window-divider))
+  (menu-bar-bottom-and-right-window-divider)" nil my/init-file))
+
+;; TODO This is a copy paste of `early.init.el'. Should be changed.
+  (unless (file-exists-p my/init-file)
+    (menu-bar-mode -1)
+    (tool-bar-mode -1)
+    (menu-bar-bottom-and-right-window-divider)
+    (my/create-init-file))
 #+END_SRC
 
- If no file is found, Emacs then loads in its purely vanilla state.
+    If no file is found, Emacs then loads in its purely vanilla state.
+
 ** Profiling --- start
 
 We start the profiler now , and will interrupt it in Section [[Profiling ---
@@ -157,20 +170,20 @@ possible, this facilitates debugging.
 
 #+NAME: shortcut-config
 #+BEGIN_SRC emacs-lisp
-  (defun my/find-literate-config ()
+    (defun my/find-literate-config ()
     "Jump to this very file."
     (interactive)
-    (find-file (concat my/literate-config ".org"))
+    (find-file my/literate-config))
 
-  (global-set-key (kbd "C-c c") 'my/find-literate-config)
+    (global-set-key (kbd "C-c c") 'my/find-literate-config)
 #+END_SRC
 
 Now, different shortcuts for other customization actions:
 
 #+NAME: shortcuts-customization
 #+BEGIN_SRC emacs-lisp
-  (global-set-key (kbd "C-c v") 'customize-variable)
-  (global-set-key (kbd "C-c f") 'customize-face)
+    (global-set-key (kbd "C-c v") 'customize-variable)
+    (global-set-key (kbd "C-c f") 'customize-face)
 #+END_SRC
 
 ** Locations
@@ -417,9 +430,9 @@ as possible!
 
 Org base directory is in user home on GNU/Linux, or in =AppData= in MS Windows.
 
-#+NAME: org-basic
+#+NAME: org-directory
 #+BEGIN_SRC emacs-lisp
-  (setq org-directory (concat user-emacs-directory "~/org"))
+    (setq org-directory (concat user-emacs-directory "~/org"))
 #+END_SRC
 
 First, we hide markup symbols for *bold*, /italic/, _underlined_ and
@@ -430,10 +443,16 @@ contain tab characters!]
 For the time being, I will in fact display emphasis markers, because hiding
 them corrupts tables.
 
-#+NAME: org-basic
+#+NAME: org-format
 #+BEGIN_SRC emacs-lisp
-  (setq org-hide-emphasis-markers nil)
-  (setq org-startup-indented t)
+(setq org-hide-emphasis-markers nil
+      org-startup-indented t
+      org-src-preserve-indentation nil
+      org-edit-src-content-indentation 0)
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp
+
 #+END_SRC
 
 *** Languages executable in smart documents
@@ -442,15 +461,15 @@ The following languages can be written inside =SRC= blocks, in view of being
 executed by the Org Babel backend.
 
 #+BEGIN_SRC emacs-lisp
-  (setq org-babel-load-languages
-        '((shell . t)
-          (python . t)
-          (plantuml . t)
-          (emacs-lisp . t)
-          (awk . t)
-          (ledger . t)
-          (gnuplot . t)
-          (latex . t)))
+    (setq org-babel-load-languages
+    '((shell . t)
+    (python . t)
+    (plantuml . t)
+    (emacs-lisp . t)
+    (awk . t)
+    (ledger . t)
+    (gnuplot . t)
+    (latex . t)))
 #+END_SRC
 
 *** Prevent or warn on invisible edits
@@ -466,14 +485,14 @@ for which the heading or body contain a matching =org-time-stamp=.[fn::An
 =org-time-stamp= can be inserted with ~C-c .~ (period)]
 
 #+BEGIN_SRC emacs-lisp
-  (global-set-key (kbd "C-c a") 'org-agenda-list)
+    (global-set-key (kbd "C-c a") 'org-agenda-list)
 
-  (defun my/find-diary-file ()
+    (defun my/find-diary-file ()
     "Load `org-agenda-diary-file'."
     (interactive)
     (find-file org-agenda-diary-file))
 
-  (global-set-key (kbd "C-c d") 'my/find-diary-file)
+    (global-set-key (kbd "C-c d") 'my/find-diary-file)
 #+END_SRC
 
 *** Timestamps
@@ -482,7 +501,7 @@ More literary timestamps are exported to LaTeX using the following custom
 format:
 
 #+BEGIN_SRC emacs-lisp
-  (setq org-time-stamp-custom-formats
+    (setq org-time-stamp-custom-formats
     '("%d %b. %Y (%a)" . "%d %b. %Y (%a), at %H:%M"))
 #+END_SRC
 
@@ -1069,17 +1088,14 @@ smartly store the result of our profiling.
 ** TODO Speeding up the next startup
 
 #+BEGIN_SRC emacs-lisp
-  (defun byte-compile-if-literate-config ()
-    "Byte compile the current file if it is `my/literate-config-org'."
-(interactive)
-    (when (string-equal
-           buffer-file-name
-           "/home/blendux/.emacs.d/smart-documents.org")
-      (delete-file (concat my/literate-config ".elc"))
-      (byte-compile (concat my/literate-config ".el")))
-      (message "c'mon work fucker"))
+(defun byte-compile-literate-config ()
+  "Byte compile our literate configuration file."
+  (delete-file (concat (file-name-sans-extension my/literate-config) ".elc"))
+  (org-babel-tangle-file my/literate-config)
+  (byte-compile-file (concat (file-name-sans-extension my/literate-config) ".el"))
+  (message "c'mon work fucker"))
 
-  (add-hook 'after-save-file 'byte-compile-if-literate-config)
+(add-hook 'kill-emacs-hook 'byte-compile-literate-config)
 #+END_SRC
 
 ** Profiling --- stop
