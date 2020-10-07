@@ -4,7 +4,6 @@
 secret*
 
 # .org => .el => .elc
-*.el
 *.elc
 
 # These directories are populated on config execution.
@@ -15,8 +14,8 @@ auto-save-list/**
 transient/**
 _minted*
 
-# Tangled config .el file from .org
-smart-documents.el
+# Tangled config .el and .elc file from .org
+smart-documents.el*
 
 # Misc
 .org-id-locations
