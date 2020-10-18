@@ -19,3 +19,4 @@ smart-documents.el*
 
 # Misc
 .org-id-locations
+async-bytecomp.log

@@ -11,18 +11,25 @@
 # By default, Org Babel does not tangle blocks.
 #+PROPERTY: header-args :tangle yes
 
+# Beautiful font pairing
 #+LATEX_HEADER: \setmainfont{urw gothic}
+#+LATEX_HEADER: \setmonofont{hermit}
 
 #+LATEX: \begin{abstract}
 The idea of /Smart Documents/ came to me as I was reflecting on how to improve
-the document production process in my workplace. I really wanted to improve the
-way we produced documents.
-
+the document creation process in my workplace. The GNU Emacs editor had
+captured my imagination and I wanted to create an accessible and highly
+productive text editor to benefit my organization. In this paper, I'll lay out
+my vision for the /Smart Document/, a file containing both text destined to the
+reader, and code describing how to update, validate, and present this text;
+then, I'll weave my personal GNU Emacs customizations with a tutorial. This
+paper is a /Smart Document/ itself!
 #+LATEX: \end{abstract}
 
 * Introduction
 
-GNU Emacs is most often used as a text editor. The utmost level of
+GNU Emacs is most often used as a text editor. It would be unfair to say it is
+just that, because Emacs is capable of so much more. The utmost level of
 customization is afforded by enabling the user to rewrite /any/ part of the
 source code and observe the editor's modified behaviour in real time. Since its
 inception in 1984, GNU Emacs has grown to be much more than a full-featured,
@@ -41,24 +48,36 @@ we ensured ~use-package~ is working properly.[fn::For more information on the
 detailed steps Emacs takes upon starting, refer to
 [[https://www.gnu.org/software/emacs/manual/html_node/elisp/Startup-Summary.html]].]
 
-Customizing Emacs goes far, far beyond this document---feel free to experiment
-and discover. Here are three commands that will help you understand all the
-symbols in this file, if you are browsing this paper within Emacs itself:
+Customizing Emacs goes far, far beyond rewriting sections of this
+document---feel free to experiment and discover. Here are three commands that
+will help you understand all the symbols in this file, if you are browsing this
+paper within Emacs itself:
 
 - ~C-h f~ describe function
 - ~C-h v~ describe variable
 - ~C-h k~ describe key
 
-When Emacs first starts up, it looks for the following files in order and
-attempts to load the contents of the first existing file. From the manual:
-
 * TODO First-time setup
+
+The following code blocks are normally evaluated once---upon starting Emacs for
+the first time.
 
 ** TODO User details
 
-The advantage of working with /Smart Documents/ is that they can automatically
+One advantage of working with /Smart Documents/ is that they can automatically
 be populated with our details in the header, footer, or other appropriate
 element.
+
+#+NAME: user-details-get
+#+BEGIN_SRC emacs-lisp
+(defun my/user-details-get ()
+"Get user details."
+    (setq user-full-name (read-string "Enter full user name:"))
+    (setq user-mail-address (read-string "Enter user e-mail address:"))
+    (message "Successfully captured user details."))
+#+END_SRC
+
+
 
 #+NAME: user-details
 #+BEGIN_SRC emacs-lisp
@@ -69,8 +88,7 @@ element.
 
   (unless (file-exists-p (concat user-emacs-directory
                                  "meta/user-details"))
-    (setq user-full-name (read-string "Enter full user name:"))
-    (setq user-mail-address (read-string "Enter user e-mail address:"))
+
     (setq user-details '(user-full-name
                          user-mail-address))
     (append-to-file "Foobar\n" nil "~/.emacs.d/meta/foobar"))
@@ -90,7 +108,7 @@ https://git-scm.com/download/win]
 
 * Early setup
 
-** The first file to load, =early-init.el=
+** The first file to load
 
 This is the very first user-editable file loaded by Emacs.[fn::This feature
 became available in version 27.1.] In it, we disable GUI elements that would
@@ -115,7 +133,7 @@ otherwise be loaded and displayed once Emacs is ready to accept user input.
     (my/create-early-init-file))
 #+END_SRC
 
-** The second file to load, =init.el=
+** The second file to load
 
 #+BEGIN_QUOTE
 Traditionally, file =~/.emacs= is used as the init file, although Emacs also
@@ -163,30 +181,19 @@ Makes opening emacs faster for following instances.
 ; (setq initial-buffer-choice (lambda () (get-buffer "*dashboard*")))
 #+END_SRC
 
-** Customization shortcuts
+** Jumping to this file
 
-We begin by defining a user shortcut to this very file. We load this as early as
-possible, this facilitates debugging.
+We begin by defining a function to open this very file.
 
 #+NAME: shortcut-config
 #+BEGIN_SRC emacs-lisp
     (defun my/find-literate-config ()
     "Jump to this very file."
     (interactive)
-    (find-file my/literate-config))
-
-    (global-set-key (kbd "C-c c") 'my/find-literate-config)
+    (find-file (concat my/literate-config ".org")))
 #+END_SRC
 
-Now, different shortcuts for other customization actions:
-
-#+NAME: shortcuts-customization
-#+BEGIN_SRC emacs-lisp
-    (global-set-key (kbd "C-c v") 'customize-variable)
-    (global-set-key (kbd "C-c f") 'customize-face)
-#+END_SRC
-
-** Locations
+** Meta-files
 
 In this section, we'll be tidying up the =.emacs.d/= directory---by default,
 many Emacs packages create files useful for themselves in our
@@ -200,18 +207,6 @@ our meta-files together:
 
 #+BEGIN_SRC emacs-lisp
 (setq my/meta-files-location (concat user-emacs-directory "meta/"))
-#+END_SRC
-
-*** Custom file
-
-Load settings created automatically by GNU Emacs Custom. (For example, any
-clickable option/toggle is saved here.) Useful for fooling around with ~M-x
-customize-group <package>~.
-
-#+NAME: custom-file-location
-#+BEGIN_SRC emacs-lisp
-  (setq custom-file (concat user-emacs-directory "init-custom.el"))
-  (load custom-file)
 #+END_SRC
 
 *** Recently visited files
@@ -238,10 +233,21 @@ customize-group <package>~.
                          "places"))
 #+END_SRC
 
+*** Custom file
+
+Load settings created automatically by GNU Emacs Custom. (For example, any
+clickable option/toggle is saved here.) Useful for fooling around with ~M-x
+customize-group <package>~.
+
+#+NAME: custom-file-location
+#+BEGIN_SRC emacs-lisp
+  (setq custom-file (concat user-emacs-directory "custom.el"))
+  (load custom-file)
+#+END_SRC
+
 ** Backups
 
-Backups are so important that they should be described right after the shortcut
-to this file.
+Backups are very important!
 
 #+BEGIN_SRC emacs-lisp
   (setq backup-directory-alist `((".*" . ,temporary-file-directory))
@@ -279,7 +285,7 @@ GNU/Linux. Frame transparency increases when focus is lost.
 
 ** Secrets
 
-The code containe din the =secrets.org= file is loaded by Emacs, but not
+The code contained in the =secrets.org= file is loaded by Emacs, but not
 rendered in this PDF for the sake of privacy. It contains individually
 identifying information such as names and e-mail addresses, which are used to
 populate Org templates (Section [[~org-mode~]]). You need to create this
@@ -289,35 +295,81 @@ populate Org templates (Section [[~org-mode~]]). You need to create this
   (org-babel-load-file "~/.emacs.d/secrets.org")
 #+END_SRC
 
-* Global key bindings
+* Keyboard shortcuts
 
 The following bindings strive to further enhance CUA mode.[fn::Common User
 Access. This is a term coined by IBM which has influenced user navigation cues
-on all modern desktop OSes. From IBM's CUA, we get the =Ctrl-v= and =Ctrl-v=
+on all modern desktop OSes. From IBM's CUA, we get the =Ctrl-c= and =Ctrl-v=
 keyboard shortcuts.]
 
 #+BEGIN_SRC emacs-lisp
  (cua-mode)
 #+END_SRC
 
-** Keyboard navigation
+What follows are the most useful keybindings, as well as the keybindings to the
+functions we defined ourselves. It doesn't matter if we haven't defined the
+functions themselves yet; Emacs will accept a keybinding for any symbol and
+does not check if the symbol's function definition exists, until the keybinding
+is pressed.
 
-*** Saving a file
+** Files
+
+*** Save a file
 
 #+BEGIN_SRC emacs-lisp
   (global-set-key (kbd "C-s") 'save-buffer)
 #+END_SRC
 
-*** Opening a file
+*** Open a file
 
 #+BEGIN_SRC emacs-lisp
   (global-set-key (kbd "C-o") 'find-file)
 #+END_SRC
 
-*** Opening a recently visited file
+*** List open files
+
+#+BEGIN_SRC emacs-lisp
+  (global-set-key (kbd "C-b") 'ivy-switch-buffer)
+#+END_SRC
+
+*** Open this very file
+
+(Function defined in Section [[Jumping to this file]])
+
+#+BEGIN_SRC emacs-lisp
+    (global-set-key (kbd "C-c c") 'my/find-literate-config)
+#+END_SRC
+
+*** Open a recently visited file
 
 #+BEGIN_SRC emacs-lisp
   (global-set-key (kbd "C-r") 'counsel-recentf)
+#+END_SRC
+
+*** Locate a file
+
+#+BEGIN_SRC emacs-lisp
+  (global-set-key (kbd "C-c l") 'counsel-locate)
+#+END_SRC
+
+*** Open the agenda
+
+#+BEGIN_SRC emacs-lisp
+  (global-set-key (kbd "C-c a") 'org-agenda-list)
+#+END_SRC
+
+*** Open the diary
+
+#+BEGIN_SRC emacs-lisp
+  (global-set-key (kbd "C-c d") 'my/find-diary-file)
+#+END_SRC
+
+** Windows
+
+*** Make new window
+
+#+BEGIN_SRC emacs-lisp
+  (global-set-key (kbd "C-n") 'make-frame)
 #+END_SRC
 
 *** Make only window
@@ -326,13 +378,7 @@ keyboard shortcuts.]
   (global-set-key (kbd "C-`") 'delete-other-windows)
 #+END_SRC
 
-*** Locating a file
-
-#+BEGIN_SRC emacs-lisp
-  (global-set-key (kbd "C-c l") 'counsel-locate)
-#+END_SRC
-
-*** Closing window and quitting Emacs
+*** Close window and quit
 
 #+BEGIN_SRC emacs-lisp
   (defun my/delete-window-or-previous-buffer ()
@@ -350,7 +396,9 @@ The following bindings lead to more natural exit behaviors.
 (global-set-key (kbd "C-q") 'save-buffers-kill-terminal)
 #+END_SRC
 
-** Mouse zoom
+** Text display
+
+*** Zoom
 
 The typical binding on both GNU/Linux and MS Windows is adequate here: ~C-=~ to
 zoom in, ~C--~ to zoom out.
@@ -361,6 +409,50 @@ It seems that starting with Emacs 27.1, Control + mousewheel works.
 (global-set-key (kbd "C--") 'text-scale-decrease)
 (global-set-key (kbd "C-=") 'text-scale-increase)
 (global-set-key (kbd "C-+") 'text-scale-increase)
+#+END_SRC
+
+*** Select all the text
+
+CUA, CUA, CUA, always & forever.
+
+#+BEGIN_SRC emacs-lisp
+(global-set-key (kbd "C-a") 'mark-whole-buffer)
+#+END_SRC
+
+** Customizing the editor
+
+*** Customize a variable
+
+#+BEGIN_SRC emacs-lisp
+    (global-set-key (kbd "C-c v") 'customize-variable)
+#+END_SRC
+
+*** Customize a face
+
+#+BEGIN_SRC emacs-lisp
+    (global-set-key (kbd "C-c f") 'customize-face)
+#+END_SRC
+
+** TODO One-click workflows
+
+A major advantage of the Emacs document production system: arbitrarily
+complicated functions can be assigned to very simple keybindings. This means we
+can automate workflows up to a pretty absurd level.
+
+*** Export to PDF
+
+PDF is probably the most prevalent file format for sharing static documents.
+
+**** document
+
+#+BEGIN_SRC emacs-lisp
+  (global-set-key (kbd "C-p") 'my/org-quick-export)
+#+END_SRC
+
+**** TODO presentation
+
+#+BEGIN_SRC emacs-lisp
+
 #+END_SRC
 
 * Packages
@@ -470,6 +562,9 @@ executed by the Org Babel backend.
     (ledger . t)
     (gnuplot . t)
     (latex . t)))
+
+    (org-babel-do-load-languages
+    'org-babel-load-languages '((C . t) (shell . t) (gnuplot . t)))
 #+END_SRC
 
 *** Prevent or warn on invisible edits
@@ -485,14 +580,10 @@ for which the heading or body contain a matching =org-time-stamp=.[fn::An
 =org-time-stamp= can be inserted with ~C-c .~ (period)]
 
 #+BEGIN_SRC emacs-lisp
-    (global-set-key (kbd "C-c a") 'org-agenda-list)
-
-    (defun my/find-diary-file ()
-    "Load `org-agenda-diary-file'."
-    (interactive)
-    (find-file org-agenda-diary-file))
-
-    (global-set-key (kbd "C-c d") 'my/find-diary-file)
+(defun my/find-diary-file ()
+  "Load `org-agenda-diary-file'."
+  (interactive)
+  (find-file org-agenda-diary-file))
 #+END_SRC
 
 *** Timestamps
@@ -621,25 +712,8 @@ however cleaner to separate table of contents with the rest of the work.
  (setq org-latex-toc-command "\\tableofcontents\\clearpage")
 #+END_SRC
 
-
-
 The following makes =TODO= items appear red and =CLOSED= items appear green in
 Org's LaTeX exports. Very stylish, much flair!
-
-*** TODO Export
-
-This creates a shorter binding for the most common Org export: Org \rightarrow
-LaTeX \rightarrow PDF.
-
-#+BEGIN_SRC emacs-lisp
-  (defun my/org-quick-export ()
-    "Org async export to PDF and open.
-    This basically reimplements `C-c C-e C-a l o'."
-    (interactive)
-    (org-open-file (org-latex-export-to-pdf)))
-
-  (global-set-key (kbd "C-c e") 'my/org-quick-export)
-#+END_SRC
 
 ** TODO ~evil-mode~
 
@@ -660,9 +734,10 @@ keybindings, visit [[https://hea-www.harvard.edu/~fine/Tech/vi.html]].]
 The following customizations open the doors to vastly increased typing speed
 and accuracy.
 
-*** ~flycheck~
+*** Syntax checking
 
-Syntax highlighting for Emacs.
+We require a package to highlight syntax errors and warnings. The ~flycheck~
+package ensures we are aware of all our code's syntactical shortcomings.
 
 #+NAME: flycheck
 #+BEGIN_SRC emacs-lisp
@@ -670,7 +745,7 @@ Syntax highlighting for Emacs.
   (global-flycheck-mode)
 #+END_SRC
 
-*** TODO ~flyspell~
+*** Spelling
 
 #+NAME: flyspell
 #+BEGIN_SRC emacs-lisp
@@ -680,18 +755,21 @@ Syntax highlighting for Emacs.
 
 *** Insert template from keyword
 
-Thanks to yasnippet, we can type certain keywords, press =TAB=, and this will
-automatically insert a text snippet. We may then navigate through the snippet
-by using =TAB= (next field) and =SHIFT-TAB= (previous field).
+Thanks to ~yasnippet~, we can type certain keywords, then press =TAB=, to
+automatically insert a predefined text snippet. We can then navigate through
+the snippet by using =<tab>= (next field) and =<backtab>= (previous
+field).[fn::=<backtab>= is synonymous with pressing shift-tab.]
 
-For instance: Typing =src= then pressing =TAB= will expand the keyword to the
+For instance: typing =src= then pressing =TAB= will expand the keyword to the
 following text:
 
 : #+BEGIN_SRC emacs-lisp
 :
 : #+END_SRC
 
-We notice that emacs-lisp is highlighted---this is the first modifiable field.
+We notice that emacs-lisp is highlighted---this is the first modifiable
+field. Many clever programming tricks can be performed with ~yasnippet~ to save
+us a ton of time with boilerplate text!
 
 #+NAME: yasnippet
 #+BEGIN_SRC emacs-lisp
@@ -745,6 +823,10 @@ This enables us to better manage our =.git= projects.
 #+END_SRC
 
 *** Jump to symbol's definition
+
+~dumb-jump~ is a reliable symbol definition finder. It uses different matching
+algorithms and heuristics to provide a very educated guess on the location of a
+symbol's definition.
 
 #+BEGIN_SRC emacs-lisp
 (use-package dumb-jump)
@@ -898,9 +980,26 @@ This highlights hexadecimal numbers which look like colors, in that same color.
       (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))))
 #+END_SRC
 
+* One-click workflows
+
+In this section, we'll implement useful one-click workflows.
+
+*** TODO Export dialogue
+
+This reimplements the most common Org mode export: Org \rightarrow LaTeX
+\rightarrow PDF. The binding is defined in Section [[Export to PDF]].
+
+#+BEGIN_SRC emacs-lisp
+  (defun my/org-quick-export ()
+    "Org async export to PDF and open.
+    This basically reimplements `C-c C-e C-a l o'."
+    (interactive)
+    (org-open-file (org-latex-export-to-pdf)))
+#+END_SRC
+
 * Editing preferences
 
-These customizations enhance editor usability. They are not brought about
+These customizations enhance editor usability.
 
 ** Editor
 
@@ -916,7 +1015,7 @@ This is just a better default. Don't @ me.
 *** Recent files
 
 The keybinding for opening a recently visited file is described in paragraph
-[[Opening a recently visited file]].
+[[Open a recently visited file]].
 
 #+BEGIN_SRC emacs-lisp
   (recentf-mode 1)
@@ -988,7 +1087,7 @@ Disable minibuffer scroll bar.
 
 * Themes
 
-Without a carefully designed theme, our editor could become unusable. Thus, we
+Without a carefully designed theme, our editor would become unusable. Thus, we
 describe two themes that were developed purposefully and iteratively.
 
 #+BEGIN_SRC emacs-lisp
@@ -1085,15 +1184,15 @@ At this point, our editor is almost ready to run. Phew! All that's left to do
 is to prepare for the next startup, interrupt our profiling activities, and
 smartly store the result of our profiling.
 
-** TODO Speeding up the next startup
+** Speeding up the next startup
 
 #+BEGIN_SRC emacs-lisp
 (defun byte-compile-literate-config ()
   "Byte compile our literate configuration file."
-  (delete-file (concat (file-name-sans-extension my/literate-config) ".elc"))
-  (org-babel-tangle-file my/literate-config)
-  (byte-compile-file (concat (file-name-sans-extension my/literate-config) ".el"))
-  (message "c'mon work fucker"))
+  (delete-file (concat my/literate-config ".elc"))
+  (delete-file (concat my/literate-config ".el"))
+  (org-babel-tangle-file (concat my/literate-config ".org"))
+  (byte-compile-file (concat my/literate-config ".el")))
 
 (add-hook 'kill-emacs-hook 'byte-compile-literate-config)
 #+END_SRC

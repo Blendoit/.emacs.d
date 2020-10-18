@@ -1,5 +1,5 @@
 (deftheme blendoit-light
-  "Created 2020-10-05.")
+  "Created 2020-10-10.")
 
 (custom-theme-set-faces
  'blendoit-light
@@ -76,7 +76,7 @@
  '(org-checkbox ((t (:weight bold :inherit org-meta-line))))
  '(org-todo ((t (:background "tomato" :foreground "White" :weight bold :height 1.2 :family "Hermit"))))
  '(org-done ((t (:background "ForestGreen" :foreground "White" :weight bold :height 1.2 :family "Hermit"))))
- '(org-date ((t (:inherit org-tag))))
+ '(org-date ((t (:foreground "steel blue" :family "Hermit"))))
  '(Info-quoted ((t (:inherit org-block))))
  '(org-priority ((t (:weight bold :inherit org-meta-line))))
  '(powerline-active1 ((t (:inherit mode-line :background "grey17" :foreground "white" :family "Hack"))))
