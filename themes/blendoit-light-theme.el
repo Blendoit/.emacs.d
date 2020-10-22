@@ -5,7 +5,7 @@
  'blendoit-light
  '(cursor ((t (:background "red"))))
  '(fixed-pitch ((t (:family "Hack"))))
- '(variable-pitch ((t (:family "Liberation Sans"))))
+ '(variable-pitch ((t (:family "Open Sans"))))
  '(escape-glyph ((((background dark)) (:foreground "cyan")) (((type pc)) (:foreground "magenta")) (t (:foreground "brown"))))
  '(homoglyph ((((background dark)) (:foreground "cyan")) (((type pc)) (:foreground "magenta")) (t (:foreground "brown"))))
  '(minibuffer-prompt ((t (:inherit org-meta-line))))
@@ -60,7 +60,7 @@
  '(org-checkbox-statistics-todo ((t (:inherit org-checkbox :foreground "tomato"))))
  '(org-checkbox-statistics-done ((t (:inherit org-checkbox :foreground "ForestGreen"))))
  '(org-verbatim ((t (:inherit fixed-pitch :height 0.9 :foreground "DodgerBlue1" :foundry "Hack"))))
- '(font-lock-doc-face ((t (:inherit font-lock-string-face :Family "Liberation Sans"))))
+ '(font-lock-doc-face ((t (:inherit font-lock-string-face :Family "Open Sans"))))
  '(org-document-info ((t (:weight bold))))
  '(org-table ((t (:height 0.8 :family "Hack"))))
  '(org-block ((t (:height 0.8 :family "Hermit"))))

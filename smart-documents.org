@@ -4,7 +4,7 @@
 #+AUTHOR: Marius Peter
 #+DATE: <2020-07-23 Thu>
 #+EMAIL: blendoit@gmail.com
-#+STARTUP: showall customtime
+#+STARTUP: showall
 #+SETUPFILE: ~/.emacs.d/templates/documents/general.org
 #+INCLUDE: ~/.emacs.d/templates/documents/general.org_title
 
@@ -77,8 +77,6 @@ element.
     (message "Successfully captured user details."))
 #+END_SRC
 
-
-
 #+NAME: user-details
 #+BEGIN_SRC emacs-lisp
   (defun my/tokenize-user-details ()
@@ -88,7 +86,6 @@ element.
 
   (unless (file-exists-p (concat user-emacs-directory
                                  "meta/user-details"))
-
     (setq user-details '(user-full-name
                          user-mail-address))
     (append-to-file "Foobar\n" nil "~/.emacs.d/meta/foobar"))
@@ -172,25 +169,29 @@ stop]]. We will then present profiling report in Section [[Profiling --- report]
 ; (profiler-start)
 #+END_SRC
 
-** TODO Emacs client
-
-Makes opening emacs faster for following instances.
-
-#+NAME: emacs-client
-#+BEGIN_SRC emacs-lisp
-; (setq initial-buffer-choice (lambda () (get-buffer "*dashboard*")))
-#+END_SRC
-
 ** Jumping to this file
 
 We begin by defining a function to open this very file.
 
 #+NAME: shortcut-config
 #+BEGIN_SRC emacs-lisp
-    (defun my/find-literate-config ()
-    "Jump to this very file."
-    (interactive)
-    (find-file (concat my/literate-config ".org")))
+(defun my/find-literate-config ()
+  "Jump to this very file."
+  (interactive)
+  (find-file (concat my/literate-config ".org")))
+#+END_SRC
+
+** Speeding up the next startup
+
+#+BEGIN_SRC emacs-lisp
+(defun byte-compile-literate-config ()
+  "Byte compile our literate configuration file."
+  (delete-file (concat my/literate-config ".elc"))
+  (delete-file (concat my/literate-config ".el"))
+  (org-babel-tangle-file (concat my/literate-config ".org"))
+  (byte-compile-file (concat my/literate-config ".el")))
+
+(add-hook 'kill-emacs-hook 'byte-compile-literate-config)
 #+END_SRC
 
 ** Meta-files
@@ -262,14 +263,18 @@ Backups are very important!
 
 ** Initial and default frames
 
-We set the dimensions of the inital and default frames.
+We set the dimensions of the initial frame:
+
+#+BEGIN_SRC emacs-lisp
+  (add-to-list 'initial-frame-alist '(width  . 100))
+  (add-to-list 'initial-frame-alist '(height . 50))
+#+END_SRC
+
+We also set the dimensions of subsequent frames:
 
 #+BEGIN_SRC emacs-lisp
   (add-to-list 'default-frame-alist '(width  . 100))
   (add-to-list 'default-frame-alist '(height . 50))
-
-  (add-to-list 'initial-frame-alist '(width  . 100))
-  (add-to-list 'initial-frame-alist '(height . 50))
 #+END_SRC
 
 *** GNU/Linux
@@ -409,14 +414,6 @@ It seems that starting with Emacs 27.1, Control + mousewheel works.
 (global-set-key (kbd "C--") 'text-scale-decrease)
 (global-set-key (kbd "C-=") 'text-scale-increase)
 (global-set-key (kbd "C-+") 'text-scale-increase)
-#+END_SRC
-
-*** Select all the text
-
-CUA, CUA, CUA, always & forever.
-
-#+BEGIN_SRC emacs-lisp
-(global-set-key (kbd "C-a") 'mark-whole-buffer)
 #+END_SRC
 
 ** Customizing the editor
@@ -676,33 +673,17 @@ i.e. chronologically.
  (setq org-agenda-insert-diary-strategy 'date-tree-last)
 #+END_SRC
 
-What follows are the document class structures that can be exported in LaTeX.
+What follows is an additional document class structures that can be exported in
+LaTeX.
 
 #+BEGIN_SRC emacs-lisp
- (setq org-latex-classes
-   '(("article" "\\documentclass[11pt]{article}"
-      ("\\section{%s}" . "\\section*{%s}")
-      ("\\subsection{%s}" . "\\subsection*{%s}")
-      ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
-      ("\\paragraph{%s}" . "\\paragraph*{%s}")
-      ("\\subparagraph{%s}" . "\\subparagraph*{%s}"))
-     ("report" "\\documentclass[11pt]{report}"
-      ("\\part{%s}" . "\\part*{%s}")
-      ("\\chapter{%s}" . "\\chapter*{%s}")
-      ("\\section{%s}" . "\\section*{%s}")
-      ("\\subsection{%s}" . "\\subsection*{%s}")
-      ("\\subsubsection{%s}" . "\\subsubsection*{%s}"))
-     ("book" "\\documentclass[12pt]{book}"
-      ("\\part{%s}" . "\\part*{%s}")
-      ("\\chapter{%s}" . "\\chapter*{%s}")
-      ("\\section{%s}" . "\\section*{%s}")
-      ("\\subsection{%s}" . "\\subsection*{%s}")
-      ("\\subsubsection{%s}" . "\\subsubsection*{%s}"))
-     ("book-blendoit" "\\documentclass[12pt]{book}"
-      ("\\chapter{%s}" . "\\chapter*{%s}")
-      ("\\section{%s}" . "\\section*{%s}")
-      ("\\subsection*{%s}" . "\\subsection*{%s}")
-      ("\\subsubsection*{%s}" . "\\subsubsection*{%s}"))))
+;; (add-to-list 'org-latex-classes
+;;              '("book-blendoit"
+;;                "\\documentclass[12pt]{book}"
+;;                ("\\chapter{%s}" . "\\chapter*{%s}")
+;;                ("\\section{%s}" . "\\section*{%s}")
+;;                ("\\subsection*{%s}" . "\\subsection*{%s}")
+;;                ("\\subsubsection*{%s}" . "\\subsubsection*{%s}")))
 #+END_SRC
 
 By default, body text can immediately follow the table of contents. It is
@@ -788,8 +769,8 @@ us a ton of time with boilerplate text!
 
 #+NAME: company
 #+BEGIN_SRC emacs-lisp
-(use-package hungry-delete
-:init (hungry-delete-mode))
+(use-package hungry-delete)
+(global-hungry-delete-mode)
 #+END_SRC
 
 ** Utilities
@@ -1071,6 +1052,32 @@ Automatically break lines longer than =fill-column=.
   (add-hook 'org-mode-hook 'turn-on-auto-fill)
 #+END_SRC
 
+** Text
+
+*** Beautiful symbols
+
+We want the Emacs Lisp keyword =lambda= to be rendered as \lambda within the
+editor. This is mostly for a subjective ``cool'' factor.
+
+#+BEGIN_SRC emacs-lisp
+(global-prettify-symbols-mode 1)
+#+END_SRC
+
+*** Org mode sugar
+
+Let's pimp out the appearance of our text in Org mode. First, we prettify
+checkbox lists.
+
+#+BEGIN_SRC emacs-lisp
+(add-hook 'org-mode-hook
+	  (lambda ()
+	    "Beautify Org checkbox symbols."
+	    (push '("[ ]" .  "☐") prettify-symbols-alist)
+	    (push '("[X]" . "☑" ) prettify-symbols-alist)
+	    (push '("[-]" . "⬛" ) prettify-symbols-alist)
+            (prettify-symbols-mode)))
+#+END_SRC
+
 ** Minibuffer
 
 We replace the longer ~yes-or-no-p~ questions with more convenient ~y-or-n-p~.
@@ -1121,7 +1128,7 @@ themes (Table [[theme-color-1]]).
 | \color{Tomato} Tomato           | timestamp `TODO'                | /same/             |
 | \color{Green} Green             | positive                        | /same/             |
 | \color{ForestGreen} ForestGreen | timestamp `DONE'                | /same/             |
-| \color{Blue} Blue               | interactable content; links     | /same/             |
+| \color{Blue} Blue               | interactive content; links      | /same/             |
 | \color{SteelBlue} SteelBlue     | anything Org mode; anchor color | /same/             |
 | \color{DeepSkyBlue} DeepSkyBlue | ~highlight~                     | /same/             |
 | \color{DodgerBlue} DodgerBlue   | ~isearch~                       | /same/             |
@@ -1146,7 +1153,7 @@ cursor is a more MS Word-like bar.
 (setq-default cursor-type 'bar)
 #+END_SRC
 
-*** Fonts
+*** TODO Fonts
 
 - Hack :: ~default~ and ~fixed-pitch~
   - Legible, modern monospace font
@@ -1154,6 +1161,7 @@ cursor is a more MS Word-like bar.
 - Liberation Sans :: ~variable-pitch~
   - Libre alternative to Arial
   - Unoffensive
+- Open Sans :: ~variable-pitch~
 - Hermit :: ~org-block~, anything Org/meta in general
   - Slightly wider than Hack
   - More opinionated shapes
@@ -1181,21 +1189,8 @@ than 1920\times1080.
 * Late setup
 
 At this point, our editor is almost ready to run. Phew! All that's left to do
-is to prepare for the next startup, interrupt our profiling activities, and
-smartly store the result of our profiling.
-
-** Speeding up the next startup
-
-#+BEGIN_SRC emacs-lisp
-(defun byte-compile-literate-config ()
-  "Byte compile our literate configuration file."
-  (delete-file (concat my/literate-config ".elc"))
-  (delete-file (concat my/literate-config ".el"))
-  (org-babel-tangle-file (concat my/literate-config ".org"))
-  (byte-compile-file (concat my/literate-config ".el")))
-
-(add-hook 'kill-emacs-hook 'byte-compile-literate-config)
-#+END_SRC
+is to interrupt our profiling activities, and smartly store the result of our
+profiling.
 
 ** Profiling --- stop
 
