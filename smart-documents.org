@@ -2,18 +2,18 @@
 
 #+TITLE: Smart Documents
 #+AUTHOR: Marius Peter
-#+DATE: <2020-07-23 Thu>
+#+DATE: <2020-10-23 Fri>
 #+EMAIL: blendoit@gmail.com
 #+STARTUP: showall
-#+SETUPFILE: ~/.emacs.d/templates/documents/general.org
-#+INCLUDE: ~/.emacs.d/templates/documents/general.org_title
+#+SETUPFILE: ~/.emacs.d/templates/documents/default.org
+#+INCLUDE: ~/.emacs.d/templates/documents/default.org_title
 
 # By default, Org Babel does not tangle blocks.
 #+PROPERTY: header-args :tangle yes
 
 # Beautiful font pairing
-#+LATEX_HEADER: \setmainfont{urw gothic}
-#+LATEX_HEADER: \setmonofont{hermit}
+# #+LATEX_HEADER: \setmainfont{urw gothic}
+# #+LATEX_HEADER: \setmonofont{hermit}
 
 #+LATEX: \begin{abstract}
 The idea of /Smart Documents/ came to me as I was reflecting on how to improve
@@ -53,9 +53,11 @@ document---feel free to experiment and discover. Here are three commands that
 will help you understand all the symbols in this file, if you are browsing this
 paper within Emacs itself:
 
-- ~C-h f~ describe function
-- ~C-h v~ describe variable
-- ~C-h k~ describe key
+- ~C-h f~ :: describe function
+- ~C-h v~ :: describe variable
+- ~C-h k~ :: describe key
+
+You can always press ~f1~ to access Emacs in-built help.
 
 * TODO First-time setup
 
@@ -111,53 +113,21 @@ This is the very first user-editable file loaded by Emacs.[fn::This feature
 became available in version 27.1.] In it, we disable GUI elements that would
 otherwise be loaded and displayed once Emacs is ready to accept user input.
 
-#+BEGIN_SRC emacs-lisp
-  (setq my/early-init-file (concat user-emacs-directory "early-init.el"))
-
-  (defun my/create-early-init-file ()
-    "Create `early-init.el' file in `user-emacs-directory'."
-    (write-region
-     "(menu-bar-mode -1)
-  (tool-bar-mode -1)
-  (menu-bar-bottom-and-right-window-divider)
-  (setq gc-cons-threshold 100000000)" nil my/early-init-file))
-
-  (unless (file-exists-p my/early-init-file)
-    (menu-bar-mode -1)
-    (tool-bar-mode -1)
-    (menu-bar-bottom-and-right-window-divider)
-    (setq gc-cons-threshold 100000000)
-    (my/create-early-init-file))
-#+END_SRC
+It can be found here: [[file:early-init.el]]
 
 ** The second file to load
 
 #+BEGIN_QUOTE
 Traditionally, file =~/.emacs= is used as the init file, although Emacs also
 looks at =~/.emacs.el=, =~/.emacs.d/init.el=, =~/.config/emacs/init.el=, or
-other
-locations.[fn::[[https://www.gnu.org/software/emacs/manual/html_node/emacs/Init-File.html]]]
+other locations.
+
+From the GNU website[fn::[[https://www.gnu.org/software/emacs/manual/html_node/emacs/Init-File.html]]]
 #+END_QUOTE
 
-#+BEGIN_SRC emacs-lisp
-  (setq my/init-file (concat user-emacs-directory "init.el"))
+This file can be found here: [[file:init.el]]
 
-  (defun my/create-init-file ()
-    "Create `init.el' file in `user-emacs-directory'."
-    (write-region
-     "(menu-bar-mode -1)
-  (tool-bar-mode -1)
-  (menu-bar-bottom-and-right-window-divider)" nil my/init-file))
-
-;; TODO This is a copy paste of `early.init.el'. Should be changed.
-  (unless (file-exists-p my/init-file)
-    (menu-bar-mode -1)
-    (tool-bar-mode -1)
-    (menu-bar-bottom-and-right-window-divider)
-    (my/create-init-file))
-#+END_SRC
-
-    If no file is found, Emacs then loads in its purely vanilla state.
+If no file is found, Emacs then loads in its purely vanilla state.
 
 ** Profiling --- start
 
@@ -273,8 +243,8 @@ We set the dimensions of the initial frame:
 We also set the dimensions of subsequent frames:
 
 #+BEGIN_SRC emacs-lisp
-  (add-to-list 'default-frame-alist '(width  . 100))
-  (add-to-list 'default-frame-alist '(height . 50))
+  (add-to-list 'default-frame-alist '(width  . 50))
+  (add-to-list 'default-frame-alist '(height . 30))
 #+END_SRC
 
 *** GNU/Linux
@@ -360,13 +330,17 @@ is pressed.
 *** Open the agenda
 
 #+BEGIN_SRC emacs-lisp
-  (global-set-key (kbd "C-c a") 'org-agenda-list)
+  (global-set-key [f5] 'org-agenda-list)
 #+END_SRC
 
 *** Open the diary
 
 #+BEGIN_SRC emacs-lisp
-  (global-set-key (kbd "C-c d") 'my/find-diary-file)
+(global-set-key [f6]
+		'(lambda ()
+		   "Load `org-agenda-diary-file'."
+		   (interactive)
+		   (find-file org-agenda-diary-file)))
 #+END_SRC
 
 ** Windows
@@ -385,20 +359,28 @@ is pressed.
 
 *** Close window and quit
 
+The following bindings lead to more natural window & frame exit behaviors.
+
+#+NAME: close-window-or-previous-buffer
 #+BEGIN_SRC emacs-lisp
-  (defun my/delete-window-or-previous-buffer ()
-    "Delete window; if sole window, previous buffer."
-     (interactive)
-     (if (> (length (window-list)) 1)
-       (delete-window)
-       (previous-buffer)))
+(global-set-key (kbd "C-w")
+		'(lambda ()
+		   "Delete window; if sole window, previous buffer."
+		   (interactive)
+		   (if (> (length (window-list)) 1)
+		       (delete-window)
+		     (previous-buffer))))
 #+END_SRC
 
-The following bindings lead to more natural exit behaviors.
-
+#+NAME: delete-frame-or-kill-emacs
 #+BEGIN_SRC emacs-lisp
-(global-set-key (kbd "C-w") 'my/delete-window-or-previous-buffer)
-(global-set-key (kbd "C-q") 'save-buffers-kill-terminal)
+(global-set-key (kbd "C-q")
+		'(lambda ()
+		   (interactive)
+		   "delete frame; if sole frame, kill Emacs."
+		   (if (> (length (frame-list)) 1)
+			  (delete-frame)
+		     (kill-emacs))))
 #+END_SRC
 
 ** Text display
@@ -576,11 +558,10 @@ The agenda displays a chronological list of headings across all agenda files
 for which the heading or body contain a matching =org-time-stamp=.[fn::An
 =org-time-stamp= can be inserted with ~C-c .~ (period)]
 
+We open the agenda in a separate window.
+
 #+BEGIN_SRC emacs-lisp
-(defun my/find-diary-file ()
-  "Load `org-agenda-diary-file'."
-  (interactive)
-  (find-file org-agenda-diary-file))
+(setq org-agenda-window-setup 'other-frame)
 #+END_SRC
 
 *** Timestamps
@@ -937,9 +918,9 @@ Get inspiration from ~ibuffer-sidebar~ and create a better sidebar.
 
 #+BEGIN_SRC emacs-lisp
 (use-package rainbow-delimiters
- :config (add-hook 'prog-mode-hook #'rainbow-delimiters-mode))
+  :config (add-hook 'prog-mode-hook #'rainbow-delimiters-mode))
 (electric-pair-mode)
-     (show-paren-mode 1)
+(show-paren-mode 1)
 #+END_SRC
 
 *** Highlight ``color keywords'' in their color
@@ -1069,13 +1050,14 @@ Let's pimp out the appearance of our text in Org mode. First, we prettify
 checkbox lists.
 
 #+BEGIN_SRC emacs-lisp
-(add-hook 'org-mode-hook
-	  (lambda ()
-	    "Beautify Org checkbox symbols."
-	    (push '("[ ]" .  "☐") prettify-symbols-alist)
-	    (push '("[X]" . "☑" ) prettify-symbols-alist)
-	    (push '("[-]" . "⬛" ) prettify-symbols-alist)
-            (prettify-symbols-mode)))
+(when (string-equal system-type "gnu/linux")
+  (add-hook 'org-mode-hook
+	    (lambda ()
+	      "Beautify Org checkbox symbols."
+	      (push '("[ ]" .  "☐") prettify-symbols-alist)
+	      (push '("[X]" . "☑" ) prettify-symbols-alist)
+	      (push '("[-]" . "⬛" ) prettify-symbols-alist)
+              (prettify-symbols-mode))))
 #+END_SRC
 
 ** Minibuffer
@@ -1153,19 +1135,34 @@ cursor is a more MS Word-like bar.
 (setq-default cursor-type 'bar)
 #+END_SRC
 
-*** TODO Fonts
+*** Fonts
 
-- Hack :: ~default~ and ~fixed-pitch~
+**** Currently used /chad fonts/
+
+- Hack[fn::https://sourcefoundry.org/hack/] :: ~default~ and ~fixed-pitch~,
+  default code font
   - Legible, modern monospace font
   - Strict, sharp, uncompromising
-- Liberation Sans :: ~variable-pitch~
-  - Libre alternative to Arial
-  - Unoffensive
-- Open Sans :: ~variable-pitch~
-- Hermit :: ~org-block~, anything Org/meta in general
+- Public Sans[fn::https://public-sans.digital.gov/] :: ~variable-pitch~,
+  default body text font
+  - Very modern yet neutral
+  - Designed for the U.S. government
+  - Exceptional color on screen
+- Hermit[fn::https://pcaro.es/p/hermit/] :: ~org-block~, anything Org/meta in
+  general
   - Slightly wider than Hack
   - More opinionated shapes
-  - Very legible parentheses
+  - Very legible parentheses, very useful for Emacs Lisp!
+
+**** Previously used /virgin fonts/
+
+- +Liberation Sans+[fn::https://en.wikipedia.org/wiki/Liberation_fonts] :: +~variable-pitch~+
+  - Metrically compatible with /Arial/
+  - Unoffensive, unambitious forms
+  - Pretty angular letters, it's like you're trying to read squares
+- +Open Sans+[fn::https://www.opensans.com/] :: +~variable-pitch~+
+  - Ooh geometric Bauhaus influences, look at me
+  - Tall leading height is =h a r m o n i o u s=
 
 **** Using proportional fonts when needed
 
