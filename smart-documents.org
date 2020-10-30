@@ -1,4 +1,4 @@
-# -*- mode: org; -*- #
+# -*- mode: org; -*-
 
 #+TITLE: Smart Documents
 #+AUTHOR: Marius Peter
@@ -64,6 +64,45 @@ You can always press ~f1~ to access Emacs in-built help.
 The following code blocks are normally evaluated once---upon starting Emacs for
 the first time.
 
+** TODO Unpacking our literate configuration
+:PROPERTIES:
+:sd-unpack-path: sd.el
+:END:
+
+#+BEGIN_SRC emacs-lisp :tangle no
+(defvar sd-packed-p t
+  "Boolean to track literate configuration packed/unpacked status.")
+
+(defvar sd-unpack-sections (org-property-values "sd-unpack-path")
+  "List of target sections in `my/literate-config' to be unpacked into `user-emacs-directory'.")
+
+(defun sd-unpack-sections ()
+  "Unpack literate configuration into `emacs-user-directory'."
+  (interactive)
+  (mapcar 'sd-unpack sd-unpack-sections)
+  )
+
+(defun sd-unpack-section (section)
+  "Unpack SECTION into `user-emacs-directory'.
+If nil, unpack section under point.
+Make go through list of headings and unpack first matching SECTION."
+  (interactive)
+  (if (not section)
+      (insert (concat "\nThe contents of this Section was automatically moved to\n="
+		      user-emacs-directory (org-entry-get nil "sd-unpack-path") "=.\n"
+		      "Use `sd-pack-section' to copy the contents back into this section."))))
+
+
+(defun sd-pack-section ()
+  "Pack SECTION into `my/literate-config'."
+  (interactive)
+  (message "foobar!!!"))
+
+(global-set-key (kbd "C-t") 'sd-pack-section)
+
+(sd-unpack "init.el")
+#+END_SRC
+
 ** TODO User details
 
 One advantage of working with /Smart Documents/ is that they can automatically
@@ -108,6 +147,13 @@ https://git-scm.com/download/win]
 * Early setup
 
 ** The first file to load
+:PROPERTIES:
+:sd-unpack-path: init.el
+:END:
+
+The contents of this Section was automatically moved to
+=~/.emacs.d/init.el=.
+Use `sd-pack-section' to copy the contents back into this section.
 
 This is the very first user-editable file loaded by Emacs.[fn::This feature
 became available in version 27.1.] In it, we disable GUI elements that would
@@ -116,6 +162,9 @@ otherwise be loaded and displayed once Emacs is ready to accept user input.
 It can be found here: [[file:early-init.el]]
 
 ** The second file to load
+:PROPERTIES:
+:sd-unpack-path: early-init.el
+:END:
 
 #+BEGIN_QUOTE
 Traditionally, file =~/.emacs= is used as the init file, although Emacs also
