@@ -546,6 +546,20 @@ What follows are customizations designed to make Org mode behave more like
 Microsoft Word. The end goal is, once again, to draw as many new users to Emacs
 as possible!
 
+Check out how much information Org mode keeps concerning the most recent
+header:
+
+#+NAME: org-meta-info
+#+BEGIN_SRC emacs-lisp :tangle no :results pp :exports both :cache yes
+(save-excursion
+  (org-previous-visible-heading 1)
+  (org-element-at-point))
+#+END_SRC
+
+#+RESULTS[cf28d310a45fa4e4dcd49882889cd36a2ae3820d]: org-meta-info
+: (headline
+:  (:raw-value "~org-mode~" :begin 15070 :end 22082 :pre-blank 1 :contents-begin 15085 :contents-end 22081 :level 2 :priority nil :tags nil :todo-keyword nil :todo-type nil :post-blank 1 :footnote-section-p nil :archivedp nil :commentedp nil :post-affiliated 15070 :title "~org-mode~"))
+
 *** Basic customization
 
 Org base directory is in user home on GNU/Linux, or in =AppData= in MS Windows.
@@ -646,6 +660,8 @@ Options and why we need them:
   -interaction=nonstopmode -outdir=%o %f"))
 #+END_SRC
 
+**** Exporting timestamps
+
 We customize the format for org time stamps to make them appear monospaced in
 our exported LaTeX documents. This makes them visually distinguishable from
 body text.
@@ -656,6 +672,8 @@ body text.
   (setq org-latex-inactive-timestamp-format
         "\\texttt{%s}")
 #+END_SRC
+
+**** LaTeX packages
 
 The following packages are loaded for every time we export to LaTeX.
 
@@ -671,17 +689,22 @@ The following packages are loaded for every time we export to LaTeX.
         ("pdflatex"))))
 #+END_SRC
 
+**** Colored source blocks in PDF export
+
 Little bonus for GNU/Linux users: syntax highlighting for source code blocks in
 LaTeX exports.
 
 #+BEGIN_SRC emacs-lisp
-  (when (string-equal system-type "gnu/linux")
-    (add-to-list 'org-latex-packages-alist '("AUTO" "minted" t
-                                             ("pdflatex" "lualatex")))
-    (setq org-latex-listings 'minted)
-     (setq org-latex-minted-options
-       '(("style" "friendly") ())))
+(when (string-equal system-type "gnu/linux")
+  (add-to-list 'org-latex-packages-alist '("AUTO" "minted" t
+                                           ("pdflatex" "lualatex")))
+  (setq org-latex-listings 'minted)
+  (setq org-latex-minted-options '(("style" "friendly")
+				   ("breaklines" "true")
+                                   ("breakanywhere" "true"))))
 #+END_SRC
+
+**** Cleaning directory after PDF compilation
 
 Now, we set the files to be deleted when a LaTeX \rightarrow PDF compilation
 occurs. We only care about two files, in the end: the Org mode file for
@@ -694,6 +717,8 @@ edition, and the PDF for distribution.
           "out" "ptc" "run.xml" "snm" "toc" "vrb" "xdv"
           "tex" "lot" "lof"))
 #+END_SRC
+
+**** Chronological diary entries
 
 By default, Org agenda inserts diary entries as the first under the selected
 date. It is preferable to insert entries in the order that they were recorded,
@@ -715,6 +740,8 @@ LaTeX.
 ;;                ("\\subsection*{%s}" . "\\subsection*{%s}")
 ;;                ("\\subsubsection*{%s}" . "\\subsubsection*{%s}")))
 #+END_SRC
+
+**** Table of contents
 
 By default, body text can immediately follow the table of contents. It is
 however cleaner to separate table of contents with the rest of the work.
@@ -963,6 +990,18 @@ Get inspiration from ~ibuffer-sidebar~ and create a better sidebar.
 ;; (load-file)
 #+END_SRC
 
+*** Icons
+
+Icon fonts
+
+#+BEGIN_SRC emacs-lisp
+(use-package all-the-icons)
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp
+(use-package mode-icons)
+#+END_SRC
+
 *** Better parentheses
 
 #+BEGIN_SRC emacs-lisp
@@ -1010,7 +1049,8 @@ This reimplements the most common Org mode export: Org \rightarrow LaTeX
 
 * Editing preferences
 
-These customizations enhance editor usability.
+These customizations enhance editor usability. They also encompass cosmetic
+changes not brought about a specific package.
 
 ** Editor
 
@@ -1202,6 +1242,10 @@ cursor is a more MS Word-like bar.
   - Slightly wider than Hack
   - More opinionated shapes
   - Very legible parentheses, very useful for Emacs Lisp!
+- Jost[fn::https://indestructibletype.com/Jost.html] :: ~org-document-title~
+  and ~org-level-1~
+  - Ultra-modern
+  - Tasteful amount of geometric inspiration
 
 **** Previously used /virgin fonts/
 

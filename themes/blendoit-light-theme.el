@@ -1,5 +1,5 @@
 (deftheme blendoit-light
-  "Created 2020-10-10.")
+  "Created 2020-10-25.")
 
 (custom-theme-set-faces
  'blendoit-light
@@ -53,19 +53,19 @@
  '(ivy-minibuffer-match-highlight ((t (:inherit highlight))))
  '(org-formula ((t (:inherit org-table))))
  '(org-meta-line ((t (:foreground "SteelBlue" :family "Hermit"))))
- '(org-document-title ((t (:weight bold :height 2.0))))
+ '(org-document-title ((t (:weight bold :height 2.0 :family "Jost*"))))
  '(org-footnote ((t (:inherit link))))
  '(org-document-info-keyword ((t (:inherit org-meta-line))))
  '(org-code ((t (:background "light grey" :foreground "black" :height 0.9 :family "Hack"))))
  '(org-checkbox-statistics-todo ((t (:inherit org-checkbox :foreground "tomato"))))
  '(org-checkbox-statistics-done ((t (:inherit org-checkbox :foreground "ForestGreen"))))
- '(org-verbatim ((t (:inherit fixed-pitch :height 0.9 :foreground "DodgerBlue1" :foundry "Hack"))))
+ '(org-verbatim ((t (:foreground "DodgerBlue1" :height 0.9 :foundry "Hack"))))
  '(font-lock-doc-face ((t (:inherit font-lock-string-face :Family "Public Sans"))))
  '(org-document-info ((t (:weight bold))))
  '(org-table ((t (:height 0.8 :family "Hack"))))
  '(org-block ((t (:height 0.8 :family "Hermit"))))
  '(org-special-keyword ((t (:inherit org-meta-line))))
- '(org-level-1 ((t (:foreground "black" :weight bold :height 1.6))))
+ '(org-level-1 ((t (:foreground "black" :weight bold :height 1.6 :family "Jost*"))))
  '(org-level-2 ((t (:foreground "gray30" :weight bold :height 1.4))))
  '(org-level-3 ((t (:foreground "gray45" :weight bold :height 1.2))))
  '(org-level-4 ((t (:foreground "gray60" :weight bold :height 1.1))))
