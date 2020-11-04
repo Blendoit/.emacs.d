@@ -10,11 +10,13 @@
 
 ;; Emacs will startup faster next time, because it will load
 ;; a byte-compiled version of our literate configuration file.
-(cond ((file-exists-p (concat my/literate-config ".el"))
-       (load my/literate-config))
-      ((file-exists-p (concat my/literate-config ".org"))
-       (org-babel-load-file (concat my/literate-config ".org")))
-      (t (message "No literate configuration file detected.")))
+;; (cond ((file-exists-p (concat my/literate-config ".el"))
+;;        (load my/literate-config))
+;;       ((file-exists-p (concat my/literate-config ".org"))
+;;        (org-babel-load-file (concat my/literate-config ".org")))
+;;       (t (message "No literate configuration file detected.")))
+
+(org-babel-load-file (concat my/literate-config ".org"))
 
 (provide 'init)
 

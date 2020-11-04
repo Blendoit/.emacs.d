@@ -16,7 +16,7 @@
  '(trailing-whitespace ((((class color) (background light)) (:background "red1")) (((class color) (background dark)) (:background "red1")) (t (:inverse-video t))))
  '(font-lock-builtin-face ((t (:foreground "dark slate blue"))))
  '(font-lock-comment-delimiter-face ((t (:foreground "dim gray" :inherit font-lock-comment-face))))
- '(font-lock-comment-face ((t (:foreground "slate gray" :slant italic :height 1.1))))
+ '(font-lock-comment-face ((t (:foreground "slate gray" :slant italic))))
  '(font-lock-constant-face ((t (:foreground "dark cyan"))))
  '(font-lock-function-name-face ((((class color) (min-colors 88) (background light)) (:foreground "Blue1")) (((class color) (min-colors 88) (background dark)) (:foreground "LightSkyBlue")) (((class color) (min-colors 16) (background light)) (:foreground "Blue")) (((class color) (min-colors 16) (background dark)) (:foreground "LightSkyBlue")) (((class color) (min-colors 8)) (:weight bold :foreground "blue")) (t (:weight bold :inverse-video t))))
  '(font-lock-keyword-face ((t (:foreground "slate blue"))))

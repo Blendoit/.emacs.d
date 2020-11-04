@@ -446,6 +446,33 @@ It seems that starting with Emacs 27.1, Control + mousewheel works.
 (global-set-key (kbd "C-+") 'text-scale-increase)
 #+END_SRC
 
+
+** Navigation
+
+*** Move down one line
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+(global-set-key (kbd "M-j") 'next-line)
+#+END_SRC
+
+*** Move up one line
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+(global-set-key (kbd "M-k") 'previous-line)
+#+END_SRC
+
+*** Move left one character
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+(global-set-key (kbd "M-h") 'left-char)
+#+END_SRC
+
+*** Move right one character
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+(global-set-key (kbd "M-l") 'right-char)
+#+END_SRC
+
 ** Customizing the editor
 
 *** Customize a variable
@@ -588,8 +615,10 @@ them corrupts tables.
       org-edit-src-content-indentation 0)
 #+END_SRC
 
-#+BEGIN_SRC emacs-lisp :tangle yes
+We enable the dynamic numbering of headlines in an Org buffer.
 
+#+BEGIN_SRC emacs-lisp :tangle no
+; (add-hook 'org-mode-hook 'org-num-mode)
 #+END_SRC
 
 *** Languages executable in smart documents
@@ -1073,31 +1102,59 @@ The keybinding for opening a recently visited file is described in paragraph
 
 ** Frame
 
-*** TODO Header & mode line
-Complete mode line rewrite. Might require new package.
+*** TODO Header & mode lines
 
-Top of the buffer is more intuitive for buffer info, bottom is more intuitive
-for buffer action.
+# Top of the buffer is more intuitive for buffer info, bottom is more intuitive
+# for buffer action.
 
-This is pretty much a gutted out powerline.
+First, we create a function to calculate available width between left and right
+portions of the header and mode line.
 
-**** Header line
-
+#+NAME: sd-mode-line-render
 #+BEGIN_SRC emacs-lisp :tangle yes
+(defun sd-mode-line-render (left right)
+  "Return a string of `window-width' length
+  containing LEFT, and RIGHT aligned respectively."
+  (let* ((available-width (- (window-width) (length left) 2)))
+    (format (format " %%s %%%ds " available-width) left right)))
+#+END_SRC
+
+**** TODO Header line
+
+In Org mode, the document header line will be the title of the document we are
+working on currently.
+
+#+BEGIN_SRC emacs-lisp :tangle no
 (add-hook org-mode-hook
-	  '(lambda ()
-	     "Set the header line to show `org-document-title'."
+	  (lambda ()
+	     "Set the header line to show #+TITLE and #+DATE."
 	     (setq header-line-format
-		   (save-excursion
-		     (goto-char (point-min))
-		     (when (re-search-forward "^[[:space:]]*#\\+TITLE:[[:space:]]*\\(.*?\\)[[:space:]]*$" nil t)
-		       (match-string 1))))
+		   (concat (save-excursion
+			     (goto-char (point-min))
+			     (when (re-search-forward
+				    "^[[:space:]]*#\\+TITLE:[[:space:]]*\\(.*?\\)[[:space:]]*$"
+				    nil t)
+			       (match-string 1)))
+			   (save-excursion
+			     (goto-char (point-min))
+			     (when (re-search-forward
+				    "^[[:space:]]*#\\+DATE:[[:space:]]*\\(.*?\\)[[:space:]]*$"
+				    nil t)
+			       (match-string 1)))))))
 #+END_SRC
 
 **** Mode line
 
+Then, we use the previously declared function to set up our mode line.
+
+#+NAME: mode-line-format
 #+BEGIN_SRC emacs-lisp :tangle yes
-(setq mode-line-format )
+(setq-default mode-line-format
+      '((:eval (sd-mode-line-render
+                ;; left
+                (format-mode-line "[%*] %b")
+                ;; right
+                (format-mode-line "Line: %l ")))))
 #+END_SRC
 
 ** Window
