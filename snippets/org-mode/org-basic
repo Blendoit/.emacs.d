@@ -1,8 +1,0 @@
-# -*- mode: snippet -*-
-# name: Org mode basic template
-# key: /skel
-# --
-
-#+TITLE: ${1:Default Title}
-#+AUTHOR: ${2:Marius Peter}
-#+DATE: `(org-time-stamp nil)`
