@@ -1087,13 +1087,20 @@ This is pretty much a gutted out powerline.
 
 **** Header line
 
-#+BEGIN_SRC emacs-lisp
-  (setq header-line-format "%b")
+#+BEGIN_SRC emacs-lisp :tangle yes
+(add-hook org-mode-hook
+	  '(lambda ()
+	     "Set the header line to show org document title."
+	     (setq header-line-format
+		   (save-excursion
+		     (goto-char (point-min))
+		     (when (re-search-forward "^[[:space:]]*#\\+TITLE:[[:space:]]*\\(.*?\\)[[:space:]]*$" nil t)
+		       (match-string 1))))
 #+END_SRC
 
 **** Mode line
 
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :tangle yes
 (setq mode-line-format nil)
 #+END_SRC
 
