@@ -617,8 +617,8 @@ them corrupts tables.
 
 We enable the dynamic numbering of headlines in an Org buffer.
 
-#+BEGIN_SRC emacs-lisp :tangle no
-; (add-hook 'org-mode-hook 'org-num-mode)
+#+BEGIN_SRC emacs-lisp :tangle yes
+(add-hook 'org-mode-hook 'org-num-mode)
 #+END_SRC
 
 *** Languages executable in smart documents
@@ -1110,9 +1110,9 @@ The keybinding for opening a recently visited file is described in paragraph
 First, we create a function to calculate available width between left and right
 portions of the header and mode line.
 
-#+NAME: sd-mode-line-render
+#+NAME: sd-line-render
 #+BEGIN_SRC emacs-lisp :tangle yes
-(defun sd-mode-line-render (left right)
+(defun sd-line-render (left right)
   "Return a string of `window-width' length
   containing LEFT, and RIGHT aligned respectively."
   (let* ((available-width (- (window-width) (length left) 2)))
@@ -1124,12 +1124,13 @@ portions of the header and mode line.
 In Org mode, the document header line will be the title of the document we are
 working on currently.
 
-#+BEGIN_SRC emacs-lisp :tangle no
-(add-hook org-mode-hook
+#+BEGIN_SRC emacs-lisp :tangle yes
+(add-hook 'org-mode-hook
 	  (lambda ()
-	     "Set the header line to show #+TITLE and #+DATE."
-	     (setq header-line-format
-		   (concat (save-excursion
+	    "Set the header line to show #+TITLE and #+DATE."
+	    (setq header-line-format
+		  '(:eval (sd-line-render
+			   (save-excursion
 			     (goto-char (point-min))
 			     (when (re-search-forward
 				    "^[[:space:]]*#\\+TITLE:[[:space:]]*\\(.*?\\)[[:space:]]*$"
@@ -1140,7 +1141,7 @@ working on currently.
 			     (when (re-search-forward
 				    "^[[:space:]]*#\\+DATE:[[:space:]]*\\(.*?\\)[[:space:]]*$"
 				    nil t)
-			       (match-string 1)))))))
+			       (match-string 1))))))))
 #+END_SRC
 
 **** Mode line
@@ -1150,7 +1151,7 @@ Then, we use the previously declared function to set up our mode line.
 #+NAME: mode-line-format
 #+BEGIN_SRC emacs-lisp :tangle yes
 (setq-default mode-line-format
-      '((:eval (sd-mode-line-render
+      '((:eval (sd-line-render
                 ;; left
                 (format-mode-line "[%*] %b")
                 ;; right
@@ -1158,6 +1159,13 @@ Then, we use the previously declared function to set up our mode line.
 #+END_SRC
 
 ** Window
+
+*** Tab line
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+(global-tab-line-mode)
+#+END_SRC
+
 
 ** Buffer
 
