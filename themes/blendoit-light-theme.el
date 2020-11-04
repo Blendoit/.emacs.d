@@ -1,5 +1,5 @@
 (deftheme blendoit-light
-  "Created 2020-10-25.")
+  "Created 2020-11-03.")
 
 (custom-theme-set-faces
  'blendoit-light
@@ -29,9 +29,9 @@
  '(font-lock-variable-name-face ((t (:foreground "sienna"))))
  '(font-lock-warning-face ((t (:inherit (error)))))
  '(fringe ((t (:background "grey95"))))
- '(header-line ((t (:inherit mode-line :background "grey90" :foreground "grey20" :box nil))))
+ '(header-line ((t (:box nil :inherit mode-line :background "grey90" :foreground "grey20"))))
  '(tooltip ((t (:foreground "black" :background "lightyellow" :inherit (variable-pitch)))))
- '(mode-line ((t (:family "Hermit" :background "steel blue" :foreground "white" :box (:line-width -1 :style released-button)))))
+ '(mode-line ((t (:family "Hack" :background "steel blue" :foreground "white" :box (:line-width -1 :style released-button)))))
  '(mode-line-buffer-id ((t (:weight bold))))
  '(mode-line-emphasis ((t (:weight bold))))
  '(mode-line-highlight ((t (:box (:line-width 2 :color "grey40" :style released-button)))))

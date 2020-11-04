@@ -557,14 +557,18 @@ header:
 
 #+RESULTS[cf28d310a45fa4e4dcd49882889cd36a2ae3820d]: org-meta-info
 : (headline
-:  (:raw-value "~org-mode~" :begin 15070 :end 22082 :pre-blank 1 :contents-begin 15085 :contents-end 22081 :level 2 :priority nil :tags nil :todo-keyword nil :todo-type nil :post-blank 1 :footnote-section-p nil :archivedp nil :commentedp nil :post-affiliated 15070 :title "~org-mode~"))
+:  (:raw-value "~org-mode~" :begin 15920 :end 23157
+:   :pre-blank 1 :contents-begin 15935 :contents-end 23156
+:   :level 2 :priority nil :tags nil
+:   :todo-keyword nil :todo-type nil
+:   :post-blank 1 :footnote-section-p nil :archivedp nil :commentedp nil :post-affiliated 15920 :title "~org-mode~"))
 
 *** Basic customization
 
 Org base directory is in user home on GNU/Linux, or in =AppData= in MS Windows.
 
 #+NAME: org-directory
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :tangle yes
     (setq org-directory (concat user-emacs-directory "~/org"))
 #+END_SRC
 
@@ -1082,7 +1086,7 @@ This is pretty much a gutted out powerline.
 #+BEGIN_SRC emacs-lisp :tangle yes
 (add-hook org-mode-hook
 	  '(lambda ()
-	     "Set the header line to show org document title."
+	     "Set the header line to show `org-document-title'."
 	     (setq header-line-format
 		   (save-excursion
 		     (goto-char (point-min))
@@ -1093,7 +1097,7 @@ This is pretty much a gutted out powerline.
 **** Mode line
 
 #+BEGIN_SRC emacs-lisp :tangle yes
-(setq mode-line-format nil)
+(setq mode-line-format )
 #+END_SRC
 
 ** Window
