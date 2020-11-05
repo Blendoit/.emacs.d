@@ -2,15 +2,11 @@
 
 #+TITLE: Smart Documents
 #+AUTHOR: Marius Peter
-#+DATE: <2020-10-23 Fri>
+#+DATE: <2020-11-04 Wed>
 #+EMAIL: blendoit@gmail.com
 #+STARTUP: showall
 #+SETUPFILE: ~/.emacs.d/templates/documents/default.org
 #+INCLUDE: ~/.emacs.d/templates/documents/default.org_title
-
-# Beautiful font pairing
-# #+LATEX_HEADER: \setmainfont{urw gothic}
-# #+LATEX_HEADER: \setmonofont{hermit}
 
 #+LATEX: \begin{abstract}
 The idea of /Smart Documents/ came to me as I was reflecting on how to improve
@@ -391,6 +387,12 @@ is pressed.
 		   (find-file org-agenda-diary-file)))
 #+END_SRC
 
+*** Open Org mode document properties
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+(global-set-key [f9] 'sd-document-properties)
+#+END_SRC
+
 ** Windows
 
 *** Make new window
@@ -735,9 +737,22 @@ symbol's definition.
  :bind (("C-f" . counsel-grep-or-swiper)))
 #+END_SRC
 
+** Coding languages
+
+*** TODO Emacs Lisp
+
+*** Python
+
+Python is included by default on most Linux distributions.
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+(use-package py-yapf)
+(add-hook 'python-mode-hook 'py-yapf-enable-on-save)
+#+END_SRC
+
 ** File formats
 
-*** =csv= and Excel
+***  =csv= and Excel
 
 #+BEGIN_SRC emacs-lisp :tangle yes
   (use-package csv-mode)
@@ -1204,8 +1219,6 @@ Then, we use the previously declared function to set up our mode line.
 #+BEGIN_SRC emacs-lisp :tangle yes
 (global-tab-line-mode)
 #+END_SRC
-
-
 ** Buffer
 
 Save cursor location in visited buffer after closing it or Emacs.

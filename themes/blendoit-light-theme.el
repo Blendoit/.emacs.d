@@ -1,5 +1,5 @@
 (deftheme blendoit-light
-  "Created 2020-11-03.")
+  "Created 2020-11-04.")
 
 (custom-theme-set-faces
  'blendoit-light
@@ -35,7 +35,7 @@
  '(mode-line-buffer-id ((t (:weight bold))))
  '(mode-line-emphasis ((t (:weight bold))))
  '(mode-line-highlight ((t (:box (:line-width 2 :color "grey40" :style released-button)))))
- '(mode-line-inactive ((t (:family "Hermit" :background "SteelBlue4" :foreground "gainsboro" :box (:line-width -1 :color "gainsboro")))))
+ '(mode-line-inactive ((t (:box (:line-width -1 :color "gainsboro") :foreground "gainsboro" :background "SteelBlue4" :height 1.2 :family "Hermit"))))
  '(isearch ((t (:background "DodgerBlue1" :foreground "white"))))
  '(isearch-fail ((t (:background "RosyBrown1"))))
  '(lazy-highlight ((t (:foreground "DodgerBlue1" :box 2))))
@@ -64,7 +64,7 @@
  '(org-document-info ((t (:weight bold))))
  '(org-table ((t (:height 0.8 :family "Hack"))))
  '(org-block ((t (:height 0.8 :family "Hermit"))))
- '(org-special-keyword ((t (:inherit org-meta-line))))
+ '(org-special-keyword ((t (:inherit org-meta-line :weight bold :background "white"))))
  '(org-level-1 ((t (:foreground "black" :weight bold :height 1.6 :family "Jost*"))))
  '(org-level-2 ((t (:foreground "gray30" :weight bold :height 1.4))))
  '(org-level-3 ((t (:foreground "gray45" :weight bold :height 1.2))))
@@ -78,7 +78,7 @@
  '(org-done ((t (:background "ForestGreen" :foreground "White" :weight bold :height 1.2 :family "Hermit"))))
  '(org-date ((t (:foreground "steel blue" :family "Hermit"))))
  '(Info-quoted ((t (:inherit org-block))))
- '(org-priority ((t (:weight bold :inherit org-meta-line))))
+ '(org-priority ((t (:inherit org-meta-line))))
  '(org-drawer ((t (:inherit org-meta-line))))
  '(tab-line ((t (:background "gainsboro" :family "Hack"))))
  '(tab-line-tab ((default (:inherit (tab-line))) (((class color) (min-colors 88)) (:box (:line-width 1 :color nil :style released-button))) (t (:inverse-video nil))))
