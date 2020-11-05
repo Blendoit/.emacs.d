@@ -446,8 +446,33 @@ It seems that starting with Emacs 27.1, Control + mousewheel works.
 (global-set-key (kbd "C-+") 'text-scale-increase)
 #+END_SRC
 
-
 ** Navigation
+
+=Alt= (=Meta=) is the privileged key for motion in a buffer. It precedes a
+numerical argument, and a movement command. You may navigate in a buffer by
+keeping =Alt= pressed, optionally inputting a number from the keypad or number
+row, then pressing any of the following movement keys: =j=, =k=, =h=, and
+=l=. You will move in that direction by the according numerical argument.
+
+#+NAME: keybinding-navigation
+#+CAPTION[Navigation keybindings]: Navigation keybindings.
+#+ATTR_LATEX: :booktabs t
+|           | *Backwards* | *Forwards* |
+|-----------+-------------+------------|
+| Character | =M-h=       | =M-l=      |
+| Line      | =M-k=       | =M-j=      |
+| Word      | =M-f=       | =M-b=      |
+| Paragraph | =M-a=       | =M-e=      |
+
+
+We prevent Org mode from overriding preferred navigation keys.
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+(local-unset-key (kbd "M-j"))
+(local-unset-key (kbd "M-k"))
+(local-unset-key (kbd "M-l"))
+(local-unset-key (kbd "M-h"))
+#+END_SRC
 
 *** Move down one line
 
