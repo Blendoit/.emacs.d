@@ -1,0 +1,11 @@
+# -*- mode: snippet -*-
+# name: table
+# key: $tab
+# --
+#+NAME: ${1:table-title}
+#+CAPTION[${2:Short caption}]: $2. ${3:Optional additional details}
+#+ATTR_LATEX: :booktabs t
+| *${4:Title of Entries}*      | *${5:Column 2}*      | *${6:Column 2}*      |
+|-------------------------+-----------------+-----------------|
+| *${7:Entry 1}*               | $0                |                 |
+|                         |                 |                 |
