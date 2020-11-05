@@ -556,236 +556,7 @@ configuration file.
 (require 'bind-key)
 #+END_SRC
 
-** ~org-mode~
-
-Phew, I can finally introduce Org mode! I am so *excited*.
-
-Org mode replaces aword processor, a presentation creator, and a spreadsheet
-editor. IMHO, the spreadsheet ability captures more than 80% use cases wherein
-one wishes to include a table in a text document destined for physical
-publication. (It is clear that Excel spreadsheets are /not/ destined for
-physical publication---simply attempt to print an Excel spreadsheet with the
-default settings.)  In my opinion, Org mode matches all /useful/ features of
-the Microsoft Office suite 1-to-1.
-
-What follows are customizations designed to make Org mode behave more like
-Microsoft Word. The end goal is, once again, to draw as many new users to Emacs
-as possible!
-
-Check out how much information Org mode keeps concerning the most recent
-header:
-
-#+NAME: org-meta-info
-#+BEGIN_SRC emacs-lisp :tangle no :results pp :exports both :cache yes
-(save-excursion
-  (org-previous-visible-heading 1)
-  (org-element-at-point))
-#+END_SRC
-
-#+RESULTS[cf28d310a45fa4e4dcd49882889cd36a2ae3820d]: org-meta-info
-: (headline
-:  (:raw-value "~org-mode~" :begin 15920 :end 23157
-:   :pre-blank 1 :contents-begin 15935 :contents-end 23156
-:   :level 2 :priority nil :tags nil
-:   :todo-keyword nil :todo-type nil
-:   :post-blank 1 :footnote-section-p nil :archivedp nil :commentedp nil :post-affiliated 15920 :title "~org-mode~"))
-
-*** Basic customization
-
-Org base directory is in user home on GNU/Linux, or in =AppData= in MS Windows.
-
-#+NAME: org-directory
-#+BEGIN_SRC emacs-lisp :tangle yes
-    (setq org-directory (concat user-emacs-directory "~/org"))
-#+END_SRC
-
-First, we hide markup symbols for *bold*, /italic/, _underlined_ and
-+strikethrough+ text, and ensure our document appears indented upon
-loading:[fn::It /appears/ indented, but the underlying plaintext file does not
-contain tab characters!]
-
-For the time being, I will in fact display emphasis markers, because hiding
-them corrupts tables.
-
-#+NAME: org-format
-#+BEGIN_SRC emacs-lisp :tangle yes
-(setq org-hide-emphasis-markers nil
-      org-startup-indented t
-      org-src-preserve-indentation nil
-      org-edit-src-content-indentation 0)
-#+END_SRC
-
-We enable the dynamic numbering of headlines in an Org buffer.
-
-#+BEGIN_SRC emacs-lisp :tangle yes
-(add-hook 'org-mode-hook 'org-num-mode)
-#+END_SRC
-
-*** Languages executable in smart documents
-
-The following languages can be written inside =SRC= blocks, in view of being
-executed by the Org Babel backend.
-
-#+BEGIN_SRC emacs-lisp :tangle yes
-    (setq org-babel-load-languages
-    '((shell . t)
-    (python . t)
-    (plantuml . t)
-    (emacs-lisp . t)
-    (awk . t)
-    (ledger . t)
-    (gnuplot . t)
-    (latex . t)))
-
-    (org-babel-do-load-languages
-    'org-babel-load-languages '((C . t) (shell . t) (gnuplot . t)))
-#+END_SRC
-
-*** Prevent or warn on invisible edits
-
-#+BEGIN_SRC emacs-lisp :tangle yes
-(setq org-catch-invisible-edits t)
-#+END_SRC
-
-*** Agenda
-
-The agenda displays a chronological list of headings across all agenda files
-for which the heading or body contain a matching =org-time-stamp=.[fn::An
-=org-time-stamp= can be inserted with ~C-c .~ (period)]
-
-We open the agenda in a separate window.
-
-#+BEGIN_SRC emacs-lisp :tangle yes
-(setq org-agenda-window-setup 'other-frame)
-#+END_SRC
-
-*** Timestamps
-
-More literary timestamps are exported to LaTeX using the following custom
-format:
-
-#+BEGIN_SRC emacs-lisp :tangle yes
-    (setq org-time-stamp-custom-formats
-    '("%d %b. %Y (%a)" . "%d %b. %Y (%a), at %H:%M"))
-#+END_SRC
-
-*** LaTeX export
-
-We'll be compiling our documents with LuaTeX. This will afford us some
-future-proofing, since it was designated as the successor to pdfTeX by the
-latter's creators.
-
-First, we define the command executed when an Org file is exported to
-LaTeX. We'll use =latexmk=, the Perl script which automagically runs binaries
-related to LaTeX in the correct order and the right amount of times.
-
-Options and why we need them:
-- ~-shell-excape~ :: required by minted to color source blocks
-- ~-pdflatex=lualatex~ :: we use lualatex to generate our PDF
-- ~-interaction=nonstopmode~ :: go as far as possible without prompting user
-  for input
-
-#+BEGIN_SRC emacs-lisp :tangle yes
-  (setq org-latex-pdf-process
-        '("latexmk -pdf -f \
-  -pdflatex=lualatex -shell-escape \
-  -interaction=nonstopmode -outdir=%o %f"))
-#+END_SRC
-
-**** Exporting timestamps
-
-We customize the format for org time stamps to make them appear monospaced in
-our exported LaTeX documents. This makes them visually distinguishable from
-body text.
-
-#+BEGIN_SRC emacs-lisp :tangle yes
-  (setq org-latex-active-timestamp-format
-        "\\texttt{%s}")
-  (setq org-latex-inactive-timestamp-format
-        "\\texttt{%s}")
-#+END_SRC
-
-**** LaTeX packages
-
-The following packages are loaded for every time we export to LaTeX.
-
-#+BEGIN_SRC emacs-lisp :tangle yes
-  (setq org-latex-packages-alist
-     '(("AUTO" "polyglossia" t
-        ("xelatex" "lualatex"))
-       ("AUTO" "babel" t
-        ("pdflatex"))
-       ("" "booktabs" t
-        ("pdflatex"))
-       ("table,svgnames" "xcolor" t
-        ("pdflatex"))))
-#+END_SRC
-
-**** Colored source blocks in PDF export
-
-Little bonus for GNU/Linux users: syntax highlighting for source code blocks in
-LaTeX exports.
-
-#+BEGIN_SRC emacs-lisp :tangle yes
-(when (string-equal system-type "gnu/linux")
-  (add-to-list 'org-latex-packages-alist '("AUTO" "minted" t
-                                           ("pdflatex" "lualatex")))
-  (setq org-latex-listings 'minted)
-  (setq org-latex-minted-options '(("style" "friendly")
-				   ("breaklines" "true")
-                                   ("breakanywhere" "true"))))
-#+END_SRC
-
-**** Cleaning directory after PDF compilation
-
-Now, we set the files to be deleted when a LaTeX \rightarrow PDF compilation
-occurs. We only care about two files, in the end: the Org mode file for
-edition, and the PDF for distribution.
-
-#+BEGIN_SRC emacs-lisp :tangle yes
-  (setq org-latex-logfiles-extensions
-        '("aux" "bcf" "blg" "fdb_latexmk"
-          "fls" "figlist" "idx" "log" "nav"
-          "out" "ptc" "run.xml" "snm" "toc" "vrb" "xdv"
-          "tex" "lot" "lof"))
-#+END_SRC
-
-**** Chronological diary entries
-
-By default, Org agenda inserts diary entries as the first under the selected
-date. It is preferable to insert entries in the order that they were recorded,
-i.e. chronologically.
-
-#+BEGIN_SRC emacs-lisp :tangle yes
- (setq org-agenda-insert-diary-strategy 'date-tree-last)
-#+END_SRC
-
-What follows is an additional document class structures that can be exported in
-LaTeX.
-
-#+BEGIN_SRC emacs-lisp :tangle yes
-;; (add-to-list 'org-latex-classes
-;;              '("book-blendoit"
-;;                "\\documentclass[12pt]{book}"
-;;                ("\\chapter{%s}" . "\\chapter*{%s}")
-;;                ("\\section{%s}" . "\\section*{%s}")
-;;                ("\\subsection*{%s}" . "\\subsection*{%s}")
-;;                ("\\subsubsection*{%s}" . "\\subsubsection*{%s}")))
-#+END_SRC
-
-**** Table of contents
-
-By default, body text can immediately follow the table of contents. It is
-however cleaner to separate table of contents with the rest of the work.
-
-#+BEGIN_SRC emacs-lisp :tangle yes
- (setq org-latex-toc-command "\\tableofcontents\\clearpage")
-#+END_SRC
-
-The following makes =TODO= items appear red and =CLOSED= items appear green in
-Org's LaTeX exports. Very stylish, much flair!
-
-** TODO ~evil-mode~
+** ~evil-mode~
 
 Forgive me, for I have sinned.
 
@@ -1054,6 +825,249 @@ This highlights hexadecimal numbers which look like colors, in that same color.
     (when (string-equal system-type "gnu/linux")
       (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))))
 #+END_SRC
+
+* ~org-mode~
+
+Phew, I can finally introduce Org mode! I am so *excited*.
+
+Org mode replaces aword processor, a presentation creator, and a spreadsheet
+editor. IMHO, the spreadsheet ability captures more than 80% use cases wherein
+one wishes to include a table in a text document destined for physical
+publication. (It is clear that Excel spreadsheets are /not/ destined for
+physical publication---simply attempt to print an Excel spreadsheet with the
+default settings.)  In my opinion, Org mode matches all /useful/ features of
+the Microsoft Office suite 1-to-1.
+
+What follows are customizations designed to make Org mode behave more like
+Microsoft Word. The end goal is, once again, to draw as many new users to Emacs
+as possible!
+
+Check out how much information Org mode keeps concerning the most recent
+header:
+
+#+NAME: org-meta-info
+#+BEGIN_SRC emacs-lisp :tangle no :results pp :exports both :cache yes
+(save-excursion
+  (org-previous-visible-heading 1)
+  (org-element-at-point))
+#+END_SRC
+
+#+RESULTS[cf28d310a45fa4e4dcd49882889cd36a2ae3820d]: org-meta-info
+: (headline
+:  (:raw-value "~org-mode~" :begin 15920 :end 23157
+:   :pre-blank 1 :contents-begin 15935 :contents-end 23156
+:   :level 2 :priority nil :tags nil
+:   :todo-keyword nil :todo-type nil
+:   :post-blank 1 :footnote-section-p nil
+:   :archivedp nil :commentedp nil
+:   :post-affiliated 15920 :title "~org-mode~"))
+
+** Basic customization
+
+Org base directory is in user home on GNU/Linux, or in =AppData= in MS Windows.
+
+#+NAME: org-directory
+#+BEGIN_SRC emacs-lisp :tangle yes
+    (setq org-directory (concat user-emacs-directory "~/org"))
+#+END_SRC
+
+First, we hide markup symbols for *bold*, /italic/, _underlined_ and
++strikethrough+ text, and ensure our document appears indented upon
+loading:[fn::It /appears/ indented, but the underlying plaintext file does not
+contain tab characters!]
+
+For the time being, I will in fact display emphasis markers, because hiding
+them corrupts tables.
+
+#+NAME: org-format
+#+BEGIN_SRC emacs-lisp :tangle yes
+(setq org-hide-emphasis-markers nil
+      org-startup-indented t
+      org-src-preserve-indentation nil
+      org-edit-src-content-indentation 0)
+#+END_SRC
+
+We enable the dynamic numbering of headlines in an Org buffer.
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+(add-hook 'org-mode-hook 'org-num-mode)
+#+END_SRC
+
+By default, we hide Org document properties such as =#+TITLE=, =#+AUTHOR=, and
+=#+DATE=, because those keywords are defined when the document template is
+populated. We can nevertheless always access those properties and edit them
+manually, with a simple keyboard shortcut (cf. Section [[Open Org mode document
+properties]]).
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+(defun sd-document-properties ()
+"Open separate buffer enabling the editing of Org mode properties.")
+#+END_SRC
+
+
+** TODO Languages executable in smart documents
+
+The following languages can be written inside =SRC= blocks, in view of being
+executed by the Org Babel backend.
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+    (setq org-babel-load-languages
+    '((shell . t)
+    (python . t)
+    (plantuml . t)
+    (emacs-lisp . t)
+    (awk . t)
+    (ledger . t)
+    (gnuplot . t)
+    (latex . t)))
+
+    (org-babel-do-load-languages
+    'org-babel-load-languages '((C . t) (shell . t) (gnuplot . t)))
+#+END_SRC
+
+** Prevent or warn on invisible edits
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+(setq org-catch-invisible-edits t)
+#+END_SRC
+
+** Agenda
+
+The agenda displays a chronological list of headings across all agenda files
+for which the heading or body contain a matching =org-time-stamp=.[fn::An
+=org-time-stamp= can be inserted with ~C-c .~ (period)]
+
+We open the agenda in a separate window.
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+(setq org-agenda-window-setup 'other-frame)
+#+END_SRC
+
+** Timestamps
+
+More literary timestamps are exported to LaTeX using the following custom
+format:
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+    (setq org-time-stamp-custom-formats
+    '("%d %b. %Y (%a)" . "%d %b. %Y (%a), at %H:%M"))
+#+END_SRC
+
+** LaTeX export
+
+We'll be compiling our documents with LuaTeX. This will afford us some
+future-proofing, since it was designated as the successor to pdfTeX by the
+latter's creators.
+
+First, we define the command executed when an Org file is exported to
+LaTeX. We'll use =latexmk=, the Perl script which automagically runs binaries
+related to LaTeX in the correct order and the right amount of times.
+
+Options and why we need them:
+- ~-shell-excape~ :: required by minted to color source blocks
+- ~-pdflatex=lualatex~ :: we use lualatex to generate our PDF
+- ~-interaction=nonstopmode~ :: go as far as possible without prompting user
+  for input
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (setq org-latex-pdf-process
+        '("latexmk -pdf -f \
+  -pdflatex=lualatex -shell-escape \
+  -interaction=nonstopmode -outdir=%o %f"))
+#+END_SRC
+
+*** Exporting timestamps
+
+We customize the format for org time stamps to make them appear monospaced in
+our exported LaTeX documents. This makes them visually distinguishable from
+body text.
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (setq org-latex-active-timestamp-format
+        "\\texttt{%s}")
+  (setq org-latex-inactive-timestamp-format
+        "\\texttt{%s}")
+#+END_SRC
+
+*** LaTeX packages
+
+The following packages are loaded for every time we export to LaTeX.
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (setq org-latex-packages-alist
+     '(("AUTO" "polyglossia" t
+        ("xelatex" "lualatex"))
+       ("AUTO" "babel" t
+        ("pdflatex"))
+       ("" "booktabs" t
+        ("pdflatex"))
+       ("table,svgnames" "xcolor" t
+        ("pdflatex"))))
+#+END_SRC
+
+*** Colored source blocks in PDF export
+
+Little bonus for GNU/Linux users: syntax highlighting for source code blocks in
+LaTeX exports.
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+(when (string-equal system-type "gnu/linux")
+  (add-to-list 'org-latex-packages-alist '("AUTO" "minted" t
+                                           ("pdflatex" "lualatex")))
+  (setq org-latex-listings 'minted)
+  (setq org-latex-minted-options '(("style" "friendly")
+				   ("breaklines" "true")
+                                   ("breakanywhere" "true"))))
+#+END_SRC
+
+*** Cleaning directory after PDF compilation
+
+Now, we set the files to be deleted when a LaTeX \rightarrow PDF compilation
+occurs. We only care about two files, in the end: the Org mode file for
+edition, and the PDF for distribution.
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (setq org-latex-logfiles-extensions
+        '("aux" "bcf" "blg" "fdb_latexmk"
+          "fls" "figlist" "idx" "log" "nav"
+          "out" "ptc" "run.xml" "snm" "toc" "vrb" "xdv"
+          "tex" "lot" "lof"))
+#+END_SRC
+
+*** Chronological diary entries
+
+By default, Org agenda inserts diary entries as the first under the selected
+date. It is preferable to insert entries in the order that they were recorded,
+i.e. chronologically.
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+ (setq org-agenda-insert-diary-strategy 'date-tree-last)
+#+END_SRC
+
+What follows is an additional document class structures that can be exported in
+LaTeX.
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+;; (add-to-list 'org-latex-classes
+;;              '("book-blendoit"
+;;                "\\documentclass[12pt]{book}"
+;;                ("\\chapter{%s}" . "\\chapter*{%s}")
+;;                ("\\section{%s}" . "\\section*{%s}")
+;;                ("\\subsection*{%s}" . "\\subsection*{%s}")
+;;                ("\\subsubsection*{%s}" . "\\subsubsection*{%s}")))
+#+END_SRC
+
+*** Table of contents
+
+By default, body text can immediately follow the table of contents. It is
+however cleaner to separate table of contents with the rest of the work.
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+ (setq org-latex-toc-command "\\tableofcontents\\clearpage")
+#+END_SRC
+
+The following makes =TODO= items appear red and =CLOSED= items appear green in
+Org's LaTeX exports. Very stylish, much flair!
 
 * One-click workflows
 
