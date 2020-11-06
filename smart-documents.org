@@ -67,7 +67,7 @@ the first time.
   "Boolean to track literate configuration packed/unpacked status.")
 
 (defvar sd-unpack-sections (org-property-values "sd-unpack-path")
-  "List of target sections in `my/literate-config' to be unpacked into `user-emacs-directory'.")
+  "List of target sections in `my/literate-config' to be unpacked.")
 
 (defun sd-unpack-sections ()
   "Unpack literate configuration into `emacs-user-directory'."
@@ -166,7 +166,8 @@ Traditionally, file =~/.emacs= is used as the init file, although Emacs also
 looks at =~/.emacs.el=, =~/.emacs.d/init.el=, =~/.config/emacs/init.el=, or
 other locations.
 
-From the GNU website[fn::[[https://www.gnu.org/software/emacs/manual/html_node/emacs/Init-File.html]]]
+From the GNU
+website[fn::[[https://www.gnu.org/software/emacs/manual/html_node/emacs/Init-File.html]]]
 #+END_QUOTE
 
 This file can be found here: [[file:init.el]]
@@ -266,13 +267,12 @@ Backups are very important!
 
 #+BEGIN_SRC emacs-lisp :tangle yes
   (setq backup-directory-alist `((".*" . ,temporary-file-directory))
-  auto-save-file-name-transforms `((".*" ,temporary-file-directory t))
-      backup-by-copying t    ; Don't delink hardlinks
-      version-control t      ; Use version numbers on backups
-      delete-old-versions t  ; Automatically delete excess backups
-      kept-new-versions 20   ; how many of the newest versions to keep
-      kept-old-versions 5    ; and how many of the old
-      )
+        auto-save-file-name-transforms `((".*" ,temporary-file-directory t))
+        backup-by-copying t    ; Don't delink hardlinks
+        version-control t      ; Use version numbers on backups
+        delete-old-versions t  ; Automatically delete excess backups
+        kept-new-versions 20   ; how many of the newest versions to keep
+        kept-old-versions 5)    ; and how many of the old
 #+END_SRC
 
 ** Initial and default frames
@@ -450,11 +450,12 @@ It seems that starting with Emacs 27.1, Control + mousewheel works.
 
 ** Navigation
 
-=Alt= (=Meta=) is the privileged key for motion in a buffer. It precedes a
-numerical argument, and a movement command. You may navigate in a buffer by
-keeping =Alt= pressed, optionally inputting a number from the keypad or number
-row, then pressing any of the following movement keys: =j=, =k=, =h=, and
-=l=. You will move in that direction by the according numerical argument.
+=Alt= (=Meta=) is the privileged key for motion in a buffer. It is followed by
+an optional numerical argument, and a movement command. You may navigate in a
+buffer by keeping =Alt= pressed, optionally inputting a number from the keypad
+or number row, then pressing any of the following movement keys: =j=, =k=, =h=,
+and =l=. You will move in that direction in the amount of the numerical
+argument.
 
 #+NAME: keybinding-navigation
 #+CAPTION[Navigation keybindings]: Navigation keybindings.
@@ -465,7 +466,6 @@ row, then pressing any of the following movement keys: =j=, =k=, =h=, and
 | Line      | =M-k=       | =M-j=      |
 | Word      | =M-f=       | =M-b=      |
 | Paragraph | =M-a=       | =M-e=      |
-
 
 We prevent Org mode from overriding preferred navigation keys.
 
@@ -826,17 +826,13 @@ Get inspiration from ~ibuffer-sidebar~ and create a better sidebar.
 ;; (load-file)
 #+END_SRC
 
-*** Icons
+# *** Icons
 
-Icon fonts
+# Icon fonts
 
-#+BEGIN_SRC emacs-lisp :tangle yes
-(use-package all-the-icons)
-#+END_SRC
-
-#+BEGIN_SRC emacs-lisp :tangle yes
-(use-package mode-icons)
-#+END_SRC
+# #+BEGIN_SRC emacs-lisp :tangle yes
+# (use-package all-the-icons)
+# #+END_SRC
 
 *** Better parentheses
 
@@ -868,11 +864,17 @@ This highlights hexadecimal numbers which look like colors, in that same color.
 
 * ~org-mode~
 
-Phew, I can finally introduce Org mode! I am so *excited*.
+Org mode is so significant that this section of the paper deserves its own
+introduction.
+
+** Introduction
+
+Phew, after all this initialization, I can finally introduce Org mode! I am so
+*excited*.
 
 Org mode replaces aword processor, a presentation creator, and a spreadsheet
-editor. IMHO, the spreadsheet ability captures more than 80% use cases wherein
-one wishes to include a table in a text document destined for physical
+editor. The spreadsheet ability captures more than 80% use cases wherein one
+wishes to include a table in a text document destined for physical
 publication. (It is clear that Excel spreadsheets are /not/ destined for
 physical publication---simply attempt to print an Excel spreadsheet with the
 default settings.)  In my opinion, Org mode matches all /useful/ features of
@@ -911,26 +913,33 @@ Org base directory is in user home on GNU/Linux, or in =AppData= in MS Windows.
     (setq org-directory (concat user-emacs-directory "~/org"))
 #+END_SRC
 
-First, we hide markup symbols for *bold*, /italic/, _underlined_ and
-+strikethrough+ text, and ensure our document appears indented upon
-loading:[fn::It /appears/ indented, but the underlying plaintext file does not
-contain tab characters!]
+** TODO Org cosmetics
 
-For the time being, I will in fact display emphasis markers, because hiding
-them corrupts tables.
+First, we ensure the display of markup symbols for *bold*, /italic/,
+_underlined_ and +strikethrough+ text, and ensure our document appears indented
+upon loading.[fn::It /appears/ indented, but the underlying plaintext file does
+not contain tab characters!]
 
-#+NAME: org-format
+We then set values for many other Org-related cosmetic symbols.
+
 #+BEGIN_SRC emacs-lisp :tangle yes
-(setq org-hide-emphasis-markers nil
-      org-startup-indented t
-      org-src-preserve-indentation nil
-      org-edit-src-content-indentation 0)
+  (setq org-hide-emphasis-markers nil
+        org-startup-indented t
+        org-src-preserve-indentation nil
+        org-edit-src-content-indentation 2
+        org-ellipsis "  ") ; folding symbol
 #+END_SRC
 
-We enable the dynamic numbering of headlines in an Org buffer.
+*** Dynamic numbering of headlines
+
+We enable the dynamic numbering of headlines in an Org buffer. We also set the
+numbering face to ~org-special-keyword~, which specifies a ~:background white~
+attribute. This is necessary because otherwise, the background of the numbering
+may be overridden by the ~TODO~ face attribute ~:background coral~.
 
 #+BEGIN_SRC emacs-lisp :tangle yes
 (add-hook 'org-mode-hook 'org-num-mode)
+(setq org-num-face 'org-special-keyword)
 #+END_SRC
 
 By default, we hide Org document properties such as =#+TITLE=, =#+AUTHOR=, and
@@ -939,13 +948,43 @@ populated. We can nevertheless always access those properties and edit them
 manually, with a simple keyboard shortcut (cf. Section [[Open Org mode document
 properties]]).
 
-#+BEGIN_SRC emacs-lisp :tangle yes
+*** Document properties
+
+#+BEGIN_SRC emacs-lisp :tangle no
+(defun org-property-value (property)
+"Return the value of a given Org document property."
+(save-excursion
+	      (goto-char (point-min))
+	      (when (re-search-forward
+		     (concat
+		      "^[[:space:]]*#\\+"
+                      property
+		      ":[[:space:]]*\\(.*?\\)[[:space:]]*$")
+		     nil t)
+		(match-string 1))))
+
 (defun sd-document-properties ()
-"Open separate buffer enabling the editing of Org mode properties.")
+  "Open separate buffer to edit Org mode properties."
+  (interactive)
+  (let ((title (car (org-property-value "TITLE")))
+	  (date (org-property-value "DATE"))) 
+    (with-output-to-temp-buffer "Smart Document Properties"
+      (print title)
+      (print date))))
 #+END_SRC
 
+#+RESULTS:
+: sd-document-properties
 
-** TODO Languages executable in smart documents
+#+BEGIN_SRC emacs-lisp :tangle yes
+(add-hook 'org-src-mode-hook
+	  '(lambda ()
+	     "Disable flycheck for `emacs-lisp-mode'."
+	     (setq-local flycheck-disabled-checkers
+			 '(emacs-lisp-checkdoc))))
+#+END_SRC
+
+** Languages executable in Smart Documents
 
 The following languages can be written inside =SRC= blocks, in view of being
 executed by the Org Babel backend.

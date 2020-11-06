@@ -1,5 +1,5 @@
 (deftheme blendoit-light
-  "Created 2020-11-04.")
+  "Created 2020-11-05.")
 
 (custom-theme-set-faces
  'blendoit-light
@@ -11,12 +11,12 @@
  '(minibuffer-prompt ((t (:inherit org-meta-line))))
  '(highlight ((t (:background "deep sky blue" :foreground "white"))))
  '(region ((t (:background "gainsboro"))))
- '(shadow ((t (:foreground "dark slate gray"))))
+ '(shadow ((t (:foreground "light slate gray"))))
  '(secondary-selection ((((class color) (min-colors 88) (background light)) (:background "yellow1")) (((class color) (min-colors 88) (background dark)) (:background "SkyBlue4")) (((class color) (min-colors 16) (background light)) (:background "yellow")) (((class color) (min-colors 16) (background dark)) (:background "SkyBlue4")) (((class color) (min-colors 8)) (:foreground "black" :background "cyan")) (t (:inverse-video t))))
  '(trailing-whitespace ((((class color) (background light)) (:background "red1")) (((class color) (background dark)) (:background "red1")) (t (:inverse-video t))))
  '(font-lock-builtin-face ((t (:foreground "dark slate blue"))))
- '(font-lock-comment-delimiter-face ((t (:foreground "dim gray" :inherit font-lock-comment-face))))
- '(font-lock-comment-face ((t (:foreground "slate gray" :slant italic))))
+ '(font-lock-comment-delimiter-face ((t (:foreground "slate gray"))))
+ '(font-lock-comment-face ((t (:foreground "light slate gray" :slant italic))))
  '(font-lock-constant-face ((t (:foreground "dark cyan"))))
  '(font-lock-function-name-face ((((class color) (min-colors 88) (background light)) (:foreground "Blue1")) (((class color) (min-colors 88) (background dark)) (:foreground "LightSkyBlue")) (((class color) (min-colors 16) (background light)) (:foreground "Blue")) (((class color) (min-colors 16) (background dark)) (:foreground "LightSkyBlue")) (((class color) (min-colors 8)) (:weight bold :foreground "blue")) (t (:weight bold :inverse-video t))))
  '(font-lock-keyword-face ((t (:foreground "slate blue"))))
@@ -64,7 +64,7 @@
  '(org-document-info ((t (:weight bold))))
  '(org-table ((t (:height 0.8 :family "Hack"))))
  '(org-block ((t (:height 0.8 :family "Hermit"))))
- '(org-special-keyword ((t (:inherit org-meta-line :weight bold :background "white"))))
+ '(org-special-keyword ((t (:background "white" :weight bold :inherit org-meta-line))))
  '(org-level-1 ((t (:foreground "black" :weight bold :height 1.6 :family "Jost*"))))
  '(org-level-2 ((t (:foreground "gray30" :weight bold :height 1.4))))
  '(org-level-3 ((t (:foreground "gray45" :weight bold :height 1.2))))
@@ -86,6 +86,8 @@
  '(tab-line-tab-current ((t (:inherit tab-line-tab :background "grey85" :foreground "red"))))
  '(tab-line-close-highlight ((t (:foreground "red"))))
  '(tab-line-highlight ((default (:inherit (tab-line-tab)))))
- '(default ((t (:background "white" :foreground "black" :height 140 :family "Hack")))))
+ '(default ((t (:background "white" :foreground "black" :height 140 :family "Hack"))))
+ '(org-quote ((t (:inherit variable-pitch :slant italic))))
+ '(org-ellipsis ((t (:inherit shadow :background "white")))))
 
 (provide-theme 'blendoit-light)
