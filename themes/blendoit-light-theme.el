@@ -1,5 +1,5 @@
 (deftheme blendoit-light
-  "Created 2020-11-05.")
+  "Created 2020-11-06.")
 
 (custom-theme-set-faces
  'blendoit-light
@@ -51,10 +51,9 @@
  '(ivy-minibuffer-match-face-3 ((t (:inherit swiper-match-face-3))))
  '(ivy-minibuffer-match-face-4 ((t (:inherit swiper-match-face-4))))
  '(ivy-minibuffer-match-highlight ((t (:inherit highlight))))
+ '(org-document-title ((t (:weight bold :height 2.0 :family "Jost*"))))
  '(org-formula ((t (:inherit org-table))))
  '(org-meta-line ((t (:foreground "SteelBlue" :family "Hermit"))))
- '(org-document-title ((t (:weight bold :height 2.0 :family "Jost*"))))
- '(org-footnote ((t (:inherit link))))
  '(org-document-info-keyword ((t (:inherit org-meta-line))))
  '(org-code ((t (:background "light grey" :foreground "black" :height 0.9 :family "Hack"))))
  '(org-checkbox-statistics-todo ((t (:inherit org-checkbox :foreground "tomato"))))
@@ -76,7 +75,7 @@
  '(org-checkbox ((t (:weight bold :inherit org-meta-line))))
  '(org-todo ((t (:background "tomato" :foreground "White" :weight bold :height 1.2 :family "Hermit"))))
  '(org-done ((t (:background "ForestGreen" :foreground "White" :weight bold :height 1.2 :family "Hermit"))))
- '(org-date ((t (:foreground "steel blue" :family "Hermit"))))
+ '(org-date ((t (:inherit link))))
  '(Info-quoted ((t (:inherit org-block))))
  '(org-priority ((t (:inherit org-meta-line))))
  '(org-drawer ((t (:inherit org-meta-line))))
@@ -86,8 +85,9 @@
  '(tab-line-tab-current ((t (:inherit tab-line-tab :background "grey85" :foreground "red"))))
  '(tab-line-close-highlight ((t (:foreground "red"))))
  '(tab-line-highlight ((default (:inherit (tab-line-tab)))))
- '(default ((t (:background "white" :foreground "black" :height 140 :family "Hack"))))
  '(org-quote ((t (:inherit variable-pitch :slant italic))))
- '(org-ellipsis ((t (:inherit shadow :background "white")))))
+ '(org-ellipsis ((t (:inherit shadow :background "white"))))
+ '(org-footnote ((t (:inherit link))))
+ '(default ((t (:background "white" :foreground "black" :height 140 :family "Hack")))))
 
 (provide-theme 'blendoit-light)

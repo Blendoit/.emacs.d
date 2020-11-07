@@ -266,8 +266,10 @@ customize-group <package>~.
 Backups are very important!
 
 #+BEGIN_SRC emacs-lisp :tangle yes
-  (setq backup-directory-alist `((".*" . ,temporary-file-directory))
-        auto-save-file-name-transforms `((".*" ,temporary-file-directory t))
+  (setq backup-directory-alist
+        `((".*" . ,temporary-file-directory))
+        auto-save-file-name-transforms
+        `((".*" ,temporary-file-directory t))
         backup-by-copying t    ; Don't delink hardlinks
         version-control t      ; Use version numbers on backups
         delete-old-versions t  ; Automatically delete excess backups
@@ -839,7 +841,6 @@ Get inspiration from ~ibuffer-sidebar~ and create a better sidebar.
 #+BEGIN_SRC emacs-lisp :tangle yes
 (use-package rainbow-delimiters
   :config (add-hook 'prog-mode-hook #'rainbow-delimiters-mode))
-(electric-pair-mode)
 (show-paren-mode 1)
 #+END_SRC
 
@@ -853,14 +854,10 @@ This highlights hexadecimal numbers which look like colors, in that same color.
     (add-hook 'prog-mode-hook 'rainbow-mode))
 #+END_SRC
 
-*** UTF-8 bullet points in =Org mode=
+*** +UTF-8 bullet points in =Org mode=+
 
-#+BEGIN_SRC emacs-lisp :tangle yes
-  (use-package org-bullets
-    :config
-    (when (string-equal system-type "gnu/linux")
-      (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))))
-#+END_SRC
+This section was removed, as it is more explicit to display the headline
+character for what it is: a collection of at least one asterisk.
 
 * ~org-mode~
 
@@ -1152,7 +1149,7 @@ Org's LaTeX exports. Very stylish, much flair!
 
 In this section, we'll implement useful one-click workflows.
 
-*** TODO Export dialogue
+** TODO Export dialogue
 
 This reimplements the most common Org mode export: Org \rightarrow LaTeX
 \rightarrow PDF. The binding is defined in Section [[Export to PDF]].
@@ -1196,7 +1193,6 @@ The keybinding for opening a recently visited file is described in paragraph
 ** Frame
 
 *** TODO Header & mode lines
-
 # Top of the buffer is more intuitive for buffer info, bottom is more intuitive
 # for buffer action.
 
@@ -1258,7 +1254,17 @@ Then, we use the previously declared function to set up our mode line.
 #+BEGIN_SRC emacs-lisp :tangle yes
 (global-tab-line-mode)
 #+END_SRC
+
+*** Window margins
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+(set-window-margins nil 4 2)
+#+END_SRC
+
+
 ** Buffer
+
+*** Save cursor location
 
 Save cursor location in visited buffer after closing it or Emacs.
 
@@ -1302,10 +1308,28 @@ checkbox lists.
   (add-hook 'org-mode-hook
 	    (lambda ()
 	      "Beautify Org checkbox symbols."
-	      (push '("[ ]" .  "☐") prettify-symbols-alist)
-	      (push '("[X]" . "☑" ) prettify-symbols-alist)
-	      (push '("[-]" . "⬛" ) prettify-symbols-alist)
+	      (push '("[ ]" .  "○") prettify-symbols-alist)
+	      (push '("[X]" . "◉" ) prettify-symbols-alist)
+	      (push '("[-]" . "◎" ) prettify-symbols-alist)
               (prettify-symbols-mode))))
+#+END_SRC
+
+- [ ] This first item is unticked
+- [-] This second item is partially completed
+  - [X] This first sub-item is ticked
+  - [ ] This sub-item is not ticked
+- [ ] This third item is ticked
+
+*** Electric modes
+
+Electricity is a very important technology. In Emacs jargon, ``electric'' modes
+tend to automate behaviors or present some elegant simplification to a
+workflow.[fn::More information can be found at
+[[https://www.emacswiki.org/emacs/Electricity]].]
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (electric-pair-mode) ; Certain character pairs are automatically completed.
+  (electric-indent-mode) ; Newlines are always intelligently indented.
 #+END_SRC
 
 ** Minibuffer
@@ -1409,7 +1433,7 @@ cursor is a more MS Word-like bar.
 **** Previously used /virgin fonts/
 
 - +Liberation Sans+[fn::https://en.wikipedia.org/wiki/Liberation_fonts] :: +~variable-pitch~+
-  - Metrically compatible with /Arial/
+  - Metrically compatible with /Arial/ (ugh)
   - Unoffensive, unambitious forms
   - Pretty angular letters, it's like you're trying to read squares
 - +Open Sans+[fn::https://www.opensans.com/] :: +~variable-pitch~+
@@ -1457,3 +1481,4 @@ profiling.
 
 In this configuration file, we described a series of customization steps taken
 to make Emacs more palatable to modern IDE users.
+
