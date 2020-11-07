@@ -1071,14 +1071,16 @@ The following packages are loaded for every time we export to LaTeX.
 
 #+BEGIN_SRC emacs-lisp :tangle yes
   (setq org-latex-packages-alist
-     '(("AUTO" "polyglossia" t
-        ("xelatex" "lualatex"))
-       ("AUTO" "babel" t
-        ("pdflatex"))
-       ("" "booktabs" t
-        ("pdflatex"))
-       ("table,svgnames" "xcolor" t
-        ("pdflatex"))))
+        '(("AUTO" "babel" t
+           ("pdflatex"))
+          ("AUTO" "polyglossia" t ; Babel replacement for LuaLaTeX
+           ("xelatex" "lualatex"))
+          ("" "booktabs" t ; Publication quality tables in LaTeX
+           ("pdflatex"))
+          ("table,svgnames" "xcolor" t ; svgnames opens up ~150 color keywords
+           ("pdflatex"))
+          ("skip=0.5\\baselineskip" "caption" t ; Increase space between floats and captions
+           ("pdflatex" "lualatex"))))
 #+END_SRC
 
 *** Colored source blocks in PDF export
@@ -1225,12 +1227,7 @@ working on currently.
 				    "^[[:space:]]*#\\+TITLE:[[:space:]]*\\(.*?\\)[[:space:]]*$"
 				    nil t)
 			       (match-string 1)))
-			   (save-excursion
-			     (goto-char (point-min))
-			     (when (re-search-forward
-				    "^[[:space:]]*#\\+DATE:[[:space:]]*\\(.*?\\)[[:space:]]*$"
-				    nil t)
-			       (match-string 1))))))))
+			   nil)))))
 #+END_SRC
 
 **** Mode line
@@ -1249,19 +1246,6 @@ Then, we use the previously declared function to set up our mode line.
 
 ** Window
 
-*** Tab line
-
-#+BEGIN_SRC emacs-lisp :tangle yes
-(global-tab-line-mode)
-#+END_SRC
-
-*** Window margins
-
-#+BEGIN_SRC emacs-lisp :tangle yes
-(set-window-margins nil 4 2)
-#+END_SRC
-
-
 ** Buffer
 
 *** Save cursor location
@@ -1279,12 +1263,19 @@ length.
 
 #+BEGIN_SRC emacs-lisp :tangle yes
   (setq-default fill-column 79)
+  (add-hook 'org-mode-hook
+            'turn-on-auto-fill) ; Automatically break lines longer than
+                                ; =fill-column=.
 #+END_SRC
 
-Automatically break lines longer than =fill-column=.
+*** Right and left margins
+
+We set reasonable margins on either side of our buffer.
 
 #+BEGIN_SRC emacs-lisp :tangle yes
-  (add-hook 'org-mode-hook 'turn-on-auto-fill)
+(setq-default left-margin-width 6 right-margin-width 6)
+
+(use-package srefactor)
 #+END_SRC
 
 ** Text

@@ -34,4 +34,4 @@
 #+LATEX_HEADER_EXTRA: \fancyhead[C]{\large\textbf{\thetitle}}
 #+LATEX_HEADER_EXTRA: \fancyhead[R]{\thedate}
 #+LATEX_HEADER_EXTRA: \renewcommand{\headrulewidth}{1.5pt}
-#+LATEX_HEADER_EXTRA: \fancyfoot[C]{\hrulefill\\[10pt] Page \thepage/\pageref*{LastPage}\\[8pt]\footnotesize Compiled with \includegraphics[width=1.618ex]{~/.emacs.d/img/EmacsIcon.png}/\includegraphics[width=1.618ex]{~/.emacs.d/img/Org-mode-unicorn.png}/\includegraphics[width=1.618ex]{~/.emacs.d/img/LuaTeX_logo.png}/...\\ Copyright \copyright~2020 Marius Peter. All rights reserved. }
+#+LATEX_HEADER_EXTRA: \fancyfoot[C]{\hrulefill\\[0.8em] Page \thepage/\pageref*{LastPage}\\[0.8em]\footnotesize Compiled with \includegraphics[width=1.618ex]{~/.emacs.d/img/EmacsIcon.png}/\includegraphics[width=1.618ex]{~/.emacs.d/img/Org-mode-unicorn.png}/\includegraphics[width=1.618ex]{~/.emacs.d/img/LuaTeX_logo.png}/...\\ Copyright \copyright~2020 Marius Peter. All rights reserved. }
