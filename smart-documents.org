@@ -535,13 +535,13 @@ can automate workflows up to a pretty absurd level.
 
 PDF is probably the most prevalent file format for sharing static documents.
 
-**** document
+**** Document
 
 #+BEGIN_SRC emacs-lisp :tangle yes
   (global-set-key (kbd "C-p") 'my/org-quick-export)
 #+END_SRC
 
-**** TODO presentation
+**** TODO Presentation
 
 #+BEGIN_SRC emacs-lisp :tangle yes
 
@@ -549,8 +549,18 @@ PDF is probably the most prevalent file format for sharing static documents.
 
 *** Indent buffer
 
+Indent buffer in every mode.
+
 #+BEGIN_SRC emacs-lisp :tangle yes
-  (global-set-key [f12] 'sd-reformat-buffer)
+  (global-set-key [f12] 'sd-indent-buffer)
+#+END_SRC
+
+*** Beautify Org mode buffer
+
+Not only indent, but also clean up superfluous newlines.
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+(local-set-key [f12] 'sd-org-beautify)
 #+END_SRC
 
 * Packages
@@ -836,7 +846,7 @@ We replace the standard welcome screen with our own.
     (setq dashboard-banner-logo-title "A modern professional text editor."))
 #+END_SRC
 
-*** TODO Sidebar
+*** Sidebar
 Get inspiration from ~ibuffer-sidebar~ and create a better sidebar.
 
 #+BEGIN_SRC emacs-lisp :tangle yes
@@ -1199,7 +1209,13 @@ Binding defined in Section [[Indent buffer]].
       (indent-region (point-min) (point-max) nil)))
 #+END_SRC
 
-
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (defun sd-org-beautify ()
+    "Beautify Org mode buffer."
+    (interactive)
+    (when (eq major-mode 'org-mode)
+      (sd-indent-buffer)))
+#+END_SRC
 * Editing preferences
 
 These customizations enhance editor usability. They also encompass cosmetic
@@ -1268,7 +1284,7 @@ working on currently.
               (setq header-line-format
                     '(:eval
                       (sd-line-render
-                       (sd-title)
+                      (sd-title)
                        (nth 4 (org-heading-components)))))))
 #+END_SRC
 
@@ -1335,14 +1351,16 @@ Let's pimp out the appearance of our text in Org mode. First, we prettify
 checkbox lists.
 
 #+BEGIN_SRC emacs-lisp :tangle yes
-(when (string-equal system-type "gnu/linux")
-  (add-hook 'org-mode-hook
-	    (lambda ()
-	      "Beautify Org checkbox symbols."
-	      (push '("[ ]" .  "○") prettify-symbols-alist)
-	      (push '("[X]" . "◉" ) prettify-symbols-alist)
-	      (push '("[-]" . "◎" ) prettify-symbols-alist)
-              (prettify-symbols-mode))))
+  (when (string-equal system-type "gnu/linux")
+    (add-hook 'org-mode-hook
+              (lambda ()
+                "Beautify Org symbols."
+                (push '("[ ]" .  "○") prettify-symbols-alist) ; Unchecked item
+                (push '("[X]" . "◉" ) prettify-symbols-alist) ; Checked item
+                (push '("[-]" . "◎" ) prettify-symbols-alist) ; Partially checked item
+                (push '("TODO" . "☐" ) prettify-symbols-alist) ; TODO headings
+                (push '("DONE" . "☑" ) prettify-symbols-alist) ; DONE headings
+                (prettify-symbols-mode))))
 #+END_SRC
 
 - [ ] This first item is unticked
