@@ -21,3 +21,4 @@ smart-documents.el*
 .org-id-locations
 async-bytecomp.log
 fonts/**
+srecode-map.el
