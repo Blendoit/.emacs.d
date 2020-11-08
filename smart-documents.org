@@ -52,7 +52,7 @@ paper within Emacs itself:
 
 You can always press ~f1~ to access Emacs built-in help.
 
-* TODO First-time setup
+* First-time setup
 
 The following code blocks are normally evaluated once---upon starting Emacs for
 the first time.
@@ -525,7 +525,7 @@ We prevent Org mode from overriding preferred navigation keys.
     (global-set-key (kbd "C-c f") 'customize-face)
 #+END_SRC
 
-** TODO One-click workflows
+** One-click workflows
 
 A major advantage of the Emacs document production system: arbitrarily
 complicated functions can be assigned to very simple keybindings. This means we
@@ -847,6 +847,10 @@ We replace the standard welcome screen with our own.
 #+END_SRC
 
 *** Sidebar
+:PROPERTIES:
+:sd-unpack-path: sd-sidebar.el
+:END:
+
 Get inspiration from ~ibuffer-sidebar~ and create a better sidebar.
 
 #+BEGIN_SRC emacs-lisp :tangle yes
@@ -854,14 +858,6 @@ Get inspiration from ~ibuffer-sidebar~ and create a better sidebar.
     (interactive)
     (message "Foobius Peter."))
 #+END_SRC
-
-# *** Icons
-
-# Icon fonts
-
-# #+BEGIN_SRC emacs-lisp :tangle yes
-# (use-package all-the-icons)
-# #+END_SRC
 
 *** Better parentheses
 
@@ -971,19 +967,22 @@ properties]]).
 
 *** Document properties
 
-#+BEGIN_SRC emacs-lisp :tangle no
+#+BEGIN_SRC emacs-lisp :tangle yes
 (defun org-property-value (property)
 "Return the value of a given Org document property."
+(interactive)
 (save-excursion
 	      (goto-char (point-min))
-	      (when (re-search-forward
+           (re-search-forward
 		     (concat
 		      "^[[:space:]]*#\\+"
                       property
 		      ":[[:space:]]*\\(.*?\\)[[:space:]]*$")
 		     nil t)
-		(match-string 1))))
+(nth 3 (car (cdr (org-element-at-point))))))
+#+END_SRC
 
+#+BEGIN_SRC emacs-lisp :tangle no
 (defun sd-document-properties ()
   "Open separate buffer to edit Org mode properties."
   (interactive)
@@ -993,9 +992,6 @@ properties]]).
       (print title)
       (print date))))
 #+END_SRC
-
-#+RESULTS:
-: sd-document-properties
 
 #+BEGIN_SRC emacs-lisp :tangle yes
 (add-hook 'org-src-mode-hook
@@ -1197,7 +1193,7 @@ This reimplements the most common Org mode export: Org \rightarrow LaTeX
     (org-open-file (org-latex-export-to-pdf)))
 #+END_SRC
 
-** TODO Beautify buffer
+** Beautify buffer
 
 Binding defined in Section [[Indent buffer]].
 
@@ -1216,6 +1212,7 @@ Binding defined in Section [[Indent buffer]].
     (when (eq major-mode 'org-mode)
       (sd-indent-buffer)))
 #+END_SRC
+
 * Editing preferences
 
 These customizations enhance editor usability. They also encompass cosmetic
@@ -1255,11 +1252,13 @@ portions of the header and mode line.
 
 #+NAME: sd-line-render
 #+BEGIN_SRC emacs-lisp :tangle yes
-(defun sd-line-render (left right)
-  "Return a string of `window-width' length
-  containing LEFT, and RIGHT aligned respectively."
-  (let* ((available-width (- (window-width) (length left) 3)))
-    (format (format " %%s %%%ds " available-width) left right)))
+  (defun sd-line-render (left right)
+    "Return a string of `window-width' length
+    containing LEFT, and RIGHT aligned respectively."
+    (let ((available-width (- (window-total-width)
+            (+ (length (format-mode-line left))
+               (length (format-mode-line right))))))
+      (format (format " %%s %%%ds " available-width) left right)))
 #+END_SRC
 
 **** TODO Header line
@@ -1267,25 +1266,14 @@ portions of the header and mode line.
 In Org mode, the document header line will be the title of the document we are
 working on currently.
 
-#+BEGIN_SRC emacs-lisp :tangle yes
-  (defun sd-title ()
-    "Find the #+TITLE property of the SD."
-    (interactive)
-    (save-excursion
-      (goto-char (point-min))
-      (when (re-search-forward
-             "^[[:space:]]*#\\+TITLE:[[:space:]]*\\(.*?\\)[[:space:]]*$"
-             nil t)
-        (match-string 1))))
+todo unfontify org-document-title. 
 
+#+BEGIN_SRC emacs-lisp :tangle yes
   (add-hook 'org-mode-hook
             (lambda ()
               "Set the header line to show #+TITLE and section name."
               (setq header-line-format
-                    '(:eval
-                      (sd-line-render
-                      (sd-title)
-                       (nth 4 (org-heading-components)))))))
+                    '(:eval (org-property-value "TITLE")))))
 #+END_SRC
 
 **** Mode line
@@ -1358,8 +1346,7 @@ checkbox lists.
                 (push '("[ ]" .  "○") prettify-symbols-alist) ; Unchecked item
                 (push '("[X]" . "◉" ) prettify-symbols-alist) ; Checked item
                 (push '("[-]" . "◎" ) prettify-symbols-alist) ; Partially checked item
-                (push '("TODO" . "☐" ) prettify-symbols-alist) ; TODO headings
-                (push '("DONE" . "☑" ) prettify-symbols-alist) ; DONE headings
+                (push '("-" . "⁃" ) prettify-symbols-alist) ; DONE headings
                 (prettify-symbols-mode))))
 #+END_SRC
 
