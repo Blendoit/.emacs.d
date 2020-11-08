@@ -923,6 +923,8 @@ header:
 
 ** Basic customization
 
+*** Base folder
+
 Org base directory is in user home on GNU/Linux, or in =AppData= in MS Windows.
 
 #+NAME: org-directory
@@ -930,7 +932,13 @@ Org base directory is in user home on GNU/Linux, or in =AppData= in MS Windows.
     (setq org-directory (concat user-emacs-directory "~/org"))
 #+END_SRC
 
-** TODO Org cosmetics
+*** Prevent/warn on invisible edits
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+(setq org-catch-invisible-edits t)
+#+END_SRC
+
+** Org cosmetics
 
 First, we ensure the display of markup symbols for *bold*, /italic/,
 _underlined_ and +strikethrough+ text, and ensure our document appears indented
@@ -1001,30 +1009,36 @@ properties]]).
 			 '(emacs-lisp-checkdoc))))
 #+END_SRC
 
-** Languages executable in Smart Documents
+*** Timestamps
 
-The following languages can be written inside =SRC= blocks, in view of being
-executed by the Org Babel backend.
+More literary timestamps are exported to LaTeX using the following custom
+format:
 
 #+BEGIN_SRC emacs-lisp :tangle yes
-    (setq org-babel-load-languages
-    '((shell . t)
-    (python . t)
-    (plantuml . t)
-    (emacs-lisp . t)
-    (awk . t)
-    (ledger . t)
-    (gnuplot . t)
-    (latex . t)))
-
-    (org-babel-do-load-languages
-    'org-babel-load-languages '((C . t) (shell . t) (gnuplot . t)))
+    (setq org-time-stamp-custom-formats
+    '("%d %b. %Y (%a)" . "%d %b. %Y (%a), at %H:%M"))
 #+END_SRC
 
-** Prevent or warn on invisible edits
+** Programming a Smart Documents
+
+The following languages can be used inside =SRC= blocks, in view of being
+executed by the Org Babel backend upon document export.
 
 #+BEGIN_SRC emacs-lisp :tangle yes
-(setq org-catch-invisible-edits t)
+  (setq org-babel-load-languages
+        '((shell . t)
+          (python . t)
+          (plantuml . t)
+          (emacs-lisp . t)
+          (awk . t)
+          (ledger . t)
+          (gnuplot . t)
+          (latex . t)))
+
+  (org-babel-do-load-languages
+   'org-babel-load-languages '((C . t)
+                               (shell . t)
+                               (gnuplot . t)))
 #+END_SRC
 
 ** Agenda
@@ -1037,16 +1051,6 @@ We open the agenda in a separate window.
 
 #+BEGIN_SRC emacs-lisp :tangle yes
 (setq org-agenda-window-setup 'other-frame)
-#+END_SRC
-
-** Timestamps
-
-More literary timestamps are exported to LaTeX using the following custom
-format:
-
-#+BEGIN_SRC emacs-lisp :tangle yes
-    (setq org-time-stamp-custom-formats
-    '("%d %b. %Y (%a)" . "%d %b. %Y (%a), at %H:%M"))
 #+END_SRC
 
 ** LaTeX export
@@ -1167,6 +1171,27 @@ however cleaner to separate table of contents with the rest of the work.
 The following makes =TODO= items appear red and =CLOSED= items appear green in
 Org's LaTeX exports. Very stylish, much flair!
 
+** Org links
+
+This is a mind-bending capacity of Org mode: we can assign arbitrary functions
+to be executed when a user follows an Org link. Org links appear like
+hyperlinks both in buffers and PDF exports---e.g. the following link to this
+very section, Section [[Org links]]---but their in-buffer behavior can be
+arbitrarily assigned.
+
+#+BEGIN_SRC emacs-lisp :tangle no
+  (org-add-link-type
+   "tag" 'endless/follow-tag-link)
+
+  (defun endless/follow-tag-link (tag)
+    "Display a list of TODO headlines with tag TAG.
+  With prefix argument, also display headlines without a TODO keyword."
+    (org-tags-view (null current-prefix-arg) tag))
+
+  [[tag:work+phonenumber-boss][Optional Description]]
+#+END_SRC
+
+
 * One-click workflows
 
 In this section, we'll implement useful one-click workflows. It comes later
@@ -1243,51 +1268,40 @@ The keybinding for opening a recently visited file is described in paragraph
 
 ** Frame
 
-*** TODO Header & mode lines
+*** Header & mode lines
 # Top of the buffer is more intuitive for buffer info, bottom is more intuitive
 # for buffer action.
-
-First, we create a function to calculate available width between left and right
-portions of the header and mode line.
-
-#+NAME: sd-line-render
-#+BEGIN_SRC emacs-lisp :tangle yes
-  (defun sd-line-render (left right)
-    "Return a string of `window-width' length
-    containing LEFT, and RIGHT aligned respectively."
-    (let ((available-width (- (window-total-width)
-            (+ (length (format-mode-line left))
-               (length (format-mode-line right))))))
-      (format (format " %%s %%%ds " available-width) left right)))
-#+END_SRC
 
 **** TODO Header line
 
 In Org mode, the document header line will be the title of the document we are
 working on currently.
 
-todo unfontify org-document-title. 
-
 #+BEGIN_SRC emacs-lisp :tangle yes
   (add-hook 'org-mode-hook
             (lambda ()
               "Set the header line to show #+TITLE and section name."
               (setq header-line-format
-                    '(:eval (org-property-value "TITLE")))))
+                    '(:eval
+                      (list
+                       "    "
+                       (org-property-value "TITLE"))))))
 #+END_SRC
 
 **** Mode line
 
-Then, we use the previously declared function to set up our mode line.
-
 #+NAME: mode-line-format
 #+BEGIN_SRC emacs-lisp :tangle yes
-(setq-default mode-line-format
-      '((:eval (sd-line-render
-                ;; left
-                (format-mode-line "[%*] %b")
-                ;; right
-                (format-mode-line "Line: %l ")))))
+    (setq-default mode-line-format
+          (list
+           '(:eval
+             (list
+              "    "
+              (if buffer-read-only "🔒" "🔓")
+              (propertize " %b "
+                          'help-echo (buffer-file-name)
+                          )
+              (if (buffer-modified-p) "🖉" "✓")))))
 #+END_SRC
 
 ** Window
@@ -1388,9 +1402,9 @@ Without a carefully designed theme, our editor would become unusable. Thus, we
 describe two themes that were developed purposefully and iteratively.
 
 #+BEGIN_SRC emacs-lisp :tangle yes
-(setq custom-theme-directory (concat user-emacs-directory "themes/"))
-(load-theme 'blendoit-light)
-; (load-theme 'blendoit-dark)
+  (setq custom-theme-directory (concat user-emacs-directory "themes/"))
+  (load-theme 'blendoit-light)
+  ;; (load-theme 'blendoit-dark)
 #+END_SRC
 
 ** My light and dark themes

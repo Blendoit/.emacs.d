@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: defun
+# key: def
+# --
+(defun ${1:function-name} (${2:arguments})
+  "${3:Docstring}"
+  $0)
