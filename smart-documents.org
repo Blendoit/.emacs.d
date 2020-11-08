@@ -24,7 +24,7 @@ paper is a /Smart Document/ itself!
 GNU Emacs is most often used as a text editor. It would be unfair to say it is
 just that, because Emacs is capable of so much more. The utmost level of
 customization is afforded by enabling the user to rewrite /any/ part of the
-source code and observe the editor's modified behaviour in real time. Since its
+source code and observe the editor's modified behavior in real time. Since its
 inception in 1984, GNU Emacs has grown to be much more than a full-featured,
 high-productivity text editor---new /modes/ have been written to interact with
 hundreds of file formats, including =.txt=, =.pdf=, =.jpg=, =.csv=, and =.zip=
@@ -397,18 +397,6 @@ is pressed.
 
 ** Windows
 
-*** Make new window
-
-#+BEGIN_SRC emacs-lisp :tangle yes
-  (global-set-key (kbd "C-n") 'make-frame)
-#+END_SRC
-
-*** Make only window
-
-#+BEGIN_SRC emacs-lisp :tangle yes
-  (global-set-key (kbd "C-`") 'delete-other-windows)
-#+END_SRC
-
 *** Close window and quit
 
 The following bindings lead to more natural window & frame exit behaviors.
@@ -424,6 +412,21 @@ The following bindings lead to more natural window & frame exit behaviors.
 		     (previous-buffer))))
 #+END_SRC
 
+** Frame
+
+*** Make new frame
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (global-set-key (kbd "C-n") 'make-frame)
+#+END_SRC
+
+*** Make only frame
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (global-set-key (kbd "C-`") 'delete-other-windows)
+#+END_SRC
+*** Delete frame or kill Emacs
+
 #+NAME: delete-frame-or-kill-emacs
 #+BEGIN_SRC emacs-lisp :tangle yes
 (global-set-key (kbd "C-q")
@@ -433,6 +436,12 @@ The following bindings lead to more natural window & frame exit behaviors.
 		   (if (> (length (frame-list)) 1)
 			  (delete-frame)
 		     (kill-emacs))))
+#+END_SRC
+
+*** Open sidebar
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+(global-set-key (kbd "<left-margin> <mouse-1>") 'sd-sidebar)
 #+END_SRC
 
 ** Text display
@@ -536,6 +545,12 @@ PDF is probably the most prevalent file format for sharing static documents.
 
 #+BEGIN_SRC emacs-lisp :tangle yes
 
+#+END_SRC
+
+*** Indent buffer
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (global-set-key [f12] 'sd-reformat-buffer)
 #+END_SRC
 
 * Packages
@@ -722,7 +737,7 @@ symbol's definition.
 
 **** Smartly suggesting interactive search matches
 
-  Wonderful counsellor!
+Wonderful counsellor!
 
 #+BEGIN_SRC emacs-lisp :tangle yes
   (use-package counsel
@@ -825,7 +840,9 @@ We replace the standard welcome screen with our own.
 Get inspiration from ~ibuffer-sidebar~ and create a better sidebar.
 
 #+BEGIN_SRC emacs-lisp :tangle yes
-;; (load-file)
+  (defun sd-sidebar ()
+    (interactive)
+    (message "Foobius Peter."))
 #+END_SRC
 
 # *** Icons
@@ -888,18 +905,15 @@ header:
 #+BEGIN_SRC emacs-lisp :tangle no :results pp :exports both :cache yes
 (save-excursion
   (org-previous-visible-heading 1)
-  (org-element-at-point))
+  (org-entry-properties))
 #+END_SRC
 
-#+RESULTS[cf28d310a45fa4e4dcd49882889cd36a2ae3820d]: org-meta-info
-: (headline
-:  (:raw-value "~org-mode~" :begin 15920 :end 23157
-:   :pre-blank 1 :contents-begin 15935 :contents-end 23156
-:   :level 2 :priority nil :tags nil
-:   :todo-keyword nil :todo-type nil
-:   :post-blank 1 :footnote-section-p nil
-:   :archivedp nil :commentedp nil
-:   :post-affiliated 15920 :title "~org-mode~"))
+#+RESULTS[cf982044956d8f3ec89e7a9da80976b1b19db423]: org-meta-info
+: (("CATEGORY" . "smart-documents")
+:  ("BLOCKED" . "")
+:  ("FILE" . "/home/blendux/.emacs.d/smart-documents.org")
+:  ("PRIORITY" . "B")
+:  ("ITEM" . "Introduction"))
 
 ** Basic customization
 
@@ -1149,9 +1163,18 @@ Org's LaTeX exports. Very stylish, much flair!
 
 * One-click workflows
 
-In this section, we'll implement useful one-click workflows.
+In this section, we'll implement useful one-click workflows. It comes later
+keybinding definitions for two reasons:
 
-** TODO Export dialogue
+1. To a new user, keybindings are more important than the precise
+   implementation of the bound function---it is more important to know how to
+   drive a car than how a car works.
+2. If the following subsections share the same name as the keybinding
+   subsection (Section [[Keyboard shortcuts]]), the links will resolve to the
+   earliest heading in the document, i.e. the keybinding subsection and not the
+   subsection describing the `one-click workflow'.
+
+** TODO Export to PDF
 
 This reimplements the most common Org mode export: Org \rightarrow LaTeX
 \rightarrow PDF. The binding is defined in Section [[Export to PDF]].
@@ -1163,6 +1186,19 @@ This reimplements the most common Org mode export: Org \rightarrow LaTeX
     (interactive)
     (org-open-file (org-latex-export-to-pdf)))
 #+END_SRC
+
+** TODO Beautify buffer
+
+Binding defined in Section [[Indent buffer]].
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (defun sd-indent-buffer ()
+    "Indent entire buffer."
+    (interactive)
+    (save-excursion
+      (indent-region (point-min) (point-max) nil)))
+#+END_SRC
+
 
 * Editing preferences
 
@@ -1206,7 +1242,7 @@ portions of the header and mode line.
 (defun sd-line-render (left right)
   "Return a string of `window-width' length
   containing LEFT, and RIGHT aligned respectively."
-  (let* ((available-width (- (window-width) (length left) 2)))
+  (let* ((available-width (- (window-width) (length left) 3)))
     (format (format " %%s %%%ds " available-width) left right)))
 #+END_SRC
 
@@ -1216,18 +1252,24 @@ In Org mode, the document header line will be the title of the document we are
 working on currently.
 
 #+BEGIN_SRC emacs-lisp :tangle yes
-(add-hook 'org-mode-hook
-	  (lambda ()
-	    "Set the header line to show #+TITLE and #+DATE."
-	    (setq header-line-format
-		  '(:eval (sd-line-render
-			   (save-excursion
-			     (goto-char (point-min))
-			     (when (re-search-forward
-				    "^[[:space:]]*#\\+TITLE:[[:space:]]*\\(.*?\\)[[:space:]]*$"
-				    nil t)
-			       (match-string 1)))
-			   nil)))))
+  (defun sd-title ()
+    "Find the #+TITLE property of the SD."
+    (interactive)
+    (save-excursion
+      (goto-char (point-min))
+      (when (re-search-forward
+             "^[[:space:]]*#\\+TITLE:[[:space:]]*\\(.*?\\)[[:space:]]*$"
+             nil t)
+        (match-string 1))))
+
+  (add-hook 'org-mode-hook
+            (lambda ()
+              "Set the header line to show #+TITLE and section name."
+              (setq header-line-format
+                    '(:eval
+                      (sd-line-render
+                       (sd-title)
+                       (nth 4 (org-heading-components)))))))
 #+END_SRC
 
 **** Mode line
@@ -1274,8 +1316,6 @@ We set reasonable margins on either side of our buffer.
 
 #+BEGIN_SRC emacs-lisp :tangle yes
 (setq-default left-margin-width 6 right-margin-width 6)
-
-(use-package srefactor)
 #+END_SRC
 
 ** Text
