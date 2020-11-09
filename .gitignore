@@ -12,6 +12,7 @@ url/**
 meta/**
 auto-save-list/**
 transient/**
+.cache/**
 _minted*
 
 # Tangled config .el and .elc file from .org

@@ -2,7 +2,7 @@
 
 #+TITLE: Smart Documents
 #+AUTHOR: Marius Peter
-#+DATE: <2020-11-04 Wed>
+#+DATE: <2020-11-08 Sun>
 #+EMAIL: blendoit@gmail.com
 #+STARTUP: showall
 #+SETUPFILE: ~/.emacs.d/templates/documents/default.org
@@ -62,38 +62,40 @@ the first time.
 :sd-unpack-path: sd.el
 :END:
 
-#+BEGIN_SRC emacs-lisp
-(defvar sd-packed-p t
-  "Boolean to track literate configuration packed/unpacked status.")
+#+BEGIN_SRC emacs-lisp :tangle no
+  (defvar sd-packed-p t
+    "Boolean to track literate configuration packed/unpacked status.")
 
-(defvar sd-unpack-sections (org-property-values "sd-unpack-path")
-  "List of target sections in `my/literate-config' to be unpacked.")
+  (defvar sd-unpack-sections (org-property-values "sd-unpack-path")
+    "List of target sections in `my/literate-config' to be unpacked.")
 
-(defun sd-unpack-sections ()
-  "Unpack literate configuration into `emacs-user-directory'."
-  (interactive)
-  (mapcar 'sd-unpack sd-unpack-sections)
-  )
+  (defun sd-unpack-sections ()
+    "Unpack literate configuration into `emacs-user-directory'."
+    (interactive)
+    (mapcar 'sd-unpack sd-unpack-sections)
+    )
 
-(defun sd-unpack-section (&optional section)
-  "Unpack SECTION into `user-emacs-directory'.
-If nil, unpack section under point.
-Make go through list of headings and unpack first matching SECTION."
-  (interactive)
-  (if (not section)
-      (insert (concat "\nThe contents of this Section was automatically moved to\n="
-		      user-emacs-directory (org-entry-get nil "sd-unpack-path") "=.\n"
-		      "Use `sd-pack-section' to copy the contents back into this section."))))
+  (defun sd-unpack-section (&optional section)
+    "Unpack SECTION into `user-emacs-directory'.
+        If nil, unpack section under point.
+        Make go through list of headings and unpack first matching SECTION."
+    (interactive)
+    (if (not section)
+        (insert
+         (concat
+          "\nThe contents of this Section was automatically moved to\n="
+          user-emacs-directory (org-entry-get nil "sd-unpack-path") "=.\n"
+          "Use `sd-pack-section' to copy the contents back into this section."))))
 
 
-(defun sd-pack-section ()
-  "Pack SECTION into `my/literate-config'."
-  (interactive)
-  (message "foobar!!!"))
+  (defun sd-pack-section ()
+    "Pack SECTION into `my/literate-config'."
+    (interactive)
+    (message "foobar!!!"))
 
-(global-set-key (kbd "C-t") 'sd-pack-section)
+  (global-set-key (kbd "C-t") 'sd-pack-section)
 
-(sd-unpack "init.el")
+  (sd-unpack "init.el")
 #+END_SRC
 
 ** TODO User details
@@ -764,6 +766,12 @@ Wonderful counsellor!
  :bind (("C-f" . counsel-grep-or-swiper)))
 #+END_SRC
 
+** Tree
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+(use-package treemacs)
+#+END_SRC
+
 ** Coding languages
 
 *** TODO Emacs Lisp
@@ -856,7 +864,7 @@ Get inspiration from ~ibuffer-sidebar~ and create a better sidebar.
 #+BEGIN_SRC emacs-lisp :tangle yes
   (defun sd-sidebar ()
     (interactive)
-    (message "Foobius Peter."))
+    (treemacs))
 #+END_SRC
 
 *** Better parentheses
@@ -1191,7 +1199,6 @@ arbitrarily assigned.
   [[tag:work+phonenumber-boss][Optional Description]]
 #+END_SRC
 
-
 * One-click workflows
 
 In this section, we'll implement useful one-click workflows. It comes later
@@ -1333,7 +1340,8 @@ length.
 We set reasonable margins on either side of our buffer.
 
 #+BEGIN_SRC emacs-lisp :tangle yes
-(setq-default left-margin-width 6 right-margin-width 6)
+  (setq-default left-margin-width 2
+                right-margin-width 2)
 #+END_SRC
 
 ** Text
