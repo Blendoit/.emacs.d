@@ -1130,7 +1130,7 @@ LaTeX exports.
                                    ("breakanywhere" "true"))))
 #+END_SRC
 
-*** Cleaning directory after PDF compilation
+*** Cleaning directory after export
 
 Now, we set the files to be deleted when a LaTeX \rightarrow PDF compilation
 occurs. We only care about two files, in the end: the Org mode file for
@@ -1279,7 +1279,7 @@ The keybinding for opening a recently visited file is described in paragraph
 # Top of the buffer is more intuitive for buffer info, bottom is more intuitive
 # for buffer action.
 
-**** TODO COMMENT Header line
+**** TODO Header line
 
 In Org mode, the document header line will be the title of the document we are
 working on currently.

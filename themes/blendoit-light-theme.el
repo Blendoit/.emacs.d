@@ -29,7 +29,7 @@
  '(font-lock-variable-name-face ((t (:foreground "DarkOrchid3" :weight bold))))
  '(font-lock-warning-face ((t (:inherit (error)))))
  '(fringe ((t (:background "grey95"))))
- '(header-line ((t (:weight extra-bold :height 1.8 :family "Jost*"))))
+ '(header-line ((t (:family "Jost*" :height 1.8 :weight extra-bold))))
  '(tooltip ((t (:inherit variable-pitch :background "lightyellow" :foreground "black"))))
  '(mode-line ((t (:box (:line-width -1 :style released-button) :foreground "white" :background "steel blue" :family "Hermit" :height 1.2))))
  '(mode-line-buffer-id ((t (:weight bold))))
