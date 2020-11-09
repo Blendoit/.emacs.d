@@ -1279,20 +1279,32 @@ The keybinding for opening a recently visited file is described in paragraph
 # Top of the buffer is more intuitive for buffer info, bottom is more intuitive
 # for buffer action.
 
-**** TODO Header line
+**** TODO COMMENT Header line
 
 In Org mode, the document header line will be the title of the document we are
 working on currently.
 
 #+BEGIN_SRC emacs-lisp :tangle yes
-  (add-hook 'org-mode-hook
-            (lambda ()
-              "Set the header line to show #+TITLE and section name."
-              (setq header-line-format
-                    '(:eval
-                      (list
-                       "    "
-                       (org-property-value "TITLE"))))))
+  (setq-default header-line-format
+                (list
+                 '(:eval
+                   (list
+                    (if (eq (length (window-list)) 1)
+                        (propertize " ↤ " 'mouse-face 'highlight
+                                    'face 'org-special-keyword
+                                    'help-echo "Return to previous window.")
+                      (list (propertize " ❌ " 'mouse-face 'org-todo
+                                        'face 'org-special-keyword
+                                        'help-echo "Close this window.")
+                            (propertize " ⇱" 'mouse-face 'highlight
+                                        'face 'org-special-keyword
+                                        'help-echo "Maximize this window.")
+                            (propertize "⇲ " 'mouse-face 'highlight
+                                        'face 'org-special-keyword
+                                        'help-echo "Minimize this window.")))
+                    (if (string-equal major-mode "org-mode")
+                        (org-property-value "TITLE")
+                      (buffer-name))))))
 #+END_SRC
 
 **** Mode line
