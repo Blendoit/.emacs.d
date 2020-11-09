@@ -443,7 +443,7 @@ The following bindings lead to more natural window & frame exit behaviors.
 *** Open sidebar
 
 #+BEGIN_SRC emacs-lisp :tangle yes
-(global-set-key (kbd "<left-margin> <mouse-1>") 'sd-sidebar)
+(global-set-key (kbd "<left-fringe> <mouse-1>") 'sd-sidebar)
 #+END_SRC
 
 ** Text display
@@ -800,7 +800,7 @@ shared and exported to PDF in a reproducible fashion.
 
 #+BEGIN_SRC emacs-lisp :tangle yes
 (use-package pdf-tools)
-;; (pdf-tools-install)
+(pdf-tools-install)
 #+END_SRC
 
 *** Accounting
@@ -1347,15 +1347,6 @@ length.
                                 ; =fill-column=.
 #+END_SRC
 
-*** Right and left margins
-
-We set reasonable margins on either side of our buffer.
-
-#+BEGIN_SRC emacs-lisp :tangle yes
-  (setq-default left-margin-width 2
-                right-margin-width 2)
-#+END_SRC
-
 ** Text
 
 *** Beautiful symbols
@@ -1456,7 +1447,7 @@ themes (Table [[theme-color-1]]).
 | \color{SteelBlue} SteelBlue     | anything Org mode; anchor color | /same/             |
 | \color{DeepSkyBlue} DeepSkyBlue | ~highlight~                     | /same/             |
 | \color{DodgerBlue} DodgerBlue   | ~isearch~                       | /same/             |
-| \color{Purple} Purple           |                                 |                    |
+| \color{Purple} Purple           | Code syntax highlighting        | /same/             |
 
 *** Cursors
 
