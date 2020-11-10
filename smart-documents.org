@@ -224,14 +224,14 @@ decided to refer to them as meta-files. First, let's designate a folder to colle
 our meta-files together:
 
 #+BEGIN_SRC emacs-lisp :tangle yes
-(setq my/meta-files-location (concat user-emacs-directory "meta/"))
+(setq sd-meta-files-location (concat user-emacs-directory "meta/"))
 #+END_SRC
 
 *** Recently visited files
 
 #+BEGIN_SRC emacs-lisp :tangle yes
   (setq recentf-save-file (concat
-                           my/meta-files-location
+                           sd-meta-files-location
                            "recentf"))
 #+END_SRC
 
@@ -239,7 +239,7 @@ our meta-files together:
 
 #+BEGIN_SRC emacs-lisp :tangle yes
   (setq projectile-known-projects-file (concat
-                                        my/meta-files-location
+                                        sd-meta-files-location
                                         "projectile-bookmarks.eld"))
 #+END_SRC
 
@@ -247,7 +247,7 @@ our meta-files together:
 
 #+BEGIN_SRC emacs-lisp :tangle yes
   (setq save-place-file (concat
-                         my/meta-files-location
+                         sd-meta-files-location
                          "places"))
 #+END_SRC
 
@@ -315,7 +315,8 @@ populate Org templates (Section [[~org-mode~]]). You need to create this
 =secrets.org= file, as it is ignored by =git= by default.
 
 #+BEGIN_SRC emacs-lisp :tangle yes
-  (org-babel-load-file "~/.emacs.d/secrets.org")
+  (let ((secrets (concat user-emacs-directory "secrets.org")))
+    (when (file-exists-p secrets) (org-babel-load-file secrets)))
 #+END_SRC
 
 * Keyboard shortcuts
@@ -540,7 +541,7 @@ PDF is probably the most prevalent file format for sharing static documents.
 **** Document
 
 #+BEGIN_SRC emacs-lisp :tangle yes
-  (global-set-key (kbd "C-p") 'my/org-quick-export)
+  (global-set-key (kbd "C-p") 'sd-org-quick-export)
 #+END_SRC
 
 **** TODO Presentation
@@ -854,7 +855,7 @@ We replace the standard welcome screen with our own.
     (setq dashboard-banner-logo-title "A modern professional text editor."))
 #+END_SRC
 
-*** Sidebar
+*** TODO Sidebar
 :PROPERTIES:
 :sd-unpack-path: sd-sidebar.el
 :END:
@@ -864,7 +865,7 @@ Get inspiration from ~ibuffer-sidebar~ and create a better sidebar.
 #+BEGIN_SRC emacs-lisp :tangle yes
   (defun sd-sidebar ()
     (interactive)
-    (treemacs))
+    (split-window-right))
 #+END_SRC
 
 *** Better parentheses
@@ -1157,7 +1158,7 @@ i.e. chronologically.
 What follows is an additional document class structures that can be exported in
 LaTeX.
 
-#+BEGIN_SRC emacs-lisp :tangle yes
+#+BEGIN_SRC emacs-lisp :tangle no
 ;; (add-to-list 'org-latex-classes
 ;;              '("book-blendoit"
 ;;                "\\documentclass[12pt]{book}"
@@ -1179,7 +1180,7 @@ however cleaner to separate table of contents with the rest of the work.
 The following makes =TODO= items appear red and =CLOSED= items appear green in
 Org's LaTeX exports. Very stylish, much flair!
 
-** Org links
+** TODO Org links
 
 This is a mind-bending capacity of Org mode: we can assign arbitrary functions
 to be executed when a user follows an Org link. Org links appear like
@@ -1218,7 +1219,7 @@ This reimplements the most common Org mode export: Org \rightarrow LaTeX
 \rightarrow PDF. The binding is defined in Section [[Export to PDF]].
 
 #+BEGIN_SRC emacs-lisp :tangle yes
-  (defun my/org-quick-export ()
+  (defun sd-org-quick-export ()
     "Org async export to PDF and open.
     This basically reimplements `C-c C-e C-a l o'."
     (interactive)
@@ -1279,7 +1280,32 @@ The keybinding for opening a recently visited file is described in paragraph
 # Top of the buffer is more intuitive for buffer info, bottom is more intuitive
 # for buffer action.
 
+**** TODO Icons
+:PROPERTIES:
+:sd-unpack-path: sd-icons.el
+:END:
+
+We start by defining some icons we wish to include in our user interface. Emacs
+allows the usage of GIF images---this paves the way for UI elements which may be
+animated.
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (defvar sd-icons-blue-ellipsis (create-image
+                                  (concat user-emacs-directory "img/ellipsis.gif")
+                                  'gif nil
+                                  :scale 0.4) "A blue loading ellipsis.")
+
+(defun sd-icons-blue-ellipsis ()
+    "Insert an animated blue ellipsis."
+    (insert-image sd-icons-blue-ellipsis)
+    (image-animate sd-icons-blue-ellipsis 0 t))
+#+END_SRC
+
+(sd-icons-blue-ellipsis)
+
+
 **** TODO Header line
+# Figure out how to do 'keymap cleanly
 
 In Org mode, the document header line will be the title of the document we are
 working on currently.
@@ -1287,11 +1313,13 @@ working on currently.
 #+BEGIN_SRC emacs-lisp :tangle yes
   (setq-default header-line-format
                 (list
+                 (propertize "..." 'display sd-icons-blue-ellipsis)
                  '(:eval
                    (list
                     (if (eq (length (window-list)) 1)
                         (propertize " ↤ " 'mouse-face 'highlight
                                     'face 'org-special-keyword
+                                    'local-map 'previous-buffer
                                     'help-echo "Return to previous window.")
                       (list (propertize " ❌ " 'mouse-face 'org-todo
                                         'face 'org-special-keyword
@@ -1305,6 +1333,8 @@ working on currently.
                     (if (string-equal major-mode "org-mode")
                         (org-property-value "TITLE")
                       (buffer-name))))))
+  ;; Ensure our icon is animated on start
+  (image-animate sd-icons-blue-ellipsis 0 t)
 #+END_SRC
 
 **** Mode line
