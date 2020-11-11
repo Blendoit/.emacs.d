@@ -8,6 +8,8 @@
 #+SETUPFILE: ~/.emacs.d/templates/documents/default.org
 #+INCLUDE: ~/.emacs.d/templates/documents/default.org_title
 
+#+LATEX_HEADER: \usepackage{lettrine}
+
 #+LATEX: \begin{abstract}
 The idea of /Smart Documents/ came to me as I was reflecting on how to improve
 the document creation process in my workplace. The GNU Emacs editor had
@@ -1542,19 +1544,27 @@ We use ~variable-pitch-mode~ for appropriate modes.
 
 **** TODO Default font size
 
-Make default font size larger on displays of which the resolution is greater
-than 1920\times1080.
+Make default font size larger on displays of which the resolution
+is greater than 1920\times1080.
 
 #+BEGIN_SRC emacs-lisp :tangle yes
 #+END_SRC
+
+** Wealthy theme
+
+#+LATEX: \lettrine{G}ood golly,
+nobody wishes for a /pedestrian/ theme!  Let your entourage know
+that you're rocking an editor fit for a king with this finely
+crafted `wealthy' theme.
+
 
 ** TODO ~minimal~
 
 * Late setup
 
-At this point, our editor is almost ready to run. Phew! All that's left to do
-is to interrupt our profiling activities, and smartly store the result of our
-profiling.
+At this point, our editor is almost ready to run. Phew! All that's
+left to do is to interrupt our profiling activities, and smartly
+store the result of our profiling.
 
 ** Profiling --- stop
 
