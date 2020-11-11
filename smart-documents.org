@@ -1276,6 +1276,13 @@ The keybinding for opening a recently visited file is described in paragraph
   (run-at-time nil (* 5 60) 'recentf-save-list)
 #+END_SRC
 
+*** Fill column
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (setq fill-column 66)
+#+END_SRC
+
+
 ** Frame
 
 *** Header & mode lines
