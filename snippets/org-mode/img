@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: img
+# key: $img
+# --
+#+NAME: ${1:image-title}
+#+CAPTION[${2:Short caption}]: $2. ${3:Optional additional details}
+[[`(concat user-emacs-directory "img/")`$0--]]
