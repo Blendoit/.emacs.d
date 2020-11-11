@@ -1320,30 +1320,58 @@ In Org mode, the document header line will be the title of the document we are
 working on currently.
 
 #+BEGIN_SRC emacs-lisp :tangle yes
-  (setq-default header-line-format
-                (list
-                 (propertize "..." 'display sd-icons-blue-ellipsis)
-                 '(:eval
-                   (list
-                    (if (eq (length (window-list)) 1)
-                        (propertize " ↤ " 'mouse-face 'highlight
-                                    'face 'org-special-keyword
-                                    'local-map 'previous-buffer
-                                    'help-echo "Return to previous window.")
-                      (list (propertize " ❌ " 'mouse-face 'org-todo
-                                        'face 'org-special-keyword
-                                        'help-echo "Close this window.")
-                            (propertize " ⇱" 'mouse-face 'highlight
-                                        'face 'org-special-keyword
-                                        'help-echo "Maximize this window.")
-                            (propertize "⇲ " 'mouse-face 'highlight
-                                        'face 'org-special-keyword
-                                        'help-echo "Minimize this window.")))
-                    (if (string-equal major-mode "org-mode")
-                        (org-property-value "TITLE")
-                      (buffer-name))))))
-  ;; Ensure our icon is animated on start
-  (image-animate sd-icons-blue-ellipsis 0 t)
+    (setq sd-header-gnu-linux
+          (list
+           (propertize "..." 'display sd-icons-blue-ellipsis)
+           '(:eval
+             (list
+              (if (eq (length (window-list)) 1)
+                  (propertize " ↤ " 'mouse-face 'highlight
+                              'face 'org-special-keyword
+                              'local-map 'previous-buffer
+                              'help-echo "Return to previous window.")
+                (list (propertize " ❌ " 'mouse-face 'org-todo
+                                  'face 'org-special-keyword
+                                  'help-echo "Close this window.")
+                      (propertize " ⇱" 'mouse-face 'highlight
+                                  'face 'org-special-keyword
+                                  'help-echo "Maximize this window.")
+                      (propertize "⇲ " 'mouse-face 'highlight
+                                  'face 'org-special-keyword
+                                  'help-echo "Minimize this window.")))
+              (if (string-equal major-mode "org-mode")
+                  (org-property-value "TITLE")
+                (buffer-name))))))
+
+    (setq sd-header-windows-nt
+          (list
+           '(:eval
+             (list
+              (if (eq (length (window-list)) 1)
+                  (propertize " ↤ " 'mouse-face 'highlight
+                              'face 'org-special-keyword
+                              'local-map 'previous-buffer
+                              'help-echo "Return to previous window.")
+                (list (propertize " ❌ " 'mouse-face 'org-todo
+                                  'face 'org-special-keyword
+                                  'help-echo "Close this window.")
+                      (propertize " ⇱" 'mouse-face 'highlight
+                                  'face 'org-special-keyword
+                                  'help-echo "Maximize this window.")
+                      (propertize "⇲ " 'mouse-face 'highlight
+                                  'face 'org-special-keyword
+                                  'help-echo "Minimize this window.")))
+              (if (string-equal major-mode "org-mode")
+                  (org-property-value "TITLE")
+                (buffer-name))))))
+
+    (cond ((string-equal system-type "windows-nt")
+           (setq header-line-format sd-header-windows-nt))
+          ((string-equal system-type "gnu'linux")
+           (setq header-line-format sd-header-gnu-linux)))
+
+    ;; Ensure our icons are animated on start
+    (image-animate sd-icons-blue-ellipsis 0 t)
 #+END_SRC
 
 **** Mode line
