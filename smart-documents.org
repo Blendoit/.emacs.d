@@ -9,6 +9,8 @@
 #+INCLUDE: ~/.emacs.d/templates/documents/default.org_title
 
 #+LATEX_HEADER: \usepackage{lettrine}
+#+LATEX_HEADER_EXTRA: \newfontfamily\garamond{EB Garamond}
+#+LATEX_HEADER_EXTRA: \newfontfamily\publicsans{Public Sans}
 
 #+LATEX: \begin{abstract}
 The idea of /Smart Documents/ came to me as I was reflecting on
@@ -874,7 +876,7 @@ We replace the standard welcome screen with our own.
   (use-package dashboard
     :config
     (dashboard-setup-startup-hook)
-    (setq dashboard-startup-banner (concat user-emacs-directory "img/Safran_logo.svg"))
+    (setq dashboard-startup-banner (concat user-emacs-directory "img/icons/Safran_logo.svg"))
     (setq dashboard-items '((recents  . 5)
                             (projects . 5)))
     (setq dashboard-banner-logo-title "A modern professional text editor."))
@@ -1146,7 +1148,7 @@ LaTeX.
            ("pdflatex"))
           ("table,svgnames" "xcolor" t ; svgnames opens up ~150 color keywords
            ("pdflatex"))
-          ("skip=0.5\\baselineskip" "caption" t ; Increase space between floats and captions
+          ("skip=0.5\\baselineskip, width=0.618\\textwidth" "caption" t ; Increase space between floats and captions
            ("pdflatex" "lualatex"))))
 #+END_SRC
 
@@ -1318,7 +1320,6 @@ paragraph [[Open a recently visited file]].
   (setq fill-column 66)
 #+END_SRC
 
-
 ** Frame
 
 *** Header & mode lines
@@ -1336,7 +1337,7 @@ way for UI elements which may be animated.
 
 #+BEGIN_SRC emacs-lisp :tangle yes
   (defvar sd-icons-blue-ellipsis (create-image
-                                  (concat user-emacs-directory "img/ellipsis.gif")
+                                  (concat user-emacs-directory "img/icons/ellipsis.gif")
                                   'gif nil
                                   :scale 0.4) "A blue loading ellipsis.")
 
@@ -1347,7 +1348,6 @@ way for UI elements which may be animated.
 #+END_SRC
 
 (sd-icons-blue-ellipsis)
-
 
 **** TODO Header line
 # Figure out how to do 'keymap cleanly
@@ -1621,16 +1621,54 @@ We use ~variable-pitch-mode~ for appropriate modes.
 Make default font size larger on displays of which the resolution
 is greater than 1920\times1080.
 
-#+BEGIN_SRC emacs-lisp :tangle yes
+#+BEGIN_SRC emacs-lisp :tangle no
+  (if (< screen-width 1920)
+      (default-font)
+    else)
 #+END_SRC
 
 ** Wealthy theme
 
-#+LATEX: \lettrine{G}ood golly,
-nobody wishes for a /pedestrian/ theme!  Let your entourage know
-that you're rocking an editor fit for a king with this finely
-crafted `wealthy' theme.
+#+NAME: claude-garamont
+#+CAPTION[Claude Garamont, an icon of font design]: Claude Garamont, an icon of font design. World-renowned for his elegant typefaces, which inspired many generations of typographers.
+#+ATTR_LATEX: :width 0.2\pagewidth
+[[~/.emacs.d/img/smart-documents/ClaudeGaramond.jpeg]]
 
+#+LATEX: \garamond
+#+LATEX: \lettrine{G}ood golly,
+nobody wishes for a /pedestrian/ theme! Let your entourage know that you're
+rocking an editor fit for a king with this finely crafted `wealthy'
+theme. Selecting it shall enable the following fancitudes:
+
+1. The default font shall be sublimed in the form of /EB Garamond/
+2. Bullets will be tastefully replaced with pointing fingers
+3. Heading stars will be replaced with Black Queen chess pieces
+
+#+BEGIN_QUOTE
+*Claude Garamont* (c. 1510--1561), known commonly as *Claude Garamond*, was a
+French type designer, publisher and punch-cutter based in Paris. Garamond
+worked as an engraver of punches, the masters used to stamp matrices, the
+moulds used to cast metal type. He worked in the tradition now called old-style
+serif design, which produced letters with a relatively organic structure
+resembling handwriting with a pen but with a slightly more structured and
+upright design. Considered one of the leading type designers of all time, he is
+recognised to this day for the elegance of his typefaces. Many old-style serif
+typefaces are collectively known as Garamond, named after the designer.
+
+From [[https://en.wikipedia.org/wiki/Claude_Garamond]]
+#+END_QUOTE
+
+#+LATEX: \publicsans
+
+*** Symbol substitution
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (defun sd-wealthy ()
+    "Beautify symbols for our wealthy theme."
+    (push '("-" . "☞" ) prettify-symbols-alist) ; unnumbered bullets
+    (push '("*" . "♛" ) prettify-symbols-alist) ; headings
+    (prettify-symbols-mode))
+#+END_SRC
 
 ** TODO ~minimal~
 
@@ -1656,4 +1694,3 @@ store the result of our profiling.
 
 In this configuration file, we described a series of customization
 steps taken to make Emacs more palatable to modern IDE users.
-
