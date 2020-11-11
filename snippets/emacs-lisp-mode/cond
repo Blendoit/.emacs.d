@@ -1,0 +1,8 @@
+# -*- mode: snippet -*-
+# name: cond
+# key: cond
+# --
+(cond (${1:first-condition}  ${2:first-return})
+      (${3:second-condition} ${4:second-return})
+      (t ${5:always-true-return}))
+$0

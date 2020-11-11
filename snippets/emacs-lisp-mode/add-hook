@@ -3,3 +3,4 @@
 # key: hook
 # --
 (add-hook '${1:mode-to-hook-on} '${2:function})
+$0

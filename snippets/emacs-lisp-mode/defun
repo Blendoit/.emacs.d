@@ -3,5 +3,7 @@
 # key: def
 # --
 (defun ${1:function-name} (${2:arguments})
-  "${3:Docstring}"
+  "${3:Docstring: Indicate in imperitave voice what the function does.
+Second and subsequent lines must have nil indentation to preserve
+formatting in }"
   $0)
