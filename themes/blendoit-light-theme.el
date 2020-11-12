@@ -1,5 +1,5 @@
 (deftheme blendoit-light
-  "Created 2020-11-08.")
+  "Created 2020-11-11.")
 
 (custom-theme-set-faces
  'blendoit-light
@@ -80,6 +80,7 @@
  '(org-footnote ((t (:inherit (link variable-font)))))
  '(org-todo ((t (:background "coral" :foreground "white" :weight bold :height 1.2 :family "Hermit"))))
  '(org-done ((t (:background "forest green" :foreground "white" :weight bold :height 1.2 :family "hermit"))))
- '(default ((t (:background "white" :foreground "black" :height 140 :family "Hack")))))
+ '(default ((t (:background "white" :foreground "black" :height 140 :family "Hack"))))
+ '(org-tag ((t (:inherit link)))))
 
 (provide-theme 'blendoit-light)

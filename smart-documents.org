@@ -422,13 +422,25 @@ The following bindings lead to more natural window & frame exit behaviors.
 
 #+NAME: close-window-or-previous-buffer
 #+BEGIN_SRC emacs-lisp :tangle yes
-(global-set-key (kbd "C-w")
-		'(lambda ()
-		   "Delete window; if sole window, previous buffer."
-		   (interactive)
-		   (if (> (length (window-list)) 1)
-		       (delete-window)
-		     (previous-buffer))))
+  (global-set-key (kbd "C-w")
+                  (lambda ()
+                    "Delete window; if sole window, previous buffer."
+                    (interactive)
+                    (if (> (length (window-list)) 1)
+                        (delete-window)
+                      (previous-buffer))))
+#+END_SRC
+
+*** Header line commands
+
+#+BEGIN_SRC emacs-lisp :tangle no
+  (global-set-key (kbd "<header-line> <mouse-1>")
+                  (lambda ()
+                    "Delete window; if sole window, previous buffer."
+                    (interactive)
+                    (if (> (length (window-list)) 1)
+                        (delete-window)
+                      (previous-buffer))))
 #+END_SRC
 
 ** Frame
@@ -531,7 +543,7 @@ We prevent Org mode from overriding preferred navigation keys.
 (global-set-key (kbd "M-l") 'right-char)
 #+END_SRC
 
-** Customizing the editor
+** Accessing customization
 
 *** Customize a variable
 
@@ -1314,12 +1326,6 @@ paragraph [[Open a recently visited file]].
   (run-at-time nil (* 5 60) 'recentf-save-list)
 #+END_SRC
 
-*** Fill column
-
-#+BEGIN_SRC emacs-lisp :tangle yes
-  (setq fill-column 66)
-#+END_SRC
-
 ** Frame
 
 *** Header & mode lines
@@ -1356,58 +1362,58 @@ In Org mode, the document header line will be the title of the
 document we are working on currently.
 
 #+BEGIN_SRC emacs-lisp :tangle yes
-    (setq sd-header-gnu-linux
-          (list
-           (propertize "..." 'display sd-icons-blue-ellipsis)
-           '(:eval
-             (list
-              (if (eq (length (window-list)) 1)
-                  (propertize " ↤ " 'mouse-face 'highlight
-                              'face 'org-special-keyword
-                              'local-map 'previous-buffer
-                              'help-echo "Return to previous window.")
-                (list (propertize " ❌ " 'mouse-face 'org-todo
-                                  'face 'org-special-keyword
-                                  'help-echo "Close this window.")
-                      (propertize " ⇱" 'mouse-face 'highlight
-                                  'face 'org-special-keyword
-                                  'help-echo "Maximize this window.")
-                      (propertize "⇲ " 'mouse-face 'highlight
-                                  'face 'org-special-keyword
-                                  'help-echo "Minimize this window.")))
-              (if (string-equal major-mode "org-mode")
-                  (org-property-value "TITLE")
-                (buffer-name))))))
+  (setq sd-header-gnu-linux ; This will be our experimental header line.
+        (list
+         (propertize "..." 'display sd-icons-blue-ellipsis)
+         '(:eval
+           (list
+            (if (eq (length (window-list)) 1)
+                (propertize " ↤ " 'mouse-face 'highlight
+                            'face 'org-special-keyword
+                            'local-map 'previous-buffer
+                            'help-echo "Return to previous window.")
+              (list (propertize " ❌ " 'mouse-face 'org-todo
+                                'face 'org-special-keyword
+                                'help-echo "Close this window.")
+                    (propertize " ⇱" 'mouse-face 'highlight
+                                'face 'org-special-keyword
+                                'help-echo "Maximize this window.")
+                    (propertize "⇲ " 'mouse-face 'highlight
+                                'face 'org-special-keyword
+                                'help-echo "Minimize this window.")))
+            (if (string-equal major-mode "org-mode")
+                (org-property-value "TITLE")
+              (buffer-name))))))
 
-    (setq sd-header-windows-nt
-          (list
-           '(:eval
-             (list
-              (if (eq (length (window-list)) 1)
-                  (propertize " ↤ " 'mouse-face 'highlight
-                              'face 'org-special-keyword
-                              'local-map 'previous-buffer
-                              'help-echo "Return to previous window.")
-                (list (propertize " ❌ " 'mouse-face 'org-todo
-                                  'face 'org-special-keyword
-                                  'help-echo "Close this window.")
-                      (propertize " ⇱" 'mouse-face 'highlight
-                                  'face 'org-special-keyword
-                                  'help-echo "Maximize this window.")
-                      (propertize "⇲ " 'mouse-face 'highlight
-                                  'face 'org-special-keyword
-                                  'help-echo "Minimize this window.")))
-              (if (string-equal major-mode "org-mode")
-                  (org-property-value "TITLE")
-                (buffer-name))))))
+  (setq sd-header-windows-nt ; This will be our fallback header line.
+        (list
+         '(:eval
+           (list
+            (if (eq (length (window-list)) 1)
+                (propertize " ↤ " 'mouse-face 'highlight
+                            'face 'org-special-keyword
+                            'local-map 'previous-buffer
+                            'help-echo "Return to previous window.")
+              (list (propertize " ❌ " 'mouse-face 'org-todo
+                                'face 'org-special-keyword
+                                'help-echo "Close this window.")
+                    (propertize " ⇱" 'mouse-face 'highlight
+                                'face 'org-special-keyword
+                                'help-echo "Maximize this window.")
+                    (propertize "⇲ " 'mouse-face 'highlight
+                                'face 'org-special-keyword
+                                'help-echo "Minimize this window.")))
+            (if (string-equal major-mode "org-mode")
+                (org-property-value "TITLE")
+              (buffer-name))))))
 
-    (cond ((string-equal system-type "windows-nt")
-           (setq header-line-format sd-header-windows-nt))
-          ((string-equal system-type "gnu'linux")
-           (setq header-line-format sd-header-gnu-linux)))
+  (cond ((string-equal system-type "windows-nt")
+         (setq header-line-format sd-header-windows-nt))
+        ((string-equal system-type "gnu/linux")
+         (setq header-line-format sd-header-gnu-linux)))
 
-    ;; Ensure our icons are animated on start
-    (image-animate sd-icons-blue-ellipsis 0 t)
+  ;; Ensure our icons are animated on start
+  (image-animate sd-icons-blue-ellipsis 0 t)
 #+END_SRC
 
 **** Mode line
@@ -1444,10 +1450,10 @@ A line of text is considered ``filled'' when it reaches 79
 characters in length.
 
 #+BEGIN_SRC emacs-lisp :tangle yes
-  (setq-default fill-column 79)
+  (setq-default fill-column 66)
   (add-hook 'org-mode-hook
-            'turn-on-auto-fill) ; Automatically break lines longer than
-                                ; =fill-column=.
+            'turn-on-auto-fill) ; Automatically break lines longer
+                                ; than =fill-column=.
 #+END_SRC
 
 ** Text
@@ -1627,7 +1633,7 @@ is greater than 1920\times1080.
     else)
 #+END_SRC
 
-** Wealthy theme
+** TODO Wealthy theme
 
 #+NAME: claude-garamont
 #+CAPTION[Claude Garamont, an icon of font design]: Claude Garamont, an icon of font design. World-renowned for his elegant typefaces, which inspired many generations of typographers.
