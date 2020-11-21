@@ -62,8 +62,8 @@ You can always press ~f1~ to access Emacs built-in help.
 
 * First-time setup
 
-The following code blocks are normally evaluated once---upon starting Emacs for
-the first time.
+The following code blocks are normally evaluated once---upon
+starting Emacs for the first time.
 
 ** TODO Unpacking our literate configuration
 :PROPERTIES:
@@ -139,10 +139,11 @@ or other appropriate element.
 
 ** File system paths
 
-In this subsection, we tell Emacs about relevant paths to resources.
+In this subsection, we tell Emacs about relevant paths to
+resources.
 
-On my MS Windows machine, I add the path to Portable Git.[fn::Download from
-https://git-scm.com/download/win]
+On my MS Windows machine, I add the path to Portable
+Git.[fn::Download from https://git-scm.com/download/win]
 
 #+BEGIN_SRC emacs-lisp :tangle yes
   (when (string-equal system-type "windows-nt")
@@ -185,11 +186,11 @@ This file can be found here: [[file:init.el]]
 
 If no file is found, Emacs then loads in its purely vanilla state.
 
-** Profiling --- start
+** Profiling---start
 
 We start the profiler now , and will interrupt it in Section
-[[Profiling --- stop]]. We will then present profiling report in
-Section [[Profiling --- report]].
+[[Profiling---stop]]. We will then present profiling report in
+Section [[Profiling---report]].
 
 #+NAME: profiler-start
 #+BEGIN_SRC emacs-lisp :tangle yes
@@ -288,7 +289,7 @@ Backups are very important!
         version-control t      ; Use version numbers on backups
         delete-old-versions t  ; Automatically delete excess backups
         kept-new-versions 20   ; how many of the newest versions to keep
-        kept-old-versions 5)    ; and how many of the old
+        kept-old-versions 5)   ; and how many of the old
 #+END_SRC
 
 ** Initial and default frames
@@ -1005,7 +1006,7 @@ We then set values for many other Org-related cosmetic symbols.
         org-startup-indented t
         org-src-preserve-indentation nil
         org-edit-src-content-indentation 2
-        org-ellipsis "  ") ; folding symbol
+        org-ellipsis " ▷ ") ; folding symbol
 #+END_SRC
 
 *** Dynamic numbering of headlines
@@ -1641,25 +1642,27 @@ is greater than 1920\times1080.
 [[~/.emacs.d/img/smart-documents/ClaudeGaramond.jpeg]]
 
 #+LATEX: \garamond
-#+LATEX: \lettrine{G}ood golly,
-nobody wishes for a /pedestrian/ theme! Let your entourage know that you're
-rocking an editor fit for a king with this finely crafted `wealthy'
-theme. Selecting it shall enable the following fancitudes:
+\lettrine{G}{ood} golly, nobody wishes for a /pedestrian/ theme!
+Let your entourage know that you're rocking an editor fit for a
+king with this finely crafted `wealthy' theme. Selecting it shall
+enable the following fancitudes:
 
 1. The default font shall be sublimed in the form of /EB Garamond/
 2. Bullets will be tastefully replaced with pointing fingers
 3. Heading stars will be replaced with Black Queen chess pieces
 
 #+BEGIN_QUOTE
-*Claude Garamont* (c. 1510--1561), known commonly as *Claude Garamond*, was a
-French type designer, publisher and punch-cutter based in Paris. Garamond
-worked as an engraver of punches, the masters used to stamp matrices, the
-moulds used to cast metal type. He worked in the tradition now called old-style
-serif design, which produced letters with a relatively organic structure
-resembling handwriting with a pen but with a slightly more structured and
-upright design. Considered one of the leading type designers of all time, he is
-recognised to this day for the elegance of his typefaces. Many old-style serif
-typefaces are collectively known as Garamond, named after the designer.
+\lettrine{C}{laude} Garamont (c. 1510--1561), known commonly as
+*Claude Garamond*, was a French type designer, publisher and
+punch-cutter based in Paris. Garamond worked as an engraver of
+punches, the masters used to stamp matrices, the moulds used to
+cast metal type. He worked in the tradition now called old-style
+serif design, which produced letters with a relatively organic
+structure resembling handwriting with a pen but with a slightly
+more structured and upright design. Considered one of the leading
+type designers of all time, he is recognised to this day for the
+elegance of his typefaces. Many old-style serif typefaces are
+collectively known as Garamond, named after the designer.
 
 From [[https://en.wikipedia.org/wiki/Claude_Garamond]]
 #+END_QUOTE
@@ -1684,13 +1687,13 @@ At this point, our editor is almost ready to run. Phew! All that's
 left to do is to interrupt our profiling activities, and smartly
 store the result of our profiling.
 
-** Profiling --- stop
+** Profiling---stop
 
 #+BEGIN_SRC emacs-lisp :tangle yes
 ;; (profiler-stop)
 #+END_SRC
 
-** Profiling --- report
+** Profiling---report
 
 #+BEGIN_SRC emacs-lisp :tangle yes
 ;; (profiler-report)
