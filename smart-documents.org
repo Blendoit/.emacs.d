@@ -806,12 +806,6 @@ Everlasting Father, Prince of Peace.
  :bind (("C-f" . counsel-grep-or-swiper)))
 #+END_SRC
 
-** Tree
-
-#+BEGIN_SRC emacs-lisp :tangle yes
-(use-package treemacs)
-#+END_SRC
-
 ** Coding languages
 
 *** TODO Emacs Lisp
@@ -1157,6 +1151,8 @@ LaTeX.
            ("pdflatex"))
           ("AUTO" "polyglossia" t ; Babel replacement for LuaLaTeX
            ("xelatex" "lualatex"))
+          ("" "fontspec" t ; Fonts for LuaLaTeX
+           ("lualatex"))
           ("" "booktabs" t ; Publication quality tables in LaTeX
            ("pdflatex"))
           ("table,svgnames" "xcolor" t ; svgnames opens up ~150 color keywords
@@ -1343,18 +1339,22 @@ interface. Emacs allows the usage of GIF images---this paves the
 way for UI elements which may be animated.
 
 #+BEGIN_SRC emacs-lisp :tangle yes
-  (defvar sd-icons-blue-ellipsis (create-image
-                                  (concat user-emacs-directory "img/icons/ellipsis.gif")
-                                  'gif nil
-                                  :scale 0.4) "A blue loading ellipsis.")
+  (defcustom sd-icon-loading
+    (create-image
+     (concat user-emacs-directory "img/icons/ellipsis.gif")
+     'gif nil :scale 0.4)
+     "The GIF representing \"loading\". Not animated by default."
+     :type 'sexp
+     :version "27.1"
+     :group 'sd)
 
-(defun sd-icons-blue-ellipsis ()
+  (defun sd-icon-loading ()
     "Insert an animated blue ellipsis."
-    (insert-image sd-icons-blue-ellipsis)
-    (image-animate sd-icons-blue-ellipsis 0 t))
-#+END_SRC
+    (insert-image sd-icon-loading)
+    (image-animate sd-icon-loading 0 t))
 
-(sd-icons-blue-ellipsis)
+(defcustom )
+#+END_SRC
 
 **** TODO Header line
 # Figure out how to do 'keymap cleanly
@@ -1363,9 +1363,26 @@ In Org mode, the document header line will be the title of the
 document we are working on currently.
 
 #+BEGIN_SRC emacs-lisp :tangle yes
-  (setq sd-header-gnu-linux ; This will be our experimental header line.
+
+(setq header-line-format
+      (propertize "♥"
+          'help-echo "Click to toggle."
+          'keymap (let ((map (make-sparse-keymap)))
+                (define-key map [header-line mouse-1]
+                  (lambda ()
+                (interactive)
+                (if (s-starts-with? "♥" header-line-format)
+                    (setf (substring header-line-format 0 1) (buffer-name))
+                  (setf (substring header-line-format 0 2) "♥"))
+                (force-mode-line-update)))
+                map)))
+
+
+
+
+  (setq header-line-format ; This will be our experimental header line.
         (list
-         (propertize "..." 'display sd-icons-blue-ellipsis)
+         (propertize "..." 'display sd-icon-loading)
          '(:eval
            (list
             (if (eq (length (window-list)) 1)
@@ -1408,10 +1425,10 @@ document we are working on currently.
                 (org-property-value "TITLE")
               (buffer-name))))))
 
-  (cond ((string-equal system-type "windows-nt")
-         (setq header-line-format sd-header-windows-nt))
-        ((string-equal system-type "gnu/linux")
-         (setq header-line-format sd-header-gnu-linux)))
+  ;; (cond ((string-equal system-type "windows-nt")
+  ;;        (setq header-line-format sd-header-windows-nt))
+  ;;       ((string-equal system-type "gnu/linux")
+  ;;        (setq header-line-format sd-header-gnu-linux)))
 
   ;; Ensure our icons are animated on start
   (image-animate sd-icons-blue-ellipsis 0 t)
@@ -1421,16 +1438,17 @@ document we are working on currently.
 
 #+NAME: mode-line-format
 #+BEGIN_SRC emacs-lisp :tangle yes
-    (setq-default mode-line-format
-          (list
-           '(:eval
-             (list
-              "    "
-              (if buffer-read-only "🔒" "🔓")
-              (propertize " %b "
-                          'help-echo (buffer-file-name)
-                          )
-              (if (buffer-modified-p) "🖉" "✓")))))
+  (setq-default mode-line-format
+                (list
+                 '(:eval
+                   (list
+                    "    "
+                    (if buffer-read-only "🔒" "🔓")
+                    (propertize " %b "
+                                'help-echo (buffer-file-name)
+                                )
+                    (if (buffer-modified-p) "🖉" "✓")
+                    ))))
 #+END_SRC
 
 ** Window
