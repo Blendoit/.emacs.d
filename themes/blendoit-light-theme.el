@@ -1,5 +1,5 @@
 (deftheme blendoit-light
-  "Created 2020-11-17.")
+  "Created 2020-11-21.")
 
 (custom-theme-set-faces
  'blendoit-light
@@ -81,6 +81,12 @@
  '(org-todo ((t (:background "coral" :foreground "white" :weight bold :height 1.4 :family "Hermit"))))
  '(org-done ((t (:background "forest green" :foreground "white" :weight bold :height 1.4 :family "hermit"))))
  '(org-tag ((t (:inherit link))))
- '(default ((t (:background "white" :foreground "black" :height 140 :family "Hack")))))
+ '(default ((t (:background "white" :foreground "black" :height 140 :family "Hack"))))
+ '(erc-nick-default-face ((t (:inherit org-meta-line :weight bold))))
+ '(erc-timestamp-face ((t (:inherit org-meta-line))))
+ '(erc-notice-face ((t (:inherit shadow))))
+ '(erc-input-face ((t (:foreground "DarkOrchid4"))))
+ '(erc-action-face ((t (:slant italic :weight bold))))
+ '(erc-button ((t (:inherit link)))))
 
 (provide-theme 'blendoit-light)
