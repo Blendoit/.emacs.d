@@ -1342,18 +1342,18 @@ way for UI elements which may be animated.
   (defcustom sd-icon-loading
     (create-image
      (concat user-emacs-directory "img/icons/ellipsis.gif")
-     'gif nil :scale 0.4)
-     "The GIF representing \"loading\". Not animated by default."
-     :type 'sexp
-     :version "27.1"
-     :group 'sd)
+     'gif nil
+     :scale 0.4)
+    "The GIF representing \"loading\". Not animated by default."
+    :type 'sexp
+    :version "27.1"
+    :group 'sd)
 
   (defun sd-icon-loading ()
     "Insert an animated blue ellipsis."
     (insert-image sd-icon-loading)
     (image-animate sd-icon-loading 0 t))
 
-(defcustom )
 #+END_SRC
 
 **** TODO Header line
@@ -1362,7 +1362,7 @@ way for UI elements which may be animated.
 In Org mode, the document header line will be the title of the
 document we are working on currently.
 
-#+BEGIN_SRC emacs-lisp :tangle yes
+#+BEGIN_SRC emacs-lisp :tangle no
 
 (setq header-line-format
       (propertize "♥"
@@ -1373,11 +1373,9 @@ document we are working on currently.
                 (interactive)
                 (if (s-starts-with? "♥" header-line-format)
                     (setf (substring header-line-format 0 1) (buffer-name))
-                  (setf (substring header-line-format 0 2) "♥"))
+                  (setf (substring header-line-format 0 1) "♥"))
                 (force-mode-line-update)))
                 map)))
-
-
 
 
   (setq header-line-format ; This will be our experimental header line.
