@@ -1,0 +1,20 @@
+# -*- mode: org; eval: (visual-line-mode); -*-
+
+#+LATEX_HEADER: \usepackage[]{geometry}
+#+LATEX_HEADER: \usepackage{fontspec}
+#+LATEX_HEADER: \setmainfont{EB Garamond}
+#+LATEX_HEADER: \setmonofont{Liberation Mono}
+
+# Get total page count to insert in footer
+#+LATEX_HEADER: \usepackage{lastpage}
+#+LATEX_HEADER: \usepackage{titling}
+
+#+LATEX_HEADER: \usepackage{fancyhdr}
+# Space in the header for a logo or image.
+#+LATEX_HEADER: \setlength{\headheight}{36pt}
+#+LATEX_HEADER_EXTRA: \pagestyle{fancy}
+#+LATEX_HEADER_EXTRA: \fancyhead[L]{\rule[-12pt]{0pt}{0pt}\texttt{Lord \theauthor}}
+#+LATEX_HEADER_EXTRA: \fancyhead[C]{\large\textbf{\thetitle}}
+#+LATEX_HEADER_EXTRA: \fancyhead[R]{\thedate}
+#+LATEX_HEADER_EXTRA: \renewcommand{\headrulewidth}{1.5pt}
+#+LATEX_HEADER_EXTRA: \fancyfoot[C]{\hrulefill\\[0.8em] Page \thepage\\[0.8em]\footnotesize Tastefully assembled with \includegraphics[width=1.618ex]{~/.emacs.d/img/icons/EmacsIcon.png}/\includegraphics[width=1.618ex]{~/.emacs.d/img/icons/Org-mode-unicorn.png}/\includegraphics[width=1.618ex]{~/.emacs.d/img/icons/LuaTeX_logo.png}/...\\ Copyright \copyright~2020 Marius Peter. All rights reserved. }
