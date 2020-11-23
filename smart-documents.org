@@ -806,6 +806,50 @@ Everlasting Father, Prince of Peace.
  :bind (("C-f" . counsel-grep-or-swiper)))
 #+END_SRC
 
+*** IRC
+
+Emacs ships with an IRC client called ~erc~.
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (use-package erc
+    :custom
+    (erc-autojoin-channels-alist '(("freenode.net"
+                                    "#linux"
+                                    "#archlinux"
+                                    "#emacs"
+                                    "#bitcoin"
+                                    "#latex"
+                                    "#org-mode"
+                                    "#python")))
+    (erc-autojoin-timing 'ident) ; Autojoin after NickServ identification.
+    (erc-fill-function 'erc-fill-static)
+    (erc-fill-static-center 20)
+    ;; (erc-hide-list '("JOIN" "PART" "QUIT"))
+    (erc-lurker-hide-list '("JOIN" "PART" "QUIT"))
+    (erc-lurker-threshold-time (* 3600 4)) ; Four hours
+    (erc-prompt-for-nickserv-password nil)
+    (erc-server-reconnect-attempts 5)
+    (erc-server-reconnect-timeout 3)
+    :config
+    (add-to-list 'erc-modules 'spelling)
+    (erc-services-mode 1)
+    (erc-update-modules))
+#+END_SRC
+
+We enable the automatic highlighting of ~erc~ nicknames.
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+(use-package erc-hl-nicks
+  :after erc)
+#+END_SRC
+
+Also, we enable the display of inline images in channels.
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+(use-package erc-image
+  :after erc)
+#+END_SRC
+
 ** Coding languages
 
 *** TODO Emacs Lisp
