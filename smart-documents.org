@@ -716,15 +716,15 @@ with ~yasnippet~ to save us a ton of time with boilerplate text!
 
 #+NAME: company
 #+BEGIN_SRC emacs-lisp
-;  (add-hook 'after-init-hook 'global-company-mode)
+  (add-hook 'after-init-hook 'global-company-mode)
 #+END_SRC
 
 *** Delete all consecutive whitespaces
 
-#+NAME: company
+#+NAME: hungry-delete
 #+BEGIN_SRC emacs-lisp :tangle yes
-(use-package hungry-delete)
-(global-hungry-delete-mode)
+  (use-package hungry-delete)
+  (global-hungry-delete-mode)
 #+END_SRC
 
 ** Utilities
@@ -1476,12 +1476,12 @@ document we are working on currently.
   (image-animate sd-icons-blue-ellipsis 0 t)
 #+END_SRC
 
-**** Mode line
+**** TODO Mode line
 
 #+NAME: mode-line-format
-#+BEGIN_SRC emacs-lisp :tangle yes
-  (setq-default mode-line-format
-                (list
+#+BEGIN_SRC emacs-lisp :tangle no
+  (setq mode-line-format
+                (list mode-line-modified
                  '(:eval
                    (list
                     "    "
