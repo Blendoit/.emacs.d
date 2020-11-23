@@ -35,3 +35,18 @@
 #+LATEX_HEADER_EXTRA: \fancyhead[R]{\thedate}
 #+LATEX_HEADER_EXTRA: \renewcommand{\headrulewidth}{1.5pt}
 #+LATEX_HEADER_EXTRA: \fancyfoot[C]{\hrulefill\\[0.8em] Page \thepage/\pageref*{LastPage}\\[0.8em]\footnotesize Compiled with \includegraphics[width=1.618ex]{~/.emacs.d/img/icons/EmacsIcon.png}/\includegraphics[width=1.618ex]{~/.emacs.d/img/icons/Org-mode-unicorn.png}/\includegraphics[width=1.618ex]{~/.emacs.d/img/icons/LuaTeX_logo.png}/...\\ Copyright \copyright~2020 Marius Peter. All rights reserved.}
+
+#+BEGIN_SRC emacs-lisp :exports none :cache no :results raw
+  (concat "#+LATEX_HEADER_EXTRA:"
+          "\\fancyfoot[C]{\\hrulefill\\\\[0.8em] "
+          "Page \\thepage/\\pageref*{LastPage}\\\\[0.8em] "
+          "\\footnotesize Compiled with"
+          "\\includegraphics[width=1.618ex]{~/.emacs.d/img/icons/EmacsIcon.png}/"
+          "\\includegraphics[width=1.618ex]{~/.emacs.d/img/icons/Org-mode-unicorn.png}/"
+          "\\includegraphics[width=1.618ex]{~/.emacs.d/img/icons/LuaTeX_logo.png}/..."
+          " On \\texttt{" (with-temp-buffer (org-insert-time-stamp (current-time)))
+          "}\\\\ Copyright \\copyright~2020 Marius Peter. All rights reserved.}")
+#+END_SRC
+
+# #+RESULTS:
+# #+LATEX_HEADER_EXTRA:\fancyfoot[C]{\hrulefill\\[0.8em] Page \thepage/\pageref*{LastPage}\\[0.8em] \footnotesize Compiled with\includegraphics[width=1.618ex]{~/.emacs.d/img/icons/EmacsIcon.png}/\includegraphics[width=1.618ex]{~/.emacs.d/img/icons/Org-mode-unicorn.png}/\includegraphics[width=1.618ex]{~/.emacs.d/img/icons/LuaTeX_logo.png}/... On \texttt{<2020-11-23 Mon>}\\ Copyright \copyright~2020 Marius Peter. All rights reserved.}
