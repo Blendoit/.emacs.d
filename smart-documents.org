@@ -422,7 +422,7 @@ pressed.
 The following bindings lead to more natural window & frame exit behaviors.
 
 #+NAME: close-window-or-previous-buffer
-#+BEGIN_SRC emacs-lisp :tangle yes
+#+BEGIN_SRC emacs-lisp :tangle no
   (global-set-key (kbd "C-w")
                   (lambda ()
                     "Delete window; if sole window, previous buffer."
@@ -836,20 +836,6 @@ Emacs ships with an IRC client called ~erc~.
     (erc-update-modules))
 #+END_SRC
 
-We enable the automatic highlighting of ~erc~ nicknames.
-
-#+BEGIN_SRC emacs-lisp :tangle yes
-(use-package erc-hl-nicks
-  :after erc)
-#+END_SRC
-
-Also, we enable the display of inline images in channels.
-
-#+BEGIN_SRC emacs-lisp :tangle yes
-(use-package erc-image
-  :after erc)
-#+END_SRC
-
 ** Coding languages
 
 *** TODO Emacs Lisp
@@ -1044,7 +1030,9 @@ We then set values for many other Org-related cosmetic symbols.
         org-startup-indented t
         org-src-preserve-indentation nil
         org-edit-src-content-indentation 2
-        org-ellipsis " ▷ ") ; folding symbol
+        org-ellipsis (propertize " ▷ " ; folding symbol
+                                 'mouse-face 'highlight
+                                 'help-echo "Unfold section."))
 #+END_SRC
 
 *** Dynamic numbering of headlines
