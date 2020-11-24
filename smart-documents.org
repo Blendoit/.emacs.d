@@ -422,7 +422,7 @@ pressed.
 The following bindings lead to more natural window & frame exit behaviors.
 
 #+NAME: close-window-or-previous-buffer
-#+BEGIN_SRC emacs-lisp :tangle no
+#+BEGIN_SRC emacs-lisp :tangle yes
   (global-set-key (kbd "C-w")
                   (lambda ()
                     "Delete window; if sole window, previous buffer."
@@ -823,7 +823,7 @@ Emacs ships with an IRC client called ~erc~.
                                     "#python")))
     (erc-autojoin-timing 'ident) ; Autojoin after NickServ identification.
     (erc-fill-function 'erc-fill-static)
-    (erc-fill-static-center 20)
+    (erc-fill-static-center 16)
     ;; (erc-hide-list '("JOIN" "PART" "QUIT"))
     (erc-lurker-hide-list '("JOIN" "PART" "QUIT"))
     (erc-lurker-threshold-time (* 3600 4)) ; Four hours
@@ -1429,7 +1429,7 @@ document we are working on currently.
                     (propertize "⇲ " 'mouse-face 'highlight
                                 'face 'org-special-keyword
                                 'help-echo "Minimize this window.")))
-            (if (string-equal major-mode "org-mode")
+            (if (eq major-mode 'org-mode)
                 (org-property-value "TITLE")
               (buffer-name))))))
 
@@ -1451,7 +1451,7 @@ document we are working on currently.
                     (propertize "⇲ " 'mouse-face 'highlight
                                 'face 'org-special-keyword
                                 'help-echo "Minimize this window.")))
-            (if (string-equal major-mode "org-mode")
+            (if (eq major-mode 'org-mode)
                 (org-property-value "TITLE")
               (buffer-name))))))
 
