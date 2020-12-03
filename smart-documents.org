@@ -2,11 +2,11 @@
 
 #+TITLE: Smart Documents
 #+AUTHOR: Marius Peter
-#+DATE: <2020-11-08 Sun>
+#+DATE: <2020-12-02 Wed>
 #+EMAIL: blendoit@gmail.com
 #+STARTUP: showall
-#+SETUPFILE: ~/.emacs.d/templates/documents/default.org
-#+INCLUDE: ~/.emacs.d/templates/documents/default.org_title
+#+SETUPFILE: ~/.emacs.d/templates/documents/wealthy.org
+#+INCLUDE: ~/.emacs.d/templates/documents/wealthy-title.org
 
 #+LATEX_HEADER: \usepackage{lettrine}
 #+LATEX_HEADER_EXTRA: \newfontfamily\garamond{EB Garamond}
@@ -1475,7 +1475,7 @@ document we are working on currently.
          '(:eval
            (list
             (if (eq (length (window-list)) 1)
-                (propertize " ↤ " 'mouse-face 'highlight
+                (propertize " ⤺ " 'mouse-face 'highlight
                             'face 'org-special-keyword
                             'local-map 'previous-buffer
                             'help-echo "Return to previous window.")

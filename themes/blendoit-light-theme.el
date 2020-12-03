@@ -1,5 +1,5 @@
 (deftheme blendoit-light
-  "Created 2020-11-22.")
+  "Created 2020-11-30.")
 
 (custom-theme-set-faces
  'blendoit-light
@@ -31,7 +31,7 @@
  '(fringe ((t (:background "white smoke"))))
  '(header-line ((t (:family "Jost*" :height 1.8 :weight extra-bold))))
  '(tooltip ((t (:inherit variable-pitch :background "lightyellow" :foreground "black"))))
- '(mode-line ((t (:box (:line-width -1 :style released-button) :foreground "white" :background "steel blue" :family "Hermit" :height 1.2))))
+ '(mode-line ((t (:height 1.2 :family "Hack" :background "steel blue" :foreground "white" :box (:line-width -1 :style released-button)))))
  '(mode-line-buffer-id ((t (:weight bold))))
  '(mode-line-emphasis ((t (:weight bold))))
  '(mode-line-highlight ((t (:box (:line-width 2 :color "grey40" :style released-button)))))
