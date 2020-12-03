@@ -951,11 +951,35 @@ that same color.
     (add-hook 'prog-mode-hook 'rainbow-mode))
 #+END_SRC
 
-*** +UTF-8 bullet points in =Org mode=+
+*** Mode line
 
-This section was removed, as it is more explicit to display the
-headline character for what it is: a collection of at least one
-asterisk.
+We hide minor modes in the mode line.
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (use-package rich-minority)
+  (rich-minority-mode 1)
+  (setf rm-blacklist "")
+  (insert (format "%s" mode-line-format))
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp :tangle no
+  (%e mode-line-front-space mode-line-mule-info mode-line-client
+      mode-line-modified mode-line-remote
+      mode-line-frame-identification mode-line-buffer-identification
+      mode-line-position (vc-mode vc-mode) mode-line-modes
+      mode-line-misc-info mode-line-end-spaces)
+#+END_SRC
+
+*** Emojis
+
+Emojis are a symbol of modernity, and their tasteful usage enables
+communicating with people from around the world---we're all for
+that! B-) \smiley
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (use-package emojify
+    :hook (after-init . global-emojify-mode))
+#+END_SRC
 
 * ~org-mode~
 
