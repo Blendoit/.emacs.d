@@ -1210,7 +1210,9 @@ LaTeX.
           ("" "fontspec" t ; Fonts for LuaLaTeX
            ("lualatex"))
           ("" "booktabs" t ; Publication quality tables in LaTeX
-           ("pdflatex"))
+           ("pdflatex" "luatex"))
+          ("" "wasysym" t ; Publication quality tables in LaTeX
+           ("pdflatex" "luatex"))
           ("table,svgnames" "xcolor" t ; svgnames opens up ~150 color keywords
            ("pdflatex"))
           ("skip=0.5\\baselineskip, width=0.618\\textwidth" "caption" t ; Increase space between floats and captions
