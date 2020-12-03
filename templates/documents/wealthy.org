@@ -1,6 +1,10 @@
 # -*- mode: org; eval: (visual-line-mode); -*-
 
-#+LATEX_HEADER: \usepackage[]{geometry}
+#+LATEX_HEADER: \usepackage[left=1.5in,%
+#+LATEX_HEADER:            right=2.0in,%
+#+LATEX_HEADER:              top=1.5in,%
+#+LATEX_HEADER:           bottom=1.5in]{geometry}
+
 #+LATEX_HEADER: \usepackage{fontspec}
 #+LATEX_HEADER: \setmainfont{EB Garamond}
 #+LATEX_HEADER: \setmonofont{Courier Prime}
