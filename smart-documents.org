@@ -573,7 +573,7 @@ documents.
 **** Document
 
 #+BEGIN_SRC emacs-lisp :tangle yes
-  (global-set-key (kbd "C-p") 'sd-org-quick-export)
+  (global-set-key (kbd "C-p") 'sd-quick-export)
 #+END_SRC
 
 **** TODO Presentation
@@ -1326,11 +1326,38 @@ LaTeX \rightarrow PDF. The binding is defined in Section [[Export to
 PDF]].
 
 #+BEGIN_SRC emacs-lisp :tangle yes
-  (defun sd-org-quick-export ()
-    "Org async export to PDF and open.
-    This basically reimplements `C-c C-e C-a l o'."
-    (interactive)
+  (defun sd-quick-export--org ()
+    "Org mode async export to PDF and open.
+       This basically reimplements `C-c C-e C-a l o'."
     (org-open-file (org-latex-export-to-pdf)))
+
+  (defun sd-quick-export--ledger-report ()
+    "Quick export for `ledger-mode' report buffers."
+    (let ((old-buffer (current-buffer)))
+      (with-output-to-temp-buffer "**SD Export**"
+        (print "#+SETUPFILE: ~/.emacs.d/templates/documents/default.org")
+        (newline)
+        (insert-buffer-substring old-buffer)
+        (forward-line 10)
+        (org-table-convert-region (point) (goto-char (point-max)))
+        (setq more-lines-p t)
+        (while more-lines-p
+          (move-end-of-line 1)
+          (newline)
+          (setq more-lines-p (= 0 (forward-line 1))))
+        (org-open-file (org-latex-export-to-pdf)))))
+
+  (defun sd-quick-export ()
+    "Quickly prettify and export current buffer to PDF."
+    (interactive)
+    (cond ((eq major-mode 'org-mode)
+           (sd-quick-export--org))
+          ((eq major-mode 'emacs-lisp-mode)
+           (message "No quick-export implemented yet."))
+          ((eq major-mode 'ledger-report-mode)
+           (sd-quick-export--ledger-report))
+          (t (message (concat "No sd-quick-export backend for "
+                              (format "%s" major-mode) ".")))))
 #+END_SRC
 
 ** Beautify buffer
