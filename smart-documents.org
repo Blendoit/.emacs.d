@@ -927,9 +927,15 @@ We replace the standard welcome screen with our own.
 Get inspiration from ~ibuffer-sidebar~ and create a better sidebar.
 
 #+BEGIN_SRC emacs-lisp :tangle yes
+(defvar sd-sidebar nil "Becomes true if sd-sidebar is visible.")
+
   (defun sd-sidebar ()
     (interactive)
-    (split-window-right))
+(if (eq sd-sidebar t))
+    (split-window-right)
+    (dired ".")
+    (dired-hide-details-mode)
+    (setq sd-sidebar t))
 #+END_SRC
 
 *** Better parentheses
