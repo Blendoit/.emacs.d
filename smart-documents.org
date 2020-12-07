@@ -977,7 +977,7 @@ We hide minor modes in the mode line.
 
 *** Emojis
 
-Emojis are a symbol of modernity, and their tasteful usage enables
+Emojis are a symbol of modernity, and their tasteful use enables
 communicating with people from around the world---we're all for
 that! B-) \smiley
 

@@ -1,5 +1,5 @@
 (deftheme blendoit-light
-  "Created 2020-11-30.")
+  "Created 2020-12-06.")
 
 (custom-theme-set-faces
  'blendoit-light
@@ -9,7 +9,7 @@
  '(escape-glyph ((((background dark)) (:foreground "cyan")) (((type pc)) (:foreground "magenta")) (t (:foreground "brown"))))
  '(homoglyph ((((background dark)) (:foreground "cyan")) (((type pc)) (:foreground "magenta")) (t (:foreground "brown"))))
  '(minibuffer-prompt ((t (:inherit org-meta-line))))
- '(highlight ((t (:background "deep sky blue" :foreground "white"))))
+ '(highlight ((t (:background "LightSkyBlue1"))))
  '(region ((t (:background "gainsboro"))))
  '(shadow ((t (:foreground "light slate gray"))))
  '(secondary-selection ((((class color) (min-colors 88) (background light)) (:background "yellow1")) (((class color) (min-colors 88) (background dark)) (:background "SkyBlue4")) (((class color) (min-colors 16) (background light)) (:background "yellow")) (((class color) (min-colors 16) (background dark)) (:background "SkyBlue4")) (((class color) (min-colors 8)) (:foreground "black" :background "cyan")) (t (:inverse-video t))))
@@ -31,7 +31,7 @@
  '(fringe ((t (:background "white smoke"))))
  '(header-line ((t (:family "Jost*" :height 1.8 :weight extra-bold))))
  '(tooltip ((t (:inherit variable-pitch :background "lightyellow" :foreground "black"))))
- '(mode-line ((t (:height 1.2 :family "Hack" :background "steel blue" :foreground "white" :box (:line-width -1 :style released-button)))))
+ '(mode-line ((t (:box (:line-width -1 :style released-button) :foreground "white" :background "steel blue" :family "Hack" :height 1.2))))
  '(mode-line-buffer-id ((t (:weight bold))))
  '(mode-line-emphasis ((t (:weight bold))))
  '(mode-line-highlight ((t (:box (:line-width 2 :color "grey40" :style released-button)))))
@@ -72,7 +72,6 @@
  '(org-level-8 ((t (:inherit org-level-5))))
  '(org-checkbox ((t (:weight bold :inherit org-meta-line))))
  '(org-date ((t (:inherit (link fixed-pitch)))))
- '(Info-quoted ((t (:inherit org-block))))
  '(org-priority ((t (:inherit org-meta-line))))
  '(org-drawer ((t (:inherit org-meta-line))))
  '(org-quote ((t (:inherit variable-pitch :slant italic))))
@@ -81,6 +80,7 @@
  '(org-todo ((t (:background "coral" :foreground "white" :weight bold :height 1.4 :family "Hermit"))))
  '(org-done ((t (:background "forest green" :foreground "white" :weight bold :height 1.4 :family "hermit"))))
  '(org-tag ((t (:inherit link))))
+ '(Info-quoted ((t (:inherit org-block))))
  '(erc-nick-default-face ((t (:inherit org-meta-line :weight bold))))
  '(erc-timestamp-face ((t (:inherit org-meta-line))))
  '(erc-notice-face ((t (:inherit shadow))))
