@@ -5,10 +5,9 @@
 #+DATE: <2020-12-02 Wed>
 #+EMAIL: blendoit@gmail.com
 #+STARTUP: showall
-#+SETUPFILE: ~/.emacs.d/templates/documents/wealthy.org
-#+INCLUDE: ~/.emacs.d/templates/documents/wealthy-title.org
+#+SETUPFILE: ~/.emacs.d/templates/documents/default.org
+#+INCLUDE: ~/.emacs.d/templates/documents/default-title.org
 
-#+LATEX_HEADER: \usepackage{lettrine}
 #+LATEX_HEADER_EXTRA: \newfontfamily\garamond{EB Garamond}
 #+LATEX_HEADER_EXTRA: \newfontfamily\publicsans{Public Sans}
 
@@ -1215,9 +1214,11 @@ LaTeX.
            ("xelatex" "lualatex"))
           ("" "fontspec" t ; Fonts for LuaLaTeX
            ("lualatex"))
-          ("" "booktabs" t ; Publication quality tables in LaTeX
+          ("" "booktabs" t ; Publication quality tables
            ("pdflatex" "luatex"))
-          ("" "wasysym" t ; Publication quality tables in LaTeX
+          ("" "wasysym" t ; Emojis and other symbols
+           ("pdflatex" "luatex"))
+          ("" "lettrine" t
            ("pdflatex" "luatex"))
           ("table,svgnames" "xcolor" t ; svgnames opens up ~150 color keywords
            ("pdflatex"))
