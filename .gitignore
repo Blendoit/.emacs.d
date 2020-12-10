@@ -6,6 +6,9 @@ secret*
 # .org => .el => .elc
 *.elc
 
+# All caches
+*.cache
+
 # These directories are populated on config execution.
 elpa/**
 url/**
