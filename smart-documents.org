@@ -966,16 +966,31 @@ We hide minor modes in the mode line.
 #+BEGIN_SRC emacs-lisp :tangle yes
   (use-package rich-minority)
   (rich-minority-mode 1)
-  (setf rm-blacklist "")
-  (insert (format "%s" mode-line-format))
+  (setf rm-whitelist "projectile")
 #+END_SRC
 
-#+BEGIN_SRC emacs-lisp :tangle no
-  (%e mode-line-front-space mode-line-mule-info mode-line-client
-      mode-line-modified mode-line-remote
-      mode-line-frame-identification mode-line-buffer-identification
-      mode-line-position (vc-mode vc-mode) mode-line-modes
-      mode-line-misc-info mode-line-end-spaces)
+This interpretation of the ideal mode line is the result of
+carefully studying the default ~mode-line~, as well as studying
+various customizations online.
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  ;; (%e mode-line-front-space mode-line-mule-info mode-line-client
+  ;;     mode-line-modified mode-line-remote
+  ;;     mode-line-frame-identification mode-line-buffer-identification
+  ;;     mode-line-position (vc-mode vc-mode) mode-line-modes
+  ;;    mode-line-misc-info mode-line-end-spaces)
+
+  (setq-default mode-line-format
+                (list
+                 mode-line-front-space
+                 '(:eval (if buffer-read-only
+                             (propertize "🔒" 'help-echo "C-x C-q: unlock buffer.")
+                           (propertize "🔓" 'help-echo "C-x C-q: lock buffer.")))
+                " " mode-line-buffer-identification " "
+                '(:eval (if (buffer-modified-p) "🖉" "✓"))
+                " " mode-line-modes " "
+                mode-line-end-spaces))
+
 #+END_SRC
 
 *** Emojis
