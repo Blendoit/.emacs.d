@@ -1,5 +1,5 @@
 (deftheme blendoit-light
-  "Created 2020-12-09.")
+  "Created 2020-12-10.")
 
 (custom-theme-set-faces
  'blendoit-light
@@ -24,7 +24,7 @@
  '(font-lock-preprocessor-face ((t (:inherit font-lock-builtin-face))))
  '(font-lock-regexp-grouping-backslash ((t (:inherit bold :foreground "dark orange"))))
  '(font-lock-regexp-grouping-construct ((t (:inherit bold))))
- '(font-lock-string-face ((t (:inherit default))))
+ '(font-lock-string-face ((t (:foreground "MediumOrchid3" :inherit variable-pitch))))
  '(font-lock-type-face ((t (:foreground "orchid2"))))
  '(font-lock-variable-name-face ((t (:foreground "DarkOrchid3" :weight bold))))
  '(font-lock-warning-face ((t (:inherit (error)))))
