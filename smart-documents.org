@@ -1007,11 +1007,12 @@ various customizations online.
                  '(:eval (if buffer-read-only
                              (propertize "🔒" 'help-echo "C-x C-q: unlock buffer.")
                            (propertize "🔓" 'help-echo "C-x C-q: lock buffer.")))
-                " " mode-line-buffer-identification " "
-                '(:eval (if (buffer-modified-p) "🖉" "✓"))
-                " " mode-line-modes " "
-                mode-line-end-spaces))
-
+                 '(:eval (if (buffer-modified-p)
+                             (propertize " 🖉 " 'help-echo "Buffer is modified.")
+                           (propertize " ✓ " 'help-echo "Buffer is saved.")))
+                 mode-line-buffer-identification " "
+                 mode-line-modes " "
+                 mode-line-end-spaces))
 #+END_SRC
 
 *** Emojis
