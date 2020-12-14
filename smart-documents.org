@@ -410,7 +410,7 @@ pressed.
 
 *** Open Org mode document properties
 
-#+BEGIN_SRC emacs-lisp :tangle yes
+#+BEGIN_SRC emacs-lisp :tangle no
 (global-set-key [f9] 'sd-document-properties)
 #+END_SRC
 
@@ -456,17 +456,18 @@ The following bindings lead to more natural window & frame exit behaviors.
 #+BEGIN_SRC emacs-lisp :tangle yes
   (global-set-key (kbd "C-`") 'delete-other-windows)
 #+END_SRC
+
 *** Delete frame or kill Emacs
 
 #+NAME: delete-frame-or-kill-emacs
 #+BEGIN_SRC emacs-lisp :tangle yes
-(global-set-key (kbd "C-q")
-		'(lambda ()
-		   (interactive)
-		   "delete frame; if sole frame, kill Emacs."
-		   (if (> (length (frame-list)) 1)
-			  (delete-frame)
-		     (kill-emacs))))
+  (global-set-key (kbd "C-q")
+                  '(lambda ()
+                     (interactive)
+                     "delete frame; if sole frame, kill Emacs."
+                     (if (> (length (frame-list)) 1)
+                         (delete-frame)
+                       (kill-emacs))))
 #+END_SRC
 
 *** Open sidebar
@@ -490,7 +491,7 @@ It seems that starting with Emacs 27.1, Control + mousewheel works.
 (global-set-key (kbd "C-+") 'text-scale-increase)
 #+END_SRC
 
-** Navigation
+** TODO Navigation
 
 =Alt= (=Meta=) is the privileged key for motion in a buffer. It is
 followed by an optional numerical argument, and a movement
@@ -513,10 +514,12 @@ numerical argument.
 We prevent Org mode from overriding preferred navigation keys.
 
 #+BEGIN_SRC emacs-lisp :tangle yes
-(local-unset-key (kbd "M-j"))
-(local-unset-key (kbd "M-k"))
-(local-unset-key (kbd "M-l"))
-(local-unset-key (kbd "M-h"))
+  (add-hook 'org-mode
+            '(lambda ()
+               (local-unset-key (kbd "M-j"))
+               (local-unset-key (kbd "M-k"))
+               (local-unset-key (kbd "M-l"))
+               (local-unset-key (kbd "M-h"))))
 #+END_SRC
 
 *** Move down one line
