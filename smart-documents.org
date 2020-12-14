@@ -395,13 +395,13 @@ pressed.
 *** Open the agenda
 
 #+BEGIN_SRC emacs-lisp :tangle yes
-  (global-set-key [f5] 'org-agenda-list)
+  (global-set-key [f6] 'org-agenda-list)
 #+END_SRC
 
 *** Open the diary
 
 #+BEGIN_SRC emacs-lisp :tangle yes
-(global-set-key [f6]
+(global-set-key [f9]
 		'(lambda ()
 		   "Load `org-agenda-diary-file'."
 		   (interactive)
@@ -448,7 +448,7 @@ The following bindings lead to more natural window & frame exit behaviors.
 *** Make new frame
 
 #+BEGIN_SRC emacs-lisp :tangle yes
-  (global-set-key (kbd "C-n") 'make-frame)
+  (global-set-key [f5] 'make-frame)
 #+END_SRC
 
 *** Make only frame
