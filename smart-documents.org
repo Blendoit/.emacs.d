@@ -589,10 +589,17 @@ documents.
 Indent buffer in every mode.
 
 #+BEGIN_SRC emacs-lisp :tangle yes
-  (global-set-key [f12] 'sd-indent-buffer)
+  (global-set-key [f12]
+                  '(lambda ()
+                     "Clean up buffer in the most general sense.
+  This means indenting the buffer according to the major mode in force,
+  as well as deleting trailing whitespaces."
+                     (interactive)
+                     (sd-indent-buffer)
+                     (delete-trailing-whitespace)))
 #+END_SRC
 
-*** Beautify Org mode buffer
+*** TODO Beautify Org mode buffer
 
 Not only indent, but also clean up superfluous newlines.
 
