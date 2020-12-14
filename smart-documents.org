@@ -574,7 +574,7 @@ documents.
 
 **** Document
 
-#+BEGIN_SRC emacs-lisp :tangle yes
+#+BEGIN_SRC emacs-lisp :tangle no
   (global-set-key (kbd "C-p") 'sd-quick-export)
 #+END_SRC
 
@@ -1145,7 +1145,7 @@ keyboard shortcut (cf. Section [[Open Org mode document properties]]).
   "Open separate buffer to edit Org mode properties."
   (interactive)
   (let ((title (car (org-property-value "TITLE")))
-	  (date (org-property-value "DATE"))) 
+	  (date (org-property-value "DATE")))
     (with-output-to-temp-buffer "Smart Document Properties"
       (print title)
       (print date))))
@@ -1495,28 +1495,13 @@ In Org mode, the document header line will be the title of the
 document we are working on currently.
 
 #+BEGIN_SRC emacs-lisp :tangle no
-
-(setq header-line-format
-      (propertize "♥"
-          'help-echo "Click to toggle."
-          'keymap (let ((map (make-sparse-keymap)))
-                (define-key map [header-line mouse-1]
-                  (lambda ()
-                (interactive)
-                (if (s-starts-with? "♥" header-line-format)
-                    (setf (substring header-line-format 0 1) (buffer-name))
-                  (setf (substring header-line-format 0 1) "♥"))
-                (force-mode-line-update)))
-                map)))
-
-
-  (setq header-line-format ; This will be our experimental header line.
+(setq header-line-format ; This will be our experimental header line.
         (list
          (propertize "..." 'display sd-icon-loading)
          '(:eval
            (list
             (if (eq (length (window-list)) 1)
-                (propertize " ⤺ " 'mouse-face 'highlight
+                (propertize " ↤ " 'mouse-face 'highlight
                             'face 'org-special-keyword
                             'local-map 'previous-buffer
                             'help-echo "Return to previous window.")
@@ -1561,7 +1546,7 @@ document we are working on currently.
   ;;        (setq header-line-format sd-header-gnu-linux)))
 
   ;; Ensure our icons are animated on start
-  (image-animate sd-icons-blue-ellipsis 0 t)
+  (image-animate sd-icon-loading 0 t)
 #+END_SRC
 
 **** TODO Mode line
