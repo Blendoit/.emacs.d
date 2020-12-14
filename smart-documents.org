@@ -845,6 +845,17 @@ Emacs ships with an IRC client called ~erc~.
     (erc-update-modules))
 #+END_SRC
 
+*** TODO Telegram
+
+Yeah, a Telegram client is being developed for Emacs.
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+(use-package telega
+  :load-path "~/github/telega.el/telega.el"
+  :commands (telega)
+  :defer t)
+#+END_SRC
+
 ** Coding languages
 
 *** TODO Emacs Lisp
