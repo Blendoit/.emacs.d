@@ -395,7 +395,7 @@ pressed.
 *** Open the agenda
 
 #+BEGIN_SRC emacs-lisp :tangle yes
-  (global-set-key [f6] 'org-agenda-list)
+  (global-set-key [f5] 'org-agenda-list)
 #+END_SRC
 
 *** Open the diary
@@ -562,7 +562,7 @@ documents.
 
 **** Document
 
-#+BEGIN_SRC emacs-lisp :tangle no
+#+BEGIN_SRC emacs-lisp :tangle yes
   (global-set-key (kbd "C-p") 'sd-quick-export)
 #+END_SRC
 
