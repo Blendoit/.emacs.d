@@ -1491,31 +1491,32 @@ open windows.
 Now, we describe the actual format of the header line.
 
 #+BEGIN_SRC emacs-lisp :tangle yes
-  (setq-default header-line-format
-                '(:eval
-                  (list
-                   (if (eq (length (window-list)) 1)
-                       (propertize " ↤ "
-                                   'face 'org-special-keyword
-                                   'mouse-face 'highlight
-                                   'keymap sd-header-line-previous-buffer-keymap
-                                   'help-echo "Return to previous window.")
-                     (list (propertize " ❌ "
-                                       'face 'org-special-keyword
-                                       'mouse-face 'org-todo
-                                       'keymap sd-header-line-kill-buffer-keymap
-                                       'help-echo "Close this window.")
-                           (propertize " ⇱"
-                                       'face 'org-special-keyword
-                                       'mouse-face 'highlight
-                                       'keymap sd-header-line-maximize-window-keymap
-                                       'help-echo "Maximize this window.")
-                           (propertize "⇲ "
-                                       'face 'org-special-keyword
-                                       'mouse-face 'highlight
-                                       'keymap sd-header-line-minimize-window-keymap
-                                       'help-echo "Minimize this window.")))
-                   mode-line-buffer-identification)))
+  (setq-default
+   header-line-format
+   '(:eval
+     (list
+      (if (eq (length (window-list)) 1)
+          (propertize " ↤ "
+                      'face 'org-special-keyword
+                      'mouse-face 'highlight
+                      'keymap sd-header-line-previous-buffer-keymap
+                      'help-echo "Return to previous window.")
+        (list (propertize " ❌ "
+                          'face 'org-special-keyword
+                          'mouse-face 'org-todo
+                          'keymap sd-header-line-kill-buffer-keymap
+                          'help-echo "Close this window.")
+              (propertize " ⇱"
+                          'face 'org-special-keyword
+                          'mouse-face 'highlight
+                          'keymap sd-header-line-maximize-window-keymap
+                          'help-echo "Maximize this window.")
+              (propertize "⇲ "
+                          'face 'org-special-keyword
+                          'mouse-face 'highlight
+                          'keymap sd-header-line-minimize-window-keymap
+                          'help-echo "Minimize this window.")))
+      mode-line-buffer-identification)))
 
   (image-animate sd-icon-loading 0 t)
 #+END_SRC
@@ -1527,17 +1528,33 @@ carefully studying the default ~mode-line~, as well as studying
 various customizations online.
 
 #+BEGIN_SRC emacs-lisp :tangle yes
-  (setq-default mode-line-format
-                (list
-                 mode-line-front-space
-                 '(:eval (if buffer-read-only
-                             (propertize "🔒" 'help-echo "C-x C-q: unlock buffer.")
-                           (propertize "🔓" 'help-echo "C-x C-q: lock buffer.")))
-                 '(:eval (if (buffer-modified-p)
-                             (propertize " 🖉 " 'help-echo "Buffer is modified.")
-                           (propertize " ✓ " 'help-echo "Buffer is saved.")))
-                 mode-line-modes " "
-                 mode-line-end-spaces))
+  (defvar sd-mode-line-lock-buffer-keymap
+    ;; Lock buffer.
+    (let ((map (make-sparse-keymap)))
+      (define-key map [mode-line mouse-1] 'read-only-mode)
+      map)
+    "Keymap for locking/unlocking the current buffer.")
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (setq-default
+   mode-line-format
+   (list
+    mode-line-front-space
+    '(:eval (if buffer-read-only
+                (propertize "🔒"
+                            'keymap sd-mode-line-lock-buffer-keymap
+                            'help-echo "C-x C-q: unlock buffer.")
+              (propertize "🔓"
+                          'keymap sd-mode-line-lock-buffer-keymap
+                          'help-echo "C-x C-q: lock buffer.")))
+    '(:eval (if (buffer-modified-p)
+                (propertize " 🖉 "
+                            'help-echo "Buffer is modified.")
+              (propertize " ✓ "
+                          'help-echo "Buffer is saved.")))
+    mode-line-modes " "
+    mode-line-end-spaces))
 #+END_SRC
 
 ** Window
