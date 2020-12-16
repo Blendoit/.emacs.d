@@ -1,5 +1,5 @@
 (deftheme blendoit-light
-  "Created 2020-12-10.")
+  "Created 2020-12-15.")
 
 (custom-theme-set-faces
  'blendoit-light
@@ -24,7 +24,7 @@
  '(font-lock-preprocessor-face ((t (:inherit font-lock-builtin-face))))
  '(font-lock-regexp-grouping-backslash ((t (:inherit bold :foreground "dark orange"))))
  '(font-lock-regexp-grouping-construct ((t (:inherit bold))))
- '(font-lock-string-face ((t (:foreground "MediumOrchid3" :inherit variable-pitch))))
+ '(font-lock-string-face ((t (:foreground "MediumOrchid3"))))
  '(font-lock-type-face ((t (:foreground "orchid2"))))
  '(font-lock-variable-name-face ((t (:foreground "DarkOrchid3" :weight bold))))
  '(font-lock-warning-face ((t (:inherit (error)))))
@@ -42,11 +42,11 @@
  '(lazy-highlight ((t (:foreground "DodgerBlue1" :box 2))))
  '(match ((t (:background "yellow1"))))
  '(minibuffer-prompt ((t (:inherit org-meta-line))))
- '(mode-line ((t (:box (:line-width -1 :style released-button) :foreground "white" :background "steel blue" :family "Hack" :height 1.2))))
+ '(mode-line ((t (:height 1.2 :family "Hack" :background "steel blue" :foreground "white" :box (:line-width -1 :style released-button)))))
  '(mode-line-buffer-id ((t (:weight bold))))
  '(mode-line-emphasis ((t (:weight bold))))
  '(mode-line-highlight ((t (:box (:line-width 2 :color "grey40" :style released-button)))))
- '(mode-line-inactive ((t (:box (:line-width -1 :color "gainsboro") :foreground "gainsboro" :background "SteelBlue4" :family "Hermit" :height 1.2))))
+ '(mode-line-inactive ((t (:height 1.2 :family "Hack" :background "SteelBlue4" :foreground "gainsboro" :box (:line-width -1 :color "gainsboro")))))
  '(next-error ((t (:inherit region))))
  '(org-block ((t (:foreground "light slate blue" :background "smoke" :inherit fixed-pitch))))
  '(org-checkbox ((t (:weight bold :inherit org-meta-line))))
