@@ -968,7 +968,7 @@ that same color.
     (add-hook 'prog-mode-hook 'rainbow-mode))
 #+END_SRC
 
-*** Mode line
+*** Minor modes in mode line
 
 We hide minor modes in the mode line.
 
