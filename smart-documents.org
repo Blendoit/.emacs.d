@@ -450,18 +450,30 @@ The following bindings lead to more natural window & frame exit behaviors.
 #+NAME: delete-frame-or-kill-emacs
 #+BEGIN_SRC emacs-lisp :tangle yes
   (global-set-key (kbd "C-q")
-                  '(lambda ()
-                     (interactive)
-                     "delete frame; if sole frame, kill Emacs."
-                     (if (> (length (frame-list)) 1)
-                         (delete-frame)
-                       (kill-emacs))))
+                  (lambda ()
+                    (interactive)
+                    "delete frame; if sole frame, kill Emacs."
+                    (if (> (length (frame-list)) 1)
+                        (delete-frame)
+                      (kill-emacs))))
 #+END_SRC
 
-*** Open sidebar
+*** Open LHS & RHS sidebar
+
+We define bindings to open both the left-hand & right-hand
+sidebar.
 
 #+BEGIN_SRC emacs-lisp :tangle yes
-(global-set-key (kbd "<left-fringe> <mouse-1>") 'sd-sidebar)
+  (global-set-key (kbd "<left-fringe> <mouse-1>")
+                  (lambda ()
+                    "Open the sidebar on the left side."
+                    (interactive)
+                    (sd-sidebar "left")))
+  (global-set-key (kbd "<right-fringe> <mouse-1>")
+                  (lambda ()
+                    "Open the sidebar on the right side."
+                    (interactive)
+                    (sd-sidebar "right")))
 #+END_SRC
 
 ** Text display
@@ -937,16 +949,25 @@ Get inspiration from ~ibuffer-sidebar~ and create a better sidebar.
 #+BEGIN_SRC emacs-lisp :tangle yes
   (defvar sd-sidebar nil "Becomes true if sd-sidebar is visible.")
 
-  (defun sd-sidebar ()
+  (defun sd-sidebar (side)
+    "Open the sidebar on the chosen SIDE of the buffer."
     (interactive)
-    (if (eq sd-sidebar t)
-        (progn
-          (delete-window)
-          (setq sd-sidebar nil))
-      (split-window-right)
-      (dired ".")
-      (dired-hide-details-mode)
-      (setq sd-sidebar t)))
+    (cond ((eq sd-sidebar t)		; If sidebar is open
+                                          ; anywhere, close it.
+           (unless (one-window-p)
+             (delete-window))
+           (setq sd-sidebar nil))
+          ((string-equal side "left")
+           (split-window-right)
+           (dired ".")
+           (dired-hide-details-mode)
+           (setq sd-sidebar t))
+          ((string-equal side "right")
+           (split-window-right)
+           (windmove-right)
+           (dired ".")
+           (dired-hide-details-mode)
+           (setq sd-sidebar t))))
 #+END_SRC
 
 *** Better parentheses
