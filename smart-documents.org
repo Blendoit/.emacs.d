@@ -210,7 +210,7 @@ We begin by defining a function to open this very file.
 
 ** Speeding up the next startup
 
-#+BEGIN_SRC emacs-lisp :tangle yes
+#+BEGIN_SRC emacs-lisp :tangle no
 (defun byte-compile-literate-config ()
   "Byte compile our literate configuration file."
   (delete-file (concat my/literate-config ".elc"))
