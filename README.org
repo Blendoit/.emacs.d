@@ -1,7 +1,7 @@
 #+TITLE: GNU Emacs Configuration 
 #+AUTHOR: Marius Peter
 #+DATE: <2020-10-13 Tue>
-#+SETUPFILE: ~/.emacs.d/templates/documents/general.org
+#+SETUPFILE: ~/.emacs.d/templates/documents/default.org
 
 * Installation
 
