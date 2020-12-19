@@ -978,7 +978,7 @@ Get inspiration from ~ibuffer-sidebar~ and create a better sidebar.
 (show-paren-mode 1)
 #+END_SRC
 
-*** Highlight ``color keywords'' in their color
+*** Highlight /color/ keywords in that color
 
 This highlights hexadecimal numbers which look like colors, in
 that same color.

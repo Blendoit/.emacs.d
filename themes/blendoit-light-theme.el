@@ -1,5 +1,5 @@
 (deftheme blendoit-light
-  "Created 2020-12-15.")
+  "Created 2020-12-17.")
 
 (custom-theme-set-faces
  'blendoit-light
@@ -28,7 +28,7 @@
  '(font-lock-type-face ((t (:foreground "orchid2"))))
  '(font-lock-variable-name-face ((t (:foreground "DarkOrchid3" :weight bold))))
  '(font-lock-warning-face ((t (:inherit (error)))))
- '(fringe ((t (:background "white smoke"))))
+ '(fringe ((t (:background "gainsboro"))))
  '(header-line ((t (:family "Jost*" :height 1.8 :weight extra-bold))))
  '(highlight ((t (:background "LightSkyBlue1"))))
  '(homoglyph ((((background dark)) (:foreground "cyan")) (((type pc)) (:foreground "magenta")) (t (:foreground "brown"))))
@@ -87,6 +87,7 @@
  '(tooltip ((t (:inherit variable-pitch :background "lightyellow" :foreground "black"))))
  '(trailing-whitespace ((((class color) (background light)) (:background "red1")) (((class color) (background dark)) (:background "red1")) (t (:inverse-video t))))
  '(variable-pitch ((t (:family "Public Sans"))))
+ '(line-number ((t (:background "white smoke" :foreground "LightSteelBlue3" :weight normal :height 0.8 :family "Hack"))))
  '(default ((t (:background "white" :foreground "black" :height 140 :family "Hack")))))
 
 (provide-theme 'blendoit-light)
