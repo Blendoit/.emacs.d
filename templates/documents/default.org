@@ -13,7 +13,7 @@
 
 # Beautiful fonts ONLY
 #+LATEX_HEADER: \usepackage{fontspec}
-#+LATEX_HEADER: \setmainfont{Carlito}
+#+LATEX_HEADER: \setmainfont{Public Sans}
 #+LATEX_HEADER: \setmonofont{Courier Prime}
 
 # Get total page count to insert in footer

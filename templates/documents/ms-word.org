@@ -1,0 +1,31 @@
+# -*- mode: org; eval: (visual-line-mode); -*-
+
+# Hide Org mode tags
+#+OPTIONS: tags:nil
+
+#+LATEX_CLASS: article
+
+# Ensure room for header and footer
+#+LATEX_HEADER: \usepackage[left=1in,%
+#+LATEX_HEADER:            right=1in,%
+#+LATEX_HEADER:              top=1in,%
+#+LATEX_HEADER:           bottom=1.75in]{geometry}
+
+# Beautiful fonts ONLY
+#+LATEX_HEADER: \usepackage{fontspec}
+#+LATEX_HEADER: \setmainfont{Carlito}
+#+LATEX_HEADER: \setmonofont{Liberation Mono}
+
+# Get total page count to insert in footer
+#+LATEX_HEADER: \usepackage{lastpage}
+#+LATEX_HEADER: \usepackage{titling}
+
+# Headers and footers.
+#+LATEX_HEADER: \usepackage{fancyhdr}
+# Space in the header for a logo or image.
+#+LATEX_HEADER: \setlength{\headheight}{36pt}
+#+LATEX_HEADER_EXTRA: \pagestyle{fancy}
+#+LATEX_HEADER_EXTRA: \fancyhead[L]{\theauthor}
+#+LATEX_HEADER_EXTRA: \fancyhead[C]{\large\textbf{\thetitle}}
+#+LATEX_HEADER_EXTRA: \fancyhead[R]{\thedate}
+#+LATEX_HEADER_EXTRA: \fancyfoot[C]{\hrulefill\\[0.8em] Page \thepage/\pageref*{LastPage}}
