@@ -1580,8 +1580,8 @@ Save cursor location in visited buffer after closing it or Emacs.
 
 *** Column filling
 
-A line of text is considered ``filled'' when it reaches 70 characters
-in length.
+We leave the default ~fill-column~ unchanged, so as to minimally
+disrupt a user's existing documents.
 
 #+BEGIN_SRC emacs-lisp :tangle yes
   (add-hook 'org-mode-hook
@@ -1597,7 +1597,7 @@ We want the Emacs Lisp keyword =lambda= to be rendered as \lambda
 within the editor. This is mostly for a subjective ``cool'' factor.
 
 #+BEGIN_SRC emacs-lisp :tangle yes
-(global-prettify-symbols-mode 1)
+  (global-prettify-symbols-mode 1)
 #+END_SRC
 
 *** Org mode sugar
