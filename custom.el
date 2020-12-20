@@ -17,7 +17,7 @@
  '(cua-mode t nil (cua-base))
  '(custom-enabled-themes nil)
  '(custom-safe-themes
-   '("82c35cda29ae87484d769e19262fe9aa7d65c6ea7869088d05eaf5cda06cb4ca" default))
+   '("d00ef309aa3e60f4c5780f2439dfde87eb7a927aa12f47a975d345a83483f708" "a9cfa0b8beb9e5edd204d709e86730224cc1995b2ac67da038bf83cf5b5dc0d4" "82c35cda29ae87484d769e19262fe9aa7d65c6ea7869088d05eaf5cda06cb4ca" default))
  '(electric-indent-mode t)
  '(erc-autojoin-channels-alist
    '(("freenode.net" "##linux" "#linux" "#archlinux" "#emacs" "#bitcoin" "#latex" "#org-mode" "#python")))
