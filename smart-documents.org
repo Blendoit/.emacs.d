@@ -1658,8 +1658,8 @@ purposefully and iteratively.
 
 #+BEGIN_SRC emacs-lisp :tangle yes
   (setq custom-theme-directory (concat user-emacs-directory "themes/"))
-  (load-theme 'blendoit-light)
-  ;; (load-theme 'blendoit-dark)
+  ;; (load-theme 'sd-light)
+  (load-theme 'sd-dark)
 #+END_SRC
 
 ** My light and dark themes

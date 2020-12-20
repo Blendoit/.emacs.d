@@ -1,8 +1,8 @@
-(deftheme blendoit-light
+(deftheme sd-light
   "Created 2020-12-19.")
 
 (custom-theme-set-faces
- 'blendoit-light
+ 'sd-light
  '(Info-quoted ((t (:inherit org-block))))
  '(cursor ((t (:background "red"))))
  '(erc-action-face ((t (:slant italic))))
@@ -90,4 +90,4 @@
  '(line-number ((t (:background "white smoke" :foreground "LightSteelBlue3" :weight normal :height 0.8 :family "Hack"))))
  '(default ((t (:background "white" :foreground "black" :height 140 :family "Hack")))))
 
-(provide-theme 'blendoit-light)
+(provide-theme 'sd-light)
