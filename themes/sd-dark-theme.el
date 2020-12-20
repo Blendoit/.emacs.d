@@ -1,5 +1,5 @@
 (deftheme sd-dark
-  "Created 2020-12-19.")
+  "Created 2020-12-20.")
 
 (custom-theme-set-faces
  'sd-dark
@@ -86,7 +86,7 @@
  '(swiper-match-face-4 ((t (:foreground "yellow" :inherit isearch))))
  '(tooltip ((t (:inherit variable-pitch :background "lightyellow" :foreground "black"))))
  '(trailing-whitespace ((((class color) (background light)) (:background "red1")) (((class color) (background dark)) (:background "red1")) (t (:inverse-video t))))
- '(variable-pitch ((t (:weight thin :family "Public Sans"))))
+ '(variable-pitch ((t (:family "Public Sans"))))
  '(line-number ((t (:background "grey15" :foreground "LightSteelBlue3" :weight normal :height 0.8 :family "Hack"))))
  '(default ((t (:background "grey20" :foreground "white" :height 142 :family "Hack")))))
 

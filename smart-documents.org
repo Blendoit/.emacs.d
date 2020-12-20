@@ -2,7 +2,7 @@
 
 #+TITLE: Smart Documents
 #+AUTHOR: Marius Peter
-#+DATE: <2020-12-02 Wed>
+#+DATE: <2020-12-19 Sat>
 #+EMAIL: blendoit@gmail.com
 #+STARTUP: showall
 #+SETUPFILE: ~/.emacs.d/templates/documents/default.org
