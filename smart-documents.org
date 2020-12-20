@@ -12,46 +12,45 @@
 #+LATEX_HEADER_EXTRA: \newfontfamily\publicsans{Public Sans}
 
 #+LATEX: \begin{abstract}
-The idea of /Smart Documents/ came to me as I was reflecting on
-how to improve the document creation process in my workplace. The
-GNU Emacs editor had captured my imagination and I wanted to
-create an accessible and highly productive text editor to benefit
-my organization. In this paper, I'll lay out my vision for the
-/Smart Document/, a file containing both text destined to the
-reader, and code describing how to update, validate, and present
-this text; then, I'll weave my personal GNU Emacs customizations
-with a tutorial. This paper is a /Smart Document/ itself!
+The idea of /Smart Documents/ came to me as I was reflecting on how to
+improve the document creation process in my workplace. The GNU Emacs
+editor had captured my imagination and I wanted to create an
+accessible and highly productive text editor to benefit my
+organization. In this paper, I'll lay out my vision for the /Smart
+Document/, a file containing both text destined to the reader, and
+code describing how to update, validate, and present this text; then,
+I'll weave my personal GNU Emacs customizations with a tutorial. This
+paper is a /Smart Document/ itself!
 #+LATEX: \end{abstract}
 
 * Introduction
 
-GNU Emacs is most often used as a text editor. It would be unfair
-to say it is just that, because Emacs is capable of so much
-more. The utmost level of customization is afforded by enabling
-the user to rewrite /any/ part of the source code and observe the
-editor's modified behavior in real time. Since its inception in
-1984, GNU Emacs has grown to be much more than a full-featured,
-high-productivity text editor---new /modes/ have been written to
-interact with hundreds of file formats, including =.txt=, =.pdf=,
-=.jpg=, =.csv=, and =.zip= just to name a few. This paper itself
-was written in /Org mode/, a collection of functions enabling the
-harmonious mixing of code and comments in view of publication:
-this is the endgame of /literate programming/, and the basis of my
-vision for /Smart Documents/.
+GNU Emacs is most often used as a text editor. It would be unfair to
+say it is just that, because Emacs is capable of so much more. The
+utmost level of customization is afforded by enabling the user to
+rewrite /any/ part of the source code and observe the editor's
+modified behavior in real time. Since its inception in 1984, GNU Emacs
+has grown to be much more than a full-featured, high-productivity text
+editor---new /modes/ have been written to interact with hundreds of
+file formats, including =.txt=, =.pdf=, =.jpg=, =.csv=, and =.zip=
+just to name a few. This paper itself was written in /Org mode/, a
+collection of functions enabling the harmonious mixing of code and
+comments in view of publication: this is the endgame of /literate
+programming/, and the basis of my vision for /Smart Documents/.
 
-The following sections were laid out very deliberately. When we
-start Emacs, the source code blocks contained in this document are
-evaluated sequentially---our editing environment is constructed in
-real time as we execute the blocks in order. For instance, we only
-begin loading packages once we ensured ~use-package~ is working
-properly.[fn::For more information on the detailed steps Emacs
-takes upon starting, refer to
+The following sections were laid out very deliberately. When we start
+Emacs, the source code blocks contained in this document are evaluated
+sequentially---our editing environment is constructed in real time as
+we execute the blocks in order. For instance, we only begin loading
+packages once we ensured ~use-package~ is working properly.[fn::For
+more information on the detailed steps Emacs takes upon starting,
+refer to
 [[https://www.gnu.org/software/emacs/manual/html_node/elisp/Startup-Summary.html]].]
 
 Customizing Emacs goes far, far beyond rewriting sections of this
 document---feel free to experiment and discover. Here are three
-commands that will help you understand all the symbols in this
-file, if you are browsing this paper within Emacs itself:
+commands that will help you understand all the symbols in this file,
+if you are browsing this paper within Emacs itself:
 
 - ~C-h f~ :: describe function
 - ~C-h v~ :: describe variable
@@ -61,8 +60,8 @@ You can always press ~f1~ to access Emacs built-in help.
 
 * First-time setup
 
-The following code blocks are normally evaluated once---upon
-starting Emacs for the first time.
+The following code blocks are normally evaluated once---upon starting
+Emacs for the first time.
 
 ** TODO Unpacking our literate configuration
 :PROPERTIES:
@@ -108,8 +107,8 @@ starting Emacs for the first time.
 ** TODO User details
 
 One advantage of working with /Smart Documents/ is that they can
-automatically be populated with our details in the header, footer,
-or other appropriate element.
+automatically be populated with our details in the header, footer, or
+other appropriate element.
 
 #+NAME: user-details-get
 #+BEGIN_SRC emacs-lisp
@@ -138,11 +137,10 @@ or other appropriate element.
 
 ** File system paths
 
-In this subsection, we tell Emacs about relevant paths to
-resources.
+In this subsection, we tell Emacs about relevant paths to resources.
 
-On my MS Windows machine, I add the path to Portable
-Git.[fn::Download from https://git-scm.com/download/win]
+On my MS Windows machine, I add the path to Portable Git.[fn::Download
+from https://git-scm.com/download/win]
 
 #+BEGIN_SRC emacs-lisp :tangle yes
   (when (string-equal system-type "windows-nt")
@@ -157,13 +155,13 @@ Git.[fn::Download from https://git-scm.com/download/win]
 :END:
 
 The contents of this Section was automatically moved to
-=~/.emacs.d/init.el=.  Use `sd-pack-section' to copy the contents
-back into this section.
+=~/.emacs.d/init.el=.  Use `sd-pack-section' to copy the contents back
+into this section.
 
-This is the very first user-editable file loaded by
-Emacs.[fn::This feature became available in version 27.1.] In it,
-we disable GUI elements that would otherwise be loaded and
-displayed once Emacs is ready to accept user input.
+This is the very first user-editable file loaded by Emacs.[fn::This
+feature became available in version 27.1.] In it, we disable GUI
+elements that would otherwise be loaded and displayed once Emacs is
+ready to accept user input.
 
 It can be found here: [[file:early-init.el]]
 
@@ -188,8 +186,8 @@ If no file is found, Emacs then loads in its purely vanilla state.
 ** Profiling---start
 
 We start the profiler now , and will interrupt it in Section
-[[Profiling---stop]]. We will then present profiling report in
-Section [[Profiling---report]].
+[[Profiling---stop]]. We will then present profiling report in Section
+[[Profiling---report]].
 
 #+NAME: profiler-start
 #+BEGIN_SRC emacs-lisp :tangle yes
@@ -223,17 +221,16 @@ We begin by defining a function to open this very file.
 
 ** Meta-files
 
-In this section, we'll be tidying up the =.emacs.d/=
-directory---by default, many Emacs packages create files useful
-for themselves in our ~user-emacs-directory~. This leads to
-undesirable clutter. Certain packages create files that log
-recently visited files ([[Recently visited files]]); log location of
-known projects ([[Projects' bookmarks]]); log location in recently
-visited files ([[Location in previously visited file]]) The
-commonality between all these files is that they tend to
+In this section, we'll be tidying up the =.emacs.d/= directory---by
+default, many Emacs packages create files useful for themselves in our
+~user-emacs-directory~. This leads to undesirable clutter. Certain
+packages create files that log recently visited files ([[Recently
+visited files]]); log location of known projects ([[Projects' bookmarks]]);
+log location in recently visited files ([[Location in previously visited
+file]]) The commonality between all these files is that they tend to
 reference... other files. Thus, I decided to refer to them as
-meta-files. First, let's designate a folder to collect our
-meta-files together:
+meta-files. First, let's designate a folder to collect our meta-files
+together:
 
 #+BEGIN_SRC emacs-lisp :tangle yes
 (setq sd-meta-files-location (concat user-emacs-directory "meta/"))
@@ -265,9 +262,9 @@ meta-files together:
 
 *** Custom file
 
-Load settings created automatically by GNU Emacs Custom. (For
-example, any clickable option/toggle is saved here.) Useful for
-fooling around with ~M-x customize-group <package>~.
+Load settings created automatically by GNU Emacs Custom. (For example,
+any clickable option/toggle is saved here.) Useful for fooling around
+with ~M-x customize-group <package>~.
 
 #+NAME: custom-file-location
 #+BEGIN_SRC emacs-lisp :tangle yes
@@ -309,9 +306,8 @@ We also set the dimensions of subsequent frames:
 
 *** GNU/Linux
 
-These settings affect the first and subsequent frames spawned by
-Emacs in GNU/Linux. Frame transparency increases when focus is
-lost.
+These settings affect the first and subsequent frames spawned by Emacs
+in GNU/Linux. Frame transparency increases when focus is lost.
 
 #+BEGIN_SRC emacs-lisp :tangle yes
   (when (and (display-graphic-p) (string-equal system-type "gnu/linux"))
@@ -321,8 +317,8 @@ lost.
 
 ** Secrets
 
-The code contained in the =secrets.org= file is loaded by Emacs,
-but not rendered in this PDF for the sake of privacy. It contains
+The code contained in the =secrets.org= file is loaded by Emacs, but
+not rendered in this PDF for the sake of privacy. It contains
 individually identifying information such as names and e-mail
 addresses, which are used to populate Org templates (Section
 [[~org-mode~]]). You need to create this =secrets.org= file, as it is
@@ -335,22 +331,20 @@ ignored by =git= by default.
 
 * Keyboard shortcuts
 
-The following bindings strive to further enhance CUA
-mode.[fn::Common User Access. This is a term coined by IBM which
-has influenced user navigation cues on all modern desktop
-OSes. From IBM's CUA, we get the =Ctrl-c= and =Ctrl-v= keyboard
-shortcuts.]
+The following bindings strive to further enhance CUA mode.[fn::Common
+User Access. This is a term coined by IBM which has influenced user
+navigation cues on all modern desktop OSes. From IBM's CUA, we get the
+=Ctrl-c= and =Ctrl-v= keyboard shortcuts.]
 
 #+BEGIN_SRC emacs-lisp :tangle yes
  (cua-mode)
 #+END_SRC
 
 What follows are the most useful keybindings, as well as the
-keybindings to the functions we defined ourselves. It doesn't
-matter if we haven't defined the functions themselves yet; Emacs
-will accept a keybinding for any symbol and does not check if the
-symbol's function definition exists, until the keybinding is
-pressed.
+keybindings to the functions we defined ourselves. It doesn't matter
+if we haven't defined the functions themselves yet; Emacs will accept
+a keybinding for any symbol and does not check if the symbol's
+function definition exists, until the keybinding is pressed.
 
 ** Files
 
@@ -460,8 +454,7 @@ The following bindings lead to more natural window & frame exit behaviors.
 
 *** Open LHS & RHS sidebar
 
-We define bindings to open both the left-hand & right-hand
-sidebar.
+We define bindings to open both the left-hand & right-hand sidebar.
 
 #+BEGIN_SRC emacs-lisp :tangle yes
   (global-set-key (kbd "<left-fringe> <mouse-1>")
@@ -480,8 +473,8 @@ sidebar.
 
 *** Zoom
 
-The typical binding on both GNU/Linux and MS Windows is adequate here: ~C-=~ to
-zoom in, ~C--~ to zoom out.
+The typical binding on both GNU/Linux and MS Windows is adequate here:
+~C-=~ to zoom in, ~C--~ to zoom out.
 
 It seems that starting with Emacs 27.1, Control + mousewheel works.
 
@@ -498,8 +491,8 @@ followed by an optional numerical argument, and a movement
 command. You may navigate in a buffer by keeping =Alt= pressed,
 optionally inputting a number from the keypad or number row, then
 pressing any of the following movement keys: =j=, =k=, =h=, and
-=l=. You will move in that direction in the amount of the
-numerical argument.
+=l=. You will move in that direction in the amount of the numerical
+argument.
 
 #+NAME: keybinding-navigation
 #+CAPTION[Navigation keybindings]: Navigation keybindings.
@@ -562,10 +555,9 @@ We prevent Org mode from overriding preferred navigation keys.
 
 ** One-click workflows
 
-A major advantage of the Emacs document production system:
-arbitrarily complicated functions can be assigned to very simple
-keybindings. This means we can automate workflows up to a pretty
-absurd level.
+A major advantage of the Emacs document production system: arbitrarily
+complicated functions can be assigned to very simple keybindings. This
+means we can automate workflows up to a pretty absurd level.
 
 *** Export to PDF
 
@@ -609,8 +601,8 @@ Not only indent, but also clean up superfluous newlines.
 
 * Packages
 
-Packages are collections of =.el= files providing added
-functionality to Emacs.
+Packages are collections of =.el= files providing added functionality
+to Emacs.
 
 ** Meta
 
@@ -634,8 +626,8 @@ List of package archives.
 
 *** TODO Convenient package update
 
-One-function rollup of upgradeable package tagging, download and
-lazy install.
+One-function rollup of upgradeable package tagging, download and lazy
+install.
 
 #+BEGIN_SRC emacs-lisp :tangle yes
 
@@ -679,8 +671,8 @@ typing speed and accuracy.
 *** Syntax checking
 
 We require a package to highlight syntax errors and warnings. The
-~flycheck~ package ensures we are aware of all our code's
-syntactical shortcomings.
+~flycheck~ package ensures we are aware of all our code's syntactical
+shortcomings.
 
 #+NAME: flycheck
 #+BEGIN_SRC emacs-lisp :tangle yes
@@ -698,22 +690,22 @@ syntactical shortcomings.
 
 *** Insert template from keyword
 
-Thanks to ~yasnippet~, we can type certain keywords, then press
-=TAB=, to automatically insert a predefined text snippet. We can
-then navigate through the snippet by using =<tab>= (next field)
-and =<backtab>= (previous field).[fn::=<backtab>= is synonymous
-with pressing shift-tab.]
+Thanks to ~yasnippet~, we can type certain keywords, then press =TAB=,
+to automatically insert a predefined text snippet. We can then
+navigate through the snippet by using =<tab>= (next field) and
+=<backtab>= (previous field).[fn::=<backtab>= is synonymous with
+pressing shift-tab.]
 
-For instance: typing =src= then pressing =TAB= will expand the
-keyword to the following text:
+For instance: typing =src= then pressing =TAB= will expand the keyword
+to the following text:
 
 : #+BEGIN_SRC emacs-lisp :tangle yes
 :
 : #+END_SRC
 
 We notice that emacs-lisp is highlighted---this is the first
-modifiable field. Many clever programming tricks can be performed
-with ~yasnippet~ to save us a ton of time with boilerplate text!
+modifiable field. Many clever programming tricks can be performed with
+~yasnippet~ to save us a ton of time with boilerplate text!
 
 #+NAME: yasnippet
 #+BEGIN_SRC emacs-lisp :tangle yes
@@ -740,8 +732,8 @@ with ~yasnippet~ to save us a ton of time with boilerplate text!
 
 *** Versioning of files
 
-Wonderful Git porcelain for Emacs. Enables the administration of a
-Git repository in a pain-free way.
+Wonderful Git porcelain for Emacs. Enables the administration of a Git
+repository in a pain-free way.
 
 #+BEGIN_SRC emacs-lisp :tangle yes
   (use-package magit
@@ -768,9 +760,9 @@ This enables us to better manage our =.git= projects.
 
 *** Jump to symbol's definition
 
-~dumb-jump~ is a reliable symbol definition finder. It uses
-different matching algorithms and heuristics to provide a very
-educated guess on the location of a symbol's definition.
+~dumb-jump~ is a reliable symbol definition finder. It uses different
+matching algorithms and heuristics to provide a very educated guess on
+the location of a symbol's definition.
 
 #+BEGIN_SRC emacs-lisp :tangle yes
 (use-package dumb-jump)
@@ -890,8 +882,8 @@ reliably be shared and exported to PDF in a reproducible fashion.
 *** Accounting
 
 Ledger is a creation of John Wiegley's. It enables double-entry
-accounting in a simple plaintext format, and reliable verification
-of account balances through time.[fn::For more information, visit
+accounting in a simple plaintext format, and reliable verification of
+account balances through time.[fn::For more information, visit
 https://www.ledger-cli.org/.]
 
 #+BEGIN_SRC emacs-lisp :tangle yes
@@ -980,8 +972,8 @@ Get inspiration from ~ibuffer-sidebar~ and create a better sidebar.
 
 *** Highlight /color/ keywords in that color
 
-This highlights hexadecimal numbers which look like colors, in
-that same color.
+This highlights hexadecimal numbers which look like colors, in that
+same color.
 
 #+BEGIN_SRC emacs-lisp :tangle yes
   (use-package rainbow-mode
@@ -1003,8 +995,8 @@ We hide minor modes in the mode line.
 *** Emojis
 
 Emojis are a symbol of modernity, and their tasteful use enables
-communicating with people from around the world---we're all for
-that! B-) \smiley
+communicating with people from around the world---we're all for that!
+B-) \smiley
 
 #+BEGIN_SRC emacs-lisp :tangle yes
   (use-package emojify
@@ -1013,26 +1005,26 @@ that! B-) \smiley
 
 * ~org-mode~
 
-Org mode is so significant that this section of the paper deserves
-its own introduction.
+Org mode is so significant that this section of the paper deserves its
+own introduction.
 
 ** Introduction
 
-Phew, after all this initialization, I can finally introduce Org
-mode! I am so *excited*.
+Phew, after all this initialization, I can finally introduce Org mode!
+I am so *excited*.
 
 Org mode replaces aword processor, a presentation creator, and a
-spreadsheet editor. The spreadsheet ability captures more than 80%
-use cases wherein one wishes to include a table in a text document
+spreadsheet editor. The spreadsheet ability captures more than 80% use
+cases wherein one wishes to include a table in a text document
 destined for physical publication. (It is clear that Excel
 spreadsheets are /not/ destined for physical publication---simply
-attempt to print an Excel spreadsheet with the default settings.)
-In my opinion, Org mode matches all /useful/ features of the
-Microsoft Office suite 1-to-1.
+attempt to print an Excel spreadsheet with the default settings.)  In
+my opinion, Org mode matches all /useful/ features of the Microsoft
+Office suite 1-to-1.
 
-What follows are customizations designed to make Org mode behave
-more like Microsoft Word. The end goal is, once again, to draw as
-many new users to Emacs as possible!
+What follows are customizations designed to make Org mode behave more
+like Microsoft Word. The end goal is, once again, to draw as many new
+users to Emacs as possible!
 
 Check out how much information Org mode keeps concerning the most
 recent header:
@@ -1055,8 +1047,8 @@ recent header:
 
 *** Base folder
 
-Org base directory is in user home on GNU/Linux, or in =AppData=
-in MS Windows.
+Org base directory is in user home on GNU/Linux, or in =AppData= in MS
+Windows.
 
 #+NAME: org-directory
 #+BEGIN_SRC emacs-lisp :tangle yes
@@ -1071,11 +1063,10 @@ in MS Windows.
 
 ** Org cosmetics
 
-First, we ensure the display of markup symbols for *bold*,
-/italic/, _underlined_ and +strikethrough+ text, and ensure our
-document appears indented upon loading.[fn::It /appears/ indented,
-but the underlying plaintext file does not contain tab
-characters!]
+First, we ensure the display of markup symbols for *bold*, /italic/,
+_underlined_ and +strikethrough+ text, and ensure our document appears
+indented upon loading.[fn::It /appears/ indented, but the underlying
+plaintext file does not contain tab characters!]
 
 We then set values for many other Org-related cosmetic symbols.
 
@@ -1091,11 +1082,11 @@ We then set values for many other Org-related cosmetic symbols.
 
 *** Dynamic numbering of headlines
 
-We enable the dynamic numbering of headlines in an Org buffer. We
-also set the numbering face to ~org-special-keyword~, which
-specifies a ~:background white~ attribute. This is necessary
-because otherwise, the background of the numbering may be
-overridden by the ~TODO~ face attribute ~:background coral~.
+We enable the dynamic numbering of headlines in an Org buffer. We also
+set the numbering face to ~org-special-keyword~, which specifies a
+~:background white~ attribute. This is necessary because otherwise,
+the background of the numbering may be overridden by the ~TODO~ face
+attribute ~:background coral~.
 
 #+BEGIN_SRC emacs-lisp :tangle yes
 (add-hook 'org-mode-hook 'org-num-mode)
@@ -1103,10 +1094,10 @@ overridden by the ~TODO~ face attribute ~:background coral~.
 #+END_SRC
 
 By default, we hide Org document properties such as =#+TITLE=,
-=#+AUTHOR=, and =#+DATE=, because those keywords are defined when
-the document template is populated. We can nevertheless always
-access those properties and edit them manually, with a simple
-keyboard shortcut (cf. Section [[Open Org mode document properties]]).
+=#+AUTHOR=, and =#+DATE=, because those keywords are defined when the
+document template is populated. We can nevertheless always access
+those properties and edit them manually, with a simple keyboard
+shortcut (cf. Section [[Open Org mode document properties]]).
 
 *** Document properties
 
@@ -1156,8 +1147,8 @@ custom format:
 
 ** Programming a Smart Documents
 
-The following languages can be used inside =SRC= blocks, in view
-of being executed by the Org Babel backend upon document export.
+The following languages can be used inside =SRC= blocks, in view of
+being executed by the Org Babel backend upon document export.
 
 #+BEGIN_SRC emacs-lisp :tangle yes
   (setq org-babel-load-languages
@@ -1178,10 +1169,10 @@ of being executed by the Org Babel backend upon document export.
 
 ** Agenda
 
-The agenda displays a chronological list of headings across all
-agenda files for which the heading or body contain a matching
-=org-time-stamp=.[fn::An =org-time-stamp= can be inserted with
-~C-c .~ (period)]
+The agenda displays a chronological list of headings across all agenda
+files for which the heading or body contain a matching
+=org-time-stamp=.[fn::An =org-time-stamp= can be inserted with ~C-c .~
+(period)]
 
 We open the agenda in a separate window.
 
@@ -1191,14 +1182,14 @@ We open the agenda in a separate window.
 
 ** LaTeX export
 
-We'll be compiling our documents with LuaTeX. This will afford us
-some future-proofing, since it was designated as the successor to
-pdfTeX by the latter's creators.
+We'll be compiling our documents with LuaTeX. This will afford us some
+future-proofing, since it was designated as the successor to pdfTeX by
+the latter's creators.
 
-First, we define the command executed when an Org file is exported
-to LaTeX. We'll use =latexmk=, the Perl script which automagically
-runs binaries related to LaTeX in the correct order and the right
-amount of times.
+First, we define the command executed when an Org file is exported to
+LaTeX. We'll use =latexmk=, the Perl script which automagically runs
+binaries related to LaTeX in the correct order and the right amount of
+times.
 
 Options and why we need them:
 - ~-shell-excape~ :: required by minted to color source blocks
@@ -1216,8 +1207,8 @@ Options and why we need them:
 *** Exporting timestamps
 
 We customize the format for org time stamps to make them appear
-monospaced in our exported LaTeX documents. This makes them
-visually distinguishable from body text.
+monospaced in our exported LaTeX documents. This makes them visually
+distinguishable from body text.
 
 #+BEGIN_SRC emacs-lisp :tangle yes
   (setq org-latex-active-timestamp-format
@@ -1228,8 +1219,7 @@ visually distinguishable from body text.
 
 *** LaTeX packages
 
-The following packages are loaded for every time we export to
-LaTeX.
+The following packages are loaded for every time we export to LaTeX.
 
 #+BEGIN_SRC emacs-lisp :tangle yes
   (setq org-latex-packages-alist
@@ -1253,8 +1243,8 @@ LaTeX.
 
 *** Colored source blocks in PDF export
 
-Little bonus for GNU/Linux users: syntax highlighting for source
-code blocks in LaTeX exports.
+Little bonus for GNU/Linux users: syntax highlighting for source code
+blocks in LaTeX exports.
 
 #+BEGIN_SRC emacs-lisp :tangle yes
 (when (string-equal system-type "gnu/linux")
@@ -1269,8 +1259,8 @@ code blocks in LaTeX exports.
 *** Cleaning directory after export
 
 Now, we set the files to be deleted when a LaTeX \rightarrow PDF
-compilation occurs. We only care about two files, in the end: the
-Org mode file for edition, and the PDF for distribution.
+compilation occurs. We only care about two files, in the end: the Org
+mode file for edition, and the PDF for distribution.
 
 #+BEGIN_SRC emacs-lisp :tangle yes
   (setq org-latex-logfiles-extensions
@@ -1282,16 +1272,16 @@ Org mode file for edition, and the PDF for distribution.
 
 *** Chronological diary entries
 
-By default, Org agenda inserts diary entries as the first under
-the selected date. It is preferable to insert entries in the order
-that they were recorded, i.e. chronologically.
+By default, Org agenda inserts diary entries as the first under the
+selected date. It is preferable to insert entries in the order that
+they were recorded, i.e. chronologically.
 
 #+BEGIN_SRC emacs-lisp :tangle yes
  (setq org-agenda-insert-diary-strategy 'date-tree-last)
 #+END_SRC
 
-What follows is an additional document class structures that can
-be exported in LaTeX.
+What follows is an additional document class structures that can be
+exported in LaTeX.
 
 #+BEGIN_SRC emacs-lisp :tangle no
 ;; (add-to-list 'org-latex-classes
@@ -1305,25 +1295,24 @@ be exported in LaTeX.
 
 *** Table of contents
 
-By default, body text can immediately follow the table of
-contents. It is however cleaner to separate table of contents with
-the rest of the work.
+By default, body text can immediately follow the table of contents. It
+is however cleaner to separate table of contents with the rest of the
+work.
 
 #+BEGIN_SRC emacs-lisp :tangle yes
  (setq org-latex-toc-command "\\tableofcontents\\clearpage")
 #+END_SRC
 
-The following makes =TODO= items appear red and =CLOSED= items
-appear green in Org's LaTeX exports. Very stylish, much flair!
+The following makes =TODO= items appear red and =CLOSED= items appear
+green in Org's LaTeX exports. Very stylish, much flair!
 
 ** TODO Org links
 
-This is a mind-bending capacity of Org mode: we can assign
-arbitrary functions to be executed when a user follows an Org
-link. Org links appear like hyperlinks both in buffers and PDF
-exports---e.g. the following link to this very section, Section
-[[Org links]]---but their in-buffer behavior can be arbitrarily
-assigned.
+This is a mind-bending capacity of Org mode: we can assign arbitrary
+functions to be executed when a user follows an Org link. Org links
+appear like hyperlinks both in buffers and PDF exports---e.g. the
+following link to this very section, Section [[Org links]]---but their
+in-buffer behavior can be arbitrarily assigned.
 
 #+BEGIN_SRC emacs-lisp :tangle no
   (org-add-link-type
@@ -1339,17 +1328,17 @@ assigned.
 
 * One-click workflows
 
-In this section, we'll implement useful one-click workflows. It
-comes later keybinding definitions for two reasons:
+In this section, we'll implement useful one-click workflows. It comes
+later keybinding definitions for two reasons:
 
 1. To a new user, keybindings are more important than the precise
-   implementation of the bound function---it is more important to
-   know how to drive a car than how a car works.
-2. If the following subsections share the same name as the
-   keybinding subsection (Section [[Keyboard shortcuts]]), the links
-   will resolve to the earliest heading in the document, i.e. the
-   keybinding subsection and not the subsection describing the
-   `one-click workflow'.
+   implementation of the bound function---it is more important to know
+   how to drive a car than how a car works.
+2. If the following subsections share the same name as the keybinding
+   subsection (Section [[Keyboard shortcuts]]), the links will resolve to
+   the earliest heading in the document, i.e. the keybinding
+   subsection and not the subsection describing the `one-click
+   workflow'.
 
 ** TODO Export to PDF
 
@@ -1452,8 +1441,8 @@ paragraph [[Open a recently visited file]].
 :END:
 
 We start by defining some icons we wish to include in our user
-interface. Emacs allows the usage of GIF images---this paves the
-way for UI elements which may be animated.
+interface. Emacs allows the usage of GIF images---this paves the way
+for UI elements which may be animated.
 
 #+BEGIN_SRC emacs-lisp :tangle yes
   (defcustom sd-icon-loading
@@ -1476,9 +1465,8 @@ way for UI elements which may be animated.
 **** Header line
 
 In Org mode, the document header line will be the title of the
-document we are working on currently. We start by defining
-keybindings for our header line buttons for navigating through
-open windows.
+document we are working on currently. We start by defining keybindings
+for our header line buttons for navigating through open windows.
 
 #+BEGIN_SRC emacs-lisp :tangle yes
   (defvar sd-header-line-previous-buffer-keymap
@@ -1544,9 +1532,9 @@ Now, we describe the actual format of the header line.
 
 **** Mode line
 
-This interpretation of the ideal mode line is the result of
-carefully studying the default ~mode-line~, as well as studying
-various customizations online.
+This interpretation of the ideal mode line is the result of carefully
+studying the default ~mode-line~, as well as studying various
+customizations online.
 
 #+BEGIN_SRC emacs-lisp :tangle yes
   (defvar sd-mode-line-lock-buffer-keymap
@@ -1592,11 +1580,10 @@ Save cursor location in visited buffer after closing it or Emacs.
 
 *** Column filling
 
-A line of text is considered ``filled'' when it reaches 79
-characters in length.
+A line of text is considered ``filled'' when it reaches 70 characters
+in length.
 
 #+BEGIN_SRC emacs-lisp :tangle yes
-  (setq-default fill-column 66)
   (add-hook 'org-mode-hook
             'turn-on-auto-fill) ; Automatically break lines longer
                                 ; than =fill-column=.
@@ -1607,8 +1594,7 @@ characters in length.
 *** Beautiful symbols
 
 We want the Emacs Lisp keyword =lambda= to be rendered as \lambda
-within the editor. This is mostly for a subjective ``cool''
-factor.
+within the editor. This is mostly for a subjective ``cool'' factor.
 
 #+BEGIN_SRC emacs-lisp :tangle yes
 (global-prettify-symbols-mode 1)
@@ -1640,9 +1626,9 @@ prettify checkbox lists.
 *** Electric modes
 
 Electricity is a very important technology. In Emacs jargon,
-``electric'' modes tend to automate behaviors or present some
-elegant simplification to a workflow.[fn::More information can be
-found at [[https://www.emacswiki.org/emacs/Electricity]].]
+``electric'' modes tend to automate behaviors or present some elegant
+simplification to a workflow.[fn::More information can be found at
+[[https://www.emacswiki.org/emacs/Electricity]].]
 
 #+BEGIN_SRC emacs-lisp :tangle yes
   (electric-pair-mode) ; Certain character pairs are automatically completed.
@@ -1651,7 +1637,8 @@ found at [[https://www.emacswiki.org/emacs/Electricity]].]
 
 ** Minibuffer
 
-We replace the longer ~yes-or-no-p~ questions with more convenient ~y-or-n-p~.
+We replace the longer ~yes-or-no-p~ questions with more convenient
+~y-or-n-p~.
 
 #+BEGIN_SRC emacs-lisp :tangle yes
   (defalias 'yes-or-no-p 'y-or-n-p)
@@ -1682,11 +1669,10 @@ A highly legible, unambiguous, and classic theme.
 *** Colors
 
 The default face is a black foreground on a white background, this
-matches MS Word. We are striving for a simple, intuitive color
-scheme.
+matches MS Word. We are striving for a simple, intuitive color scheme.
 
-Most of the visual cues derived from color are identical in both
-light and dark themes (Table [[theme-color-1]]).
+Most of the visual cues derived from color are identical in both light
+and dark themes (Table [[theme-color-1]]).
 
 #+NAME: theme-color-1
 #+CAPTION[Light and dark themes' colors]: Light and dark themes' colors.
@@ -1709,18 +1695,18 @@ light and dark themes (Table [[theme-color-1]]).
 
 *** Cursors
 
-In order to imitate other modern text editors, we resort to a
-blinking bar cursor. We choose red, the most captivating color,
-because the cursor is arguably the region on our screen:
+In order to imitate other modern text editors, we resort to a blinking
+bar cursor. We choose red, the most captivating color, because the
+cursor is arguably the region on our screen:
 
 1. most often looked at;
 2. most often searched when lost.
 
-In files containing only ~fixed-pitch~ fonts (i.e. files containing only code),
-the cursor becomes a high-visibility box.
+In files containing only ~fixed-pitch~ fonts (i.e. files containing
+only code), the cursor becomes a high-visibility box.
 
-In files containing a mix of ~variable-pitch~ and ~fixed-pitch~ fonts, the
-cursor is a more MS Word-like bar.
+In files containing a mix of ~variable-pitch~ and ~fixed-pitch~ fonts,
+the cursor is a more MS Word-like bar.
 
 #+BEGIN_SRC emacs-lisp :tangle yes
 (setq-default cursor-type 'bar)
@@ -1787,10 +1773,10 @@ is greater than 1920\times1080.
 [[~/.emacs.d/img/smart-documents/ClaudeGaramond.jpeg]]
 
 #+LATEX: \garamond
-\lettrine{G}{ood} golly, nobody wishes for a /pedestrian/ theme!
-Let your entourage know that you're rocking an editor fit for a
-king with this finely crafted `wealthy' theme. Selecting it shall
-enable the following fancitudes:
+\lettrine{G}{ood} golly, nobody wishes for a /pedestrian/ theme!  Let
+your entourage know that you're rocking an editor fit for a king with
+this finely crafted `wealthy' theme. Selecting it shall enable the
+following fancitudes:
 
 1. The default font shall be sublimed in the form of /EB Garamond/
 2. Bullets will be tastefully replaced with pointing fingers
@@ -1800,14 +1786,14 @@ enable the following fancitudes:
 \lettrine{C}{laude} Garamont (c. 1510--1561), known commonly as
 *Claude Garamond*, was a French type designer, publisher and
 punch-cutter based in Paris. Garamond worked as an engraver of
-punches, the masters used to stamp matrices, the moulds used to
-cast metal type. He worked in the tradition now called old-style
-serif design, which produced letters with a relatively organic
-structure resembling handwriting with a pen but with a slightly
-more structured and upright design. Considered one of the leading
-type designers of all time, he is recognised to this day for the
-elegance of his typefaces. Many old-style serif typefaces are
-collectively known as Garamond, named after the designer.
+punches, the masters used to stamp matrices, the moulds used to cast
+metal type. He worked in the tradition now called old-style serif
+design, which produced letters with a relatively organic structure
+resembling handwriting with a pen but with a slightly more structured
+and upright design. Considered one of the leading type designers of
+all time, he is recognised to this day for the elegance of his
+typefaces. Many old-style serif typefaces are collectively known as
+Garamond, named after the designer.
 
 From [[https://en.wikipedia.org/wiki/Claude_Garamond]]
 #+END_QUOTE
@@ -1829,8 +1815,8 @@ From [[https://en.wikipedia.org/wiki/Claude_Garamond]]
 * Late setup
 
 At this point, our editor is almost ready to run. Phew! All that's
-left to do is to interrupt our profiling activities, and smartly
-store the result of our profiling.
+left to do is to interrupt our profiling activities, and smartly store
+the result of our profiling.
 
 ** Profiling---stop
 
