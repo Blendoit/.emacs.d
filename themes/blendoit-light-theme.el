@@ -1,5 +1,5 @@
 (deftheme blendoit-light
-  "Created 2020-12-17.")
+  "Created 2020-12-19.")
 
 (custom-theme-set-faces
  'blendoit-light
@@ -29,7 +29,7 @@
  '(font-lock-variable-name-face ((t (:foreground "DarkOrchid3" :weight bold))))
  '(font-lock-warning-face ((t (:inherit (error)))))
  '(fringe ((t (:background "gainsboro"))))
- '(header-line ((t (:family "Jost*" :height 1.8 :weight extra-bold))))
+ '(header-line ((t (:weight extra-bold :height 1.8 :family "Public Sans"))))
  '(highlight ((t (:background "LightSkyBlue1"))))
  '(homoglyph ((((background dark)) (:foreground "cyan")) (((type pc)) (:foreground "magenta")) (t (:foreground "brown"))))
  '(isearch ((t (:background "DodgerBlue1" :foreground "white"))))
@@ -54,13 +54,13 @@
  '(org-date ((t (:inherit (link fixed-pitch)))))
  '(org-document-info ((t (:weight bold))))
  '(org-document-info-keyword ((t (:inherit org-meta-line))))
- '(org-document-title ((t (:weight bold :height 2.4 :family "Jost*"))))
+ '(org-document-title ((t (:weight bold :height 2.4))))
  '(org-done ((t (:background "forest green" :foreground "white" :weight bold :height 1.4 :family "hermit"))))
  '(org-drawer ((t (:inherit org-meta-line))))
  '(org-ellipsis ((t (:inherit shadow :background "white"))))
  '(org-footnote ((t (:inherit (link variable-font)))))
  '(org-formula ((t (:inherit org-table))))
- '(org-level-1 ((t (:weight bold :height 1.8 :family "Jost*"))))
+ '(org-level-1 ((t (:weight bold :height 1.8))))
  '(org-level-2 ((t (:height 1.6))))
  '(org-level-3 ((t (:height 1.4))))
  '(org-level-4 ((t (:height 1.2))))
