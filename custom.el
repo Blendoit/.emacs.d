@@ -17,7 +17,7 @@
  '(cua-mode t nil (cua-base))
  '(custom-enabled-themes nil)
  '(custom-safe-themes
-   '("acad5bdfb9965352b90f50b2ffc47fbfd1ac708dcfbef8354aadc38240f1e478" "42e821f3d0d3a0ee44210b5d3bfc2f89f1a62d095512ec59737457209373d47b" "b969eb451a141d5d438b9b9814ed85252ad4411d71385cd5217a4a7f51844677" "d00ef309aa3e60f4c5780f2439dfde87eb7a927aa12f47a975d345a83483f708" "a9cfa0b8beb9e5edd204d709e86730224cc1995b2ac67da038bf83cf5b5dc0d4" "82c35cda29ae87484d769e19262fe9aa7d65c6ea7869088d05eaf5cda06cb4ca" default))
+   '("0ab22463613090e46ea3b4a9a63c683e5b7fb5672cbf4888c720984caf1f5de1" "f78bb8993b8eb972db7d116f46b5969b38bb793f0a26f0b85d07546ac5248098" "59104e0700545965a14e2ab985884f81e7a41a6ea92c01c55979e1b92e47ebdc" "acad5bdfb9965352b90f50b2ffc47fbfd1ac708dcfbef8354aadc38240f1e478" "42e821f3d0d3a0ee44210b5d3bfc2f89f1a62d095512ec59737457209373d47b" "b969eb451a141d5d438b9b9814ed85252ad4411d71385cd5217a4a7f51844677" "d00ef309aa3e60f4c5780f2439dfde87eb7a927aa12f47a975d345a83483f708" "a9cfa0b8beb9e5edd204d709e86730224cc1995b2ac67da038bf83cf5b5dc0d4" "82c35cda29ae87484d769e19262fe9aa7d65c6ea7869088d05eaf5cda06cb4ca" default))
  '(electric-indent-mode t)
  '(erc-autojoin-channels-alist
    '(("freenode.net" "##linux" "#linux" "#archlinux" "#emacs" "#bitcoin" "#latex" "#org-mode" "#python")))
@@ -35,6 +35,7 @@
  '(org-agenda-files '("~/org/PERSONAL/diary/diary.org"))
  '(org-agenda-include-diary t)
  '(org-agenda-skip-scheduled-if-deadline-is-shown 'not-today)
+ '(org-latex-compiler "lualatex")
  '(org-log-done 'time)
  '(org-log-done-with-time nil)
  '(org-startup-align-all-tables t)

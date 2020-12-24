@@ -5,7 +5,7 @@
 #+DATE: <2020-12-19 Sat>
 #+EMAIL: blendoit@gmail.com
 #+STARTUP: showall
-#+SETUPFILE: ~/.emacs.d/templates/documents/default.org
+#+SETUPFILE: ~/.emacs.d/templates/documents/ms-default.org
 #+INCLUDE: ~/.emacs.d/templates/documents/default-title.org
 
 #+LATEX_HEADER_EXTRA: \newfontfamily\garamond{EB Garamond}
@@ -293,7 +293,7 @@ Backups are very important!
 We set the dimensions of the initial frame:
 
 #+BEGIN_SRC emacs-lisp :tangle yes
-  (add-to-list 'initial-frame-alist '(width  . 100))
+  (add-to-list 'initial-frame-alist '(width . 100))
   (add-to-list 'initial-frame-alist '(height . 50))
 #+END_SRC
 
@@ -872,7 +872,7 @@ Python is included by default on most Linux distributions.
 Org mode shines particularly when exporting to PDF---Org files can
 reliably be shared and exported to PDF in a reproducible fashion.
 
-#+BEGIN_SRC emacs-lisp :tangle yes
+#+BEGIN_SRC emacs-lisp :tangle no
 (use-package pdf-tools)
 (pdf-tools-install)
 #+END_SRC
@@ -1656,8 +1656,8 @@ purposefully and iteratively.
 
 #+BEGIN_SRC emacs-lisp :tangle yes
   (setq custom-theme-directory (concat user-emacs-directory "themes/"))
-  ;; (load-theme 'sd-light)
-  (load-theme 'sd-dark)
+  (load-theme 'sd-light)
+  ;; (load-theme 'sd-dark)
 #+END_SRC
 
 ** My light and dark themes
@@ -1728,6 +1728,9 @@ the cursor is a more MS Word-like bar.
   - Slightly wider than Hack
   - More opinionated shapes
   - Very legible parentheses, very useful for Emacs Lisp!
+- Courier
+  Prime[fn::https://quoteunquoteapps.com/courierprime/index.php] ::
+  certain monospace usages
 - Jost[fn::https://indestructibletype.com/Jost.html] :: ~org-document-title~
   and ~org-level-1~
   - Ultra-modern

@@ -18,6 +18,7 @@ transient/**
 .cache/**
 _minted*
 emojis/*
+server/*
 
 # Tangled config .el and .elc file from .org
 smart-documents.el*
@@ -25,5 +26,4 @@ smart-documents.el*
 # Misc
 .org-id-locations
 async-bytecomp.log
-fonts/*
 srecode-map.el

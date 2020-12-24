@@ -1,5 +1,5 @@
 (deftheme sd-light
-  "Created 2020-12-19.")
+  "Created 2020-12-22.")
 
 (custom-theme-set-faces
  'sd-light
@@ -84,7 +84,7 @@
  '(swiper-match-face-2 ((t (:inherit isearch))))
  '(swiper-match-face-3 ((t (:foreground "chocolate" :inherit isearch))))
  '(swiper-match-face-4 ((t (:foreground "yellow" :inherit isearch))))
- '(tooltip ((t (:inherit variable-pitch :background "lightyellow" :foreground "black"))))
+ '(tooltip ((t (:foreground "black" :background "gainsboro" :inherit org-meta-line))))
  '(trailing-whitespace ((((class color) (background light)) (:background "red1")) (((class color) (background dark)) (:background "red1")) (t (:inverse-video t))))
  '(variable-pitch ((t (:family "Public Sans"))))
  '(line-number ((t (:background "white smoke" :foreground "LightSteelBlue3" :weight normal :height 0.8 :family "Hack"))))
