@@ -6,14 +6,16 @@
 #+LATEX_CLASS: article
 
 # Ensure room for header and footer
-#+LATEX_HEADER: \usepackage[left=1in,%
-#+LATEX_HEADER:            right=1in,%
-#+LATEX_HEADER:              top=1in,%
-#+LATEX_HEADER:           bottom=1.75in]{geometry}
+#+LATEX_HEADER: \usepackage[left = 1in,
+#+LATEX_HEADER:            right = 1in,
+#+LATEX_HEADER:              top = 1in,
+#+LATEX_HEADER:           bottom = 1.75in]{geometry}
 
 # Beautiful fonts ONLY
 #+LATEX_HEADER: \usepackage{fontspec}
+# Regular font
 #+LATEX_HEADER: \setmainfont{Public Sans}
+# Monospaced font
 #+LATEX_HEADER: \setmonofont{Courier Prime}
 
 # Get total page count to insert in footer
