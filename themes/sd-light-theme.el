@@ -1,5 +1,5 @@
 (deftheme sd-light
-  "Created 2020-12-22.")
+  "Created 2020-12-28.")
 
 (custom-theme-set-faces
  'sd-light
@@ -46,11 +46,11 @@
  '(mode-line-buffer-id ((t (:weight bold))))
  '(mode-line-emphasis ((t (:weight bold))))
  '(mode-line-highlight ((t (:box (:line-width 2 :color "grey40" :style released-button)))))
- '(mode-line-inactive ((t (:height 1.2 :family "Hack" :background "SteelBlue4" :foreground "gainsboro" :box (:line-width -1 :color "gainsboro")))))
+ '(mode-line-inactive ((t (:box (:line-width -1 :color "gainsboro") :foreground "gainsboro" :background "SteelBlue4" :family "Hack" :height 1.2))))
  '(next-error ((t (:inherit region))))
  '(org-block ((t (:foreground "light slate blue" :background "smoke" :inherit fixed-pitch))))
  '(org-checkbox ((t (:weight bold :inherit org-meta-line))))
- '(org-code ((t (:background "light grey" :foreground "black" :family "Hack"))))
+ '(org-code ((t (:background "gainsboro" :foreground "black" :family "Hack"))))
  '(org-date ((t (:inherit (link fixed-pitch)))))
  '(org-document-info ((t (:weight bold))))
  '(org-document-info-keyword ((t (:inherit org-meta-line))))
@@ -69,9 +69,9 @@
  '(org-level-7 ((t (:inherit org-level-5))))
  '(org-level-8 ((t (:inherit org-level-5))))
  '(org-meta-line ((t (:foreground "SteelBlue" :family "Hermit"))))
- '(org-priority ((t (:inherit org-meta-line))))
+ '(org-priority ((t (:background "white" :inherit org-meta-line))))
  '(org-quote ((t (:inherit variable-pitch :slant italic))))
- '(org-special-keyword ((t (:inherit org-meta-line :weight bold :background "white"))))
+ '(org-special-keyword ((t (:background "white" :weight bold :inherit org-meta-line))))
  '(org-table ((t (:family "Hack"))))
  '(org-tag ((t (:inherit link))))
  '(org-todo ((t (:background "coral" :foreground "white" :weight bold :height 1.4 :family "Hermit"))))
@@ -84,10 +84,13 @@
  '(swiper-match-face-2 ((t (:inherit isearch))))
  '(swiper-match-face-3 ((t (:foreground "chocolate" :inherit isearch))))
  '(swiper-match-face-4 ((t (:foreground "yellow" :inherit isearch))))
- '(tooltip ((t (:foreground "black" :background "gainsboro" :inherit org-meta-line))))
+ '(tooltip ((t (:background "gainsboro" :foreground "black" :family "Hermit"))))
  '(trailing-whitespace ((((class color) (background light)) (:background "red1")) (((class color) (background dark)) (:background "red1")) (t (:inverse-video t))))
  '(variable-pitch ((t (:family "Public Sans"))))
  '(line-number ((t (:background "white smoke" :foreground "LightSteelBlue3" :weight normal :height 0.8 :family "Hack"))))
+ '(show-paren-match ((t (:inherit highlight))))
+ '(show-paren-mismatch ((t (:background "red" :foreground "white"))))
+ '(widget-field ((t (:extend t :background "LightSteelBlue2"))))
  '(default ((t (:background "white" :foreground "black" :height 140 :family "Hack")))))
 
 (provide-theme 'sd-light)
