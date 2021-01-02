@@ -329,6 +329,14 @@ ignored by =git= by default.
 
 * Keyboard shortcuts
 
+What follows are the most useful keybindings, as well as the
+keybindings to the functions we defined ourselves. It doesn't matter
+if we haven't defined the functions themselves yet; Emacs will accept
+a keybinding for any symbol and does not check if the symbol's
+function definition exists, until the keybinding is pressed.
+
+** CUA mode
+
 The following bindings strive to further enhance CUA mode.[fn::Common
 User Access. This is a term coined by IBM which has influenced user
 navigation cues on all modern desktop OSes. From IBM's CUA, we get the
@@ -338,11 +346,6 @@ navigation cues on all modern desktop OSes. From IBM's CUA, we get the
  (cua-mode)
 #+END_SRC
 
-What follows are the most useful keybindings, as well as the
-keybindings to the functions we defined ourselves. It doesn't matter
-if we haven't defined the functions themselves yet; Emacs will accept
-a keybinding for any symbol and does not check if the symbol's
-function definition exists, until the keybinding is pressed.
 
 ** Files
 
