@@ -24,7 +24,7 @@
  '(erc-modules
    '(autojoin button completion services spelling track netsplit fill match readonly networks ring noncommands irccontrols move-to-prompt stamp menu list))
  '(fci-rule-color "#383838")
- '(fringe-mode '(16 . 32) nil (fringe))
+ '(fringe-mode '(16 . 0) nil (fringe))
  '(global-display-line-numbers-mode t)
  '(indicate-empty-lines t)
  '(line-number-mode nil)
