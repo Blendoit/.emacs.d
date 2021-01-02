@@ -1,5 +1,4 @@
 # -*- mode: org; -*-
-
 #+TITLE: Smart Documents
 #+AUTHOR: Marius Peter
 #+DATE: <2020-12-19 Sat>
@@ -7,7 +6,6 @@
 #+STARTUP: showall
 #+SETUPFILE: ~/.emacs.d/templates/documents/ms-default.org
 #+INCLUDE: ~/.emacs.d/templates/documents/default-title.org
-
 #+LATEX_HEADER_EXTRA: \newfontfamily\garamond{EB Garamond}
 #+LATEX_HEADER_EXTRA: \newfontfamily\publicsans{Public Sans}
 
@@ -172,8 +170,11 @@ It can be found here: [[file:early-init.el]]
 
 #+BEGIN_QUOTE
 Traditionally, file =~/.emacs= is used as the init file, although
-Emacs also looks at =~/.emacs.el=, =~/.emacs.d/init.el=,
-=~/.config/emacs/init.el=, or other locations.
+Emacs also looks at the following locations:
+
+- =~/.emacs.el=
+- =~/.emacs.d/init.el=
+- =~/.config/emacs/init.el=.
 
 From the GNU
 website[fn::[[https://www.gnu.org/software/emacs/manual/html_node/emacs/Init-File.html]]]
@@ -717,7 +718,7 @@ modifiable field. Many clever programming tricks can be performed with
 *** Complete anything interactively
 
 #+NAME: company
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :tangle yes
   (use-package company)
   (add-hook 'after-init-hook 'global-company-mode)
 #+END_SRC
@@ -798,15 +799,13 @@ Everlasting Father, Prince of Peace.
   (use-package counsel
    :bind ("M-x" . counsel-M-x)
    :config (counsel-mode t))
-
-  (global-set-key (kbd "C-f") 'counsel-grep-or-swiper)
 #+END_SRC
 
 **** Searching for items
 
 #+BEGIN_SRC emacs-lisp :tangle yes
 (use-package swiper
- :bind (("C-f" . counsel-grep-or-swiper)))
+ :bind (("C-f" . swiper)))
 #+END_SRC
 
 *** IRC
@@ -841,11 +840,11 @@ Emacs ships with an IRC client called ~erc~.
 
 *** TODO Telegram
 
-Yeah, a Telegram client is being developed for Emacs.
+Yeah, a Telegram client exists for Emacs.
 
-#+BEGIN_SRC emacs-lisp :tangle yes
+#+BEGIN_SRC emacs-lisp :tangle no
 (use-package telega
-  :load-path "~/github/telega.el/telega.el"
+  :load-path "~/telega.el/telega.el"
   :commands (telega)
   :defer t)
 #+END_SRC
@@ -1010,7 +1009,7 @@ B-) \smiley
 Org mode is so significant that this section of the paper deserves its
 own introduction.
 
-** Introduction
+** [#A] Introduction
 
 Phew, after all this initialization, I can finally introduce Org mode!
 I am so *excited*.
@@ -1239,8 +1238,8 @@ The following packages are loaded for every time we export to LaTeX.
            ("pdflatex" "luatex"))
           ("" "lettrine" t
            ("pdflatex" "luatex"))
-          ("table,svgnames" "xcolor" t ; svgnames opens up ~150 color keywords
-           ("pdflatex"))
+          ("table,svgnames" "xcolor" t ; svgnames opens up ~150 new color keywords
+           ("pdflatex" "luatex"))
           ("skip=0.5\\baselineskip, width=0.618\\textwidth" "caption" t ; Increase space between floats and captions
            ("pdflatex" "lualatex"))))
 #+END_SRC
