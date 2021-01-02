@@ -293,15 +293,15 @@ Backups are very important!
 We set the dimensions of the initial frame:
 
 #+BEGIN_SRC emacs-lisp :tangle yes
-  (add-to-list 'initial-frame-alist '(width . 100))
-  (add-to-list 'initial-frame-alist '(height . 50))
+  (add-to-list 'initial-frame-alist '(width  . 70))
+  (add-to-list 'initial-frame-alist '(height . 40))
 #+END_SRC
 
 We also set the dimensions of subsequent frames:
 
 #+BEGIN_SRC emacs-lisp :tangle yes
-  (add-to-list 'default-frame-alist '(width  . 50))
-  (add-to-list 'default-frame-alist '(height . 30))
+  (add-to-list 'default-frame-alist '(width  . 70))
+  (add-to-list 'default-frame-alist '(height . 40))
 #+END_SRC
 
 Transparency.
@@ -309,8 +309,8 @@ Transparency.
 #+BEGIN_SRC emacs-lisp :tangle yes
   ;; (set-frame-parameter (selected-frame) 'alpha '(<active> . <inactive>))
   ;; (set-frame-parameter (selected-frame) 'alpha <both>)
-  (set-frame-parameter (selected-frame) 'alpha '(95 . 50))
-  (add-to-list 'default-frame-alist '(alpha . (95 . 50)))
+  (set-frame-parameter (selected-frame) 'alpha '(95 . 80))
+  (add-to-list 'default-frame-alist '(alpha . (95 . 80)))
 #+END_SRC
 
 ** Secrets
@@ -718,6 +718,7 @@ modifiable field. Many clever programming tricks can be performed with
 
 #+NAME: company
 #+BEGIN_SRC emacs-lisp
+  (use-package company)
   (add-hook 'after-init-hook 'global-company-mode)
 #+END_SRC
 
@@ -1037,11 +1038,13 @@ recent header:
   (org-entry-properties))
 #+END_SRC
 
+(This block was evaluated on Microsoft Windows.)
+
 #+RESULTS[cf982044956d8f3ec89e7a9da80976b1b19db423]: org-meta-info
 : (("CATEGORY" . "smart-documents")
 :  ("BLOCKED" . "")
-:  ("FILE" . "/home/blendux/.emacs.d/smart-documents.org")
-:  ("PRIORITY" . "B")
+:  ("FILE" . "c:/Users/blend/AppData/Roaming/.emacs.d/smart-documents.org")
+:  ("PRIORITY" . "A")
 :  ("ITEM" . "Introduction"))
 
 ** Basic customization
