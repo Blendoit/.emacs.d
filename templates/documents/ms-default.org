@@ -4,31 +4,34 @@
 #+OPTIONS: tags:nil
 
 #+LATEX_CLASS: article
+#+LATEX_CLASS_OPTIONS: [11pt]
 
 # Ensure room for header and footer
-#+LATEX_HEADER: \usepackage[left = 1in,
-#+LATEX_HEADER:            right = 1in,
-#+LATEX_HEADER:              top = 1in,
-#+LATEX_HEADER:           bottom = 1.75in]{geometry}
+#+LATEX_HEADER: \usepackage{geometry}[
+#+LATEX_HEADER:  ansiapaper      ,
+#+LATEX_HEADER:  left   = 1in    ,
+#+LATEX_HEADER:  right  = 1in    ,
+#+LATEX_HEADER:  top    = 1in    ,
+#+LATEX_HEADER:  bottom = 1.75in ,]
 
 # Beautiful fonts ONLY
 #+LATEX_HEADER: \usepackage{fontspec}
 # Regular font
 #+LATEX_HEADER: \setmainfont{Public Sans}[
 #+LATEX_HEADER:  Path           = C:/Users/blend/AppData/Roaming/.emacs.d/fonts/,
-#+LATEX_HEADER:  Extension      = .ttf           ,
-#+LATEX_HEADER:  UprightFont    = *-regular      ,
-#+LATEX_HEADER:  BoldFont       = *-bold         ,
-#+LATEX_HEADER:  ItalicFont     = *-italic       ,
-#+LATEX_HEADER:  BoldItalicFont = *-bolditalic   ,]
+#+LATEX_HEADER:  Extension      = .ttf         ,
+#+LATEX_HEADER:  UprightFont    = *-regular    ,
+#+LATEX_HEADER:  BoldFont       = *-bold       ,
+#+LATEX_HEADER:  ItalicFont     = *-italic     ,
+#+LATEX_HEADER:  BoldItalicFont = *-bolditalic ,]
 # Monospaced font
 #+LATEX_HEADER: \setmonofont{Courier Prime}[
 #+LATEX_HEADER:  Path           = C:/Users/blend/AppData/Roaming/.emacs.d/fonts/,
-#+LATEX_HEADER:  Extension      = .ttf           ,
-#+LATEX_HEADER:  UprightFont    = *-regular      ,
-#+LATEX_HEADER:  BoldFont       = *-bold         ,
-#+LATEX_HEADER:  ItalicFont     = *-italic       ,
-#+LATEX_HEADER:  BoldItalicFont = *-bolditalic   ,]
+#+LATEX_HEADER:  Extension      = .ttf         ,
+#+LATEX_HEADER:  UprightFont    = *-regular    ,
+#+LATEX_HEADER:  BoldFont       = *-bold       ,
+#+LATEX_HEADER:  ItalicFont     = *-italic     ,
+#+LATEX_HEADER:  BoldItalicFont = *-bolditalic ,]
 
 # Get total page count to insert in footer
 #+LATEX_HEADER: \usepackage{lastpage}
