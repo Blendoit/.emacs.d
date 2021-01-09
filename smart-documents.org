@@ -56,52 +56,6 @@ if you are browsing this paper within Emacs itself:
 
 You can always press ~f1~ to access Emacs built-in help.
 
-* First-time setup
-
-The following code blocks are normally evaluated once---upon starting
-Emacs for the first time.
-
-** TODO Unpacking our literate configuration
-:PROPERTIES:
-:sd-unpack-path: sd.el
-:END:
-
-#+BEGIN_SRC emacs-lisp :tangle no
-  (defvar sd-packed-p t
-    "Boolean to track literate configuration packed/unpacked status.")
-
-  (defvar sd-unpack-sections (org-property-values "sd-unpack-path")
-    "List of target sections in `my/literate-config' to be unpacked.")
-
-  (defun sd-unpack-sections ()
-    "Unpack literate configuration into `emacs-user-directory'."
-    (interactive)
-    (mapcar 'sd-unpack sd-unpack-sections)
-    )
-
-  (defun sd-unpack-section (&optional section)
-    "Unpack SECTION into `user-emacs-directory'.
-        If nil, unpack section under point.
-        Make go through list of headings and unpack first matching SECTION."
-    (interactive)
-    (if (not section)
-        (insert
-         (concat
-          "\nThe contents of this Section was automatically moved to\n="
-          user-emacs-directory (org-entry-get nil "sd-unpack-path") "=.\n"
-          "Use `sd-pack-section' to copy the contents back into this section."))))
-
-
-  (defun sd-pack-section ()
-    "Pack SECTION into `my/literate-config'."
-    (interactive)
-    (message "foobar!!!"))
-
-  (global-set-key (kbd "C-t") 'sd-pack-section)
-
-  (sd-unpack "init.el")
-#+END_SRC
-
 ** TODO User details
 
 One advantage of working with /Smart Documents/ is that they can
@@ -1839,4 +1793,57 @@ the result of our profiling.
 * Conclusion
 
 In this configuration file, we described a series of customization
-steps taken to make Emacs more palatable to modern IDE users.
+steps taken to make Emacs more palatable to modern word processors
+users.
+
+We will now go through the appendices in the following order:
+
+1. Ideas implemented, then retired;
+2. Risky ideas that might displease Emacs when it reads our literate
+   configuration. If these risky ideas are included in the main body
+   of the paper, it becomes difficult to identify which one is causing
+   trouble.
+
+\appendix
+* Unpacking our literate configuration
+:PROPERTIES:
+:sd-unpack-path: sd.el
+:END:
+
+The following code blocks are normally evaluated once---upon starting
+Emacs for the first time.
+
+#+BEGIN_SRC emacs-lisp :tangle no
+  (defvar sd-packed-p t
+    "Boolean to track literate configuration packed/unpacked status.")
+
+  (defvar sd-unpack-sections (org-property-values "sd-unpack-path")
+    "List of target sections in `my/literate-config' to be unpacked.")
+
+  (defun sd-unpack-sections ()
+    "Unpack literate configuration into `emacs-user-directory'."
+    (interactive)
+    (mapcar 'sd-unpack sd-unpack-sections)
+    )
+
+  (defun sd-unpack-section (&optional section)
+    "Unpack SECTION into `user-emacs-directory'.
+        If nil, unpack section under point.
+        Make go through list of headings and unpack first matching SECTION."
+    (interactive)
+    (if (not section)
+        (insert
+         (concat
+          "\nThe contents of this Section was automatically moved to\n="
+          user-emacs-directory (org-entry-get nil "sd-unpack-path") "=.\n"
+          "Use `sd-pack-section' to copy the contents back into this section."))))
+
+  (defun sd-pack-section ()
+    "Pack SECTION into `my/literate-config'."
+    (interactive)
+    (message "foobar!!!"))
+
+  (global-set-key (kbd "C-t") 'sd-pack-section)
+
+  (sd-unpack "init.el")
+#+END_SRC
