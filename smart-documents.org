@@ -4,7 +4,7 @@
 #+DATE: <2020-12-19 Sat>
 #+EMAIL: blendoit@gmail.com
 #+STARTUP: showall
-#+SETUPFILE: ~/.emacs.d/templates/documents/ms-default.org
+#+SETUPFILE: ~/.emacs.d/templates/documents/gnu-default.org
 #+INCLUDE: ~/.emacs.d/templates/documents/default-title.org
 #+LATEX_HEADER_EXTRA: \newfontfamily\garamond{EB Garamond}
 #+LATEX_HEADER_EXTRA: \newfontfamily\publicsans{Public Sans}
@@ -345,7 +345,7 @@ navigation cues on all modern desktop OSes. From IBM's CUA, we get the
 *** Open the agenda
 
 #+BEGIN_SRC emacs-lisp :tangle yes
-  (global-set-key [f5] 'org-agenda-list)
+  (global-set-key [f5] 'org-agenda)
 #+END_SRC
 
 *** Open the diary
@@ -408,9 +408,9 @@ The following bindings lead to more natural window & frame exit behaviors.
                       (kill-emacs))))
 #+END_SRC
 
-*** Open LHS & RHS sidebar
+*** Open sidebar
 
-We define bindings to open both the left-hand & right-hand sidebar.
+We define bindings to open a sidebar at the left of the frame.
 
 #+BEGIN_SRC emacs-lisp :tangle yes
   (global-set-key (kbd "<left-fringe> <mouse-1>")
@@ -899,8 +899,7 @@ Get inspiration from ~ibuffer-sidebar~ and create a better sidebar.
   (defun sd-sidebar (side)
     "Open the sidebar on the chosen SIDE of the buffer."
     (interactive)
-    (cond ((eq sd-sidebar t)		; If sidebar is open
-                                          ; anywhere, close it.
+    (cond ((eq sd-sidebar t)
            (unless (one-window-p)
              (delete-window))
            (setq sd-sidebar nil))
@@ -1134,7 +1133,7 @@ files for which the heading or body contain a matching
 
 We open the agenda in a separate window.
 
-#+BEGIN_SRC emacs-lisp :tangle yes
+#+BEGIN_SRC emacs-lisp :tangle no
   (setq org-agenda-window-setup 'other-frame)
 #+END_SRC
 
@@ -1616,8 +1615,8 @@ purposefully and iteratively.
 
 #+BEGIN_SRC emacs-lisp :tangle yes
   (setq custom-theme-directory (concat user-emacs-directory "themes/"))
-  (load-theme 'sd-light)
-  ;; (load-theme 'sd-dark)
+  ;; (load-theme 'sd-light)
+  (load-theme 'sd-dark)
 #+END_SRC
 
 ** My light and dark themes
