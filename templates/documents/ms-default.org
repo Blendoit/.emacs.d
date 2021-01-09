@@ -4,7 +4,6 @@
 #+OPTIONS: tags:nil
 
 #+LATEX_CLASS: article
-#+LATEX_CLASS_OPTIONS: [11pt]
 
 # Ensure room for header and footer
 #+LATEX_HEADER: \usepackage{geometry}[
