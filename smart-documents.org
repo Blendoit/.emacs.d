@@ -954,8 +954,9 @@ communicating with people from around the world---we're all for that!
 B-) \smiley
 
 #+BEGIN_SRC emacs-lisp :tangle yes
-  (use-package emojify
-    :hook (after-init . global-emojify-mode))
+  (when (string-equal system-type "gnu/linux")
+    (use-package emojify
+      :hook (after-init . global-emojify-mode)))
 #+END_SRC
 
 * ~org-mode~
