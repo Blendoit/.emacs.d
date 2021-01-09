@@ -1187,13 +1187,13 @@ The following packages are loaded for every time we export to LaTeX.
           ("" "fontspec" t ; Fonts for LuaLaTeX
            ("lualatex"))
           ("" "booktabs" t ; Publication quality tables
-           ("pdflatex" "luatex"))
+           ("pdflatex" "lualatex"))
           ("" "wasysym" t ; Emojis and other symbols
-           ("pdflatex" "luatex"))
+           ("pdflatex" "lualatex"))
           ("" "lettrine" t
-           ("pdflatex" "luatex"))
+           ("pdflatex" "lualatex"))
           ("table,svgnames" "xcolor" t ; svgnames opens up ~150 new color keywords
-           ("pdflatex" "luatex"))
+           ("pdflatex" "lualatex"))
           ("skip=0.5\\baselineskip, width=0.618\\textwidth" "caption" t ; Increase space between floats and captions
            ("pdflatex" "lualatex"))))
 #+END_SRC
