@@ -1,5 +1,5 @@
 (deftheme sd-dark
-  "Created 2020-12-20.")
+  "Created 2021-01-11.")
 
 (custom-theme-set-faces
  'sd-dark
@@ -15,11 +15,11 @@
  '(fixed-pitch ((t (:family "Hack"))))
  '(font-lock-builtin-face ((t (:foreground "medium purple"))))
  '(font-lock-comment-delimiter-face ((t (:inherit fixed-pitch :foreground "slate gray"))))
- '(font-lock-comment-face ((t (:foreground "light slate gray" :slant italic))))
+ '(font-lock-comment-face ((t (:inherit fixed-pitch :foreground "light slate gray" :slant italic))))
  '(font-lock-constant-face ((t (:foreground "MediumOrchid4"))))
  '(font-lock-doc-face ((t (:weight normal :inherit variable-pitch :foreground "white"))))
- '(font-lock-function-name-face ((t (:foreground "DarkOrchid4" :weight bold))))
- '(font-lock-keyword-face ((t (:foreground "medium violet red"))))
+ '(font-lock-function-name-face ((t (:foreground "medium violet red" :weight bold))))
+ '(font-lock-keyword-face ((t (:foreground "violet"))))
  '(font-lock-negation-char-face ((t nil)))
  '(font-lock-preprocessor-face ((t (:inherit font-lock-builtin-face))))
  '(font-lock-regexp-grouping-backslash ((t (:inherit bold :foreground "dark orange"))))
@@ -27,7 +27,7 @@
  '(font-lock-string-face ((t (:foreground "MediumOrchid3"))))
  '(font-lock-type-face ((t (:foreground "orchid2"))))
  '(font-lock-variable-name-face ((t (:foreground "DarkOrchid3" :weight bold))))
- '(font-lock-warning-face ((t (:inherit (error)))))
+ '(font-lock-warning-face ((t (:inherit error))))
  '(fringe ((t (:background "grey10"))))
  '(header-line ((t (:weight extra-bold :height 1.8 :family "Public Sans"))))
  '(highlight ((t (:background "LightSkyBlue1"))))
