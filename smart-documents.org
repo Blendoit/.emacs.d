@@ -1236,17 +1236,19 @@ they were recorded, i.e. chronologically.
  (setq org-agenda-insert-diary-strategy 'date-tree-last)
 #+END_SRC
 
+*** Extra LaTeX classes
+
 What follows is an additional document class structures that can be
 exported in LaTeX.
 
-#+BEGIN_SRC emacs-lisp :tangle no
-;; (add-to-list 'org-latex-classes
-;;              '("book-blendoit"
-;;                "\\documentclass[12pt]{book}"
-;;                ("\\chapter{%s}" . "\\chapter*{%s}")
-;;                ("\\section{%s}" . "\\section*{%s}")
-;;                ("\\subsection*{%s}" . "\\subsection*{%s}")
-;;                ("\\subsubsection*{%s}" . "\\subsubsection*{%s}")))
+#+BEGIN_SRC emacs-lisp :tangle yes
+(add-to-list 'org-latex-classes
+             '("book-blendoit"
+               "\\documentclass[12pt]{book}"
+               ("\\chapter{%s}" . "\\chapter*{%s}")
+               ("\\section{%s}" . "\\section*{%s}")
+               ("\\subsection*{%s}" . "\\subsection*{%s}")
+               ("\\subsubsection*{%s}" . "\\subsubsection*{%s}")))
 #+END_SRC
 
 *** Table of contents
