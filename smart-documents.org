@@ -1335,8 +1335,8 @@ PDF]].
            (message "No quick-export implemented yet."))
           ((eq major-mode 'ledger-report-mode)
            (sd-quick-export--ledger-report))
-          (t (message (concat "No sd-quick-export backend for "
-                              (format "%s" major-mode) ".")))))
+          (t (message (format "No sd-quick-export backend for %s."
+                              major-mode)))))
 #+END_SRC
 
 ** Beautify buffer
@@ -1688,9 +1688,8 @@ the cursor is a more MS Word-like bar.
   - Slightly wider than Hack
   - More opinionated shapes
   - Very legible parentheses, very useful for Emacs Lisp!
-- Courier
-  Prime[fn::https://quoteunquoteapps.com/courierprime/index.php] ::
-  certain monospace usages
+- Courier Prime[fn::https://quoteunquoteapps.com/courierprime/index.php]  :: monospace
+  in print
 - Jost[fn::https://indestructibletype.com/Jost.html] :: ~org-document-title~
   and ~org-level-1~
   - Ultra-modern
