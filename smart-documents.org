@@ -1,4 +1,5 @@
 # -*- mode: org; -*-
+
 #+TITLE: Smart Documents
 #+AUTHOR: Marius Peter
 #+DATE: <2020-12-19 Sat>
@@ -6,6 +7,7 @@
 #+STARTUP: showall
 #+SETUPFILE: ~/.emacs.d/templates/documents/gnu-default.org
 #+INCLUDE: ~/.emacs.d/templates/documents/default-title.org
+
 #+LATEX_HEADER_EXTRA: \newfontfamily\garamond{EB Garamond}
 #+LATEX_HEADER_EXTRA: \newfontfamily\publicsans{Public Sans}
 
@@ -371,13 +373,7 @@ The following bindings lead to more natural window & frame exit behaviors.
 
 #+NAME: close-window-or-previous-buffer
 #+BEGIN_SRC emacs-lisp :tangle yes
-  (global-set-key (kbd "C-w")
-                  (lambda ()
-                    "Delete window; if sole window, previous buffer."
-                    (interactive)
-                    (if (> (length (window-list)) 1)
-                        (delete-window)
-                      (previous-buffer))))
+  (global-set-key (kbd "C-w") 'sd-delete-window-or-previous-buffer)
 #+END_SRC
 
 ** Frame
@@ -398,13 +394,8 @@ The following bindings lead to more natural window & frame exit behaviors.
 
 #+NAME: delete-frame-or-kill-emacs
 #+BEGIN_SRC emacs-lisp :tangle yes
-  (global-set-key (kbd "C-q")
-                  (lambda ()
-                    (interactive)
-                    "delete frame; if sole frame, kill Emacs."
-                    (if (> (length (frame-list)) 1)
-                        (delete-frame)
-                      (kill-emacs))))
+(global-set-key (kbd "C-q") 'sd-delete-frame-or-kill-emacs)
+  (setq confirm-kill-emacs 'y-or-n-p)
 #+END_SRC
 
 *** Open sidebar
@@ -1358,6 +1349,29 @@ Binding defined in Section [[Indent buffer]].
     (when (eq major-mode 'org-mode)
       (sd-indent-buffer)))
 #+END_SRC
+
+** Smart window quitting
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (defun sd-delete-window-or-previous-buffer ()
+    "Delete window; if sole window, previous buffer."
+    (interactive)
+    (if (> (length (window-list)) 1)
+        (delete-window)
+      (previous-buffer)))
+#+END_SRC
+
+** Smart frame quitting
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (defun sd-delete-frame-or-kill-emacs ()
+    (interactive)
+    "delete frame; if sole frame, kill Emacs."
+    (if (> (length (frame-list)) 1)
+        (delete-frame)
+      (kill-emacs)))
+#+END_SRC
+
 
 * Editing preferences
 
