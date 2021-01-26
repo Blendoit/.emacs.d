@@ -1,5 +1,5 @@
 (deftheme sd-dark
-  "Created 2021-01-11.")
+  "Created 2021-01-19.")
 
 (custom-theme-set-faces
  'sd-dark
@@ -63,17 +63,17 @@
  '(org-level-1 ((t (:weight bold :height 1.8))))
  '(org-level-2 ((t (:weight normal :height 1.6))))
  '(org-level-3 ((t (:height 1.4))))
- '(org-level-4 ((t (:height 1.2))))
- '(org-level-5 ((t (:height 1.1))))
- '(org-level-6 ((t (:inherit org-level-5))))
- '(org-level-7 ((t (:inherit org-level-5))))
- '(org-level-8 ((t (:inherit org-level-5))))
+ '(org-level-4 ((t (:height 1.0))))
+ '(org-level-5 ((t (:inherit org-level-4))))
+ '(org-level-6 ((t (:inherit org-level-4))))
+ '(org-level-7 ((t (:inherit org-level-4))))
+ '(org-level-8 ((t (:inherit org-level-4))))
  '(org-meta-line ((t (:foreground "SteelBlue" :family "Hermit"))))
  '(org-priority ((t (:inherit org-meta-line))))
  '(org-quote ((t (:inherit variable-pitch :slant italic))))
  '(org-special-keyword ((t (:background "grey20" :weight bold :inherit org-meta-line))))
  '(org-table ((t (:family "Hack"))))
- '(org-tag ((t (:inherit link))))
+ '(org-tag ((t (:inherit (link fixed-pitch)))))
  '(org-todo ((t (:background "coral" :foreground "white" :weight bold :height 1.4 :family "Hermit"))))
  '(org-verbatim ((t (:foreground "DodgerBlue1" :weight normal :foundry "Hack"))))
  '(query-replace ((t (:inherit (isearch)))))

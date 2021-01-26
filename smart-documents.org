@@ -464,25 +464,26 @@ We prevent Org mode from overriding preferred navigation keys.
 *** Move down one line
 
 #+BEGIN_SRC emacs-lisp :tangle yes
-(global-set-key (kbd "M-j") 'next-line)
+  (global-set-key (kbd "M-j") 'next-line)
 #+END_SRC
 
 *** Move up one line
 
 #+BEGIN_SRC emacs-lisp :tangle yes
-(global-set-key (kbd "M-k") 'previous-line)
+  (global-set-key (kbd "M-k") 'previous-line)
 #+END_SRC
 
 *** Move left one character
 
 #+BEGIN_SRC emacs-lisp :tangle yes
-(global-set-key (kbd "M-h") 'left-char)
+  (local-unset-key (kbd "M-h"))
+  (global-set-key (kbd "M-h") 'left-char)
 #+END_SRC
 
 *** Move right one character
 
 #+BEGIN_SRC emacs-lisp :tangle yes
-(global-set-key (kbd "M-l") 'right-char)
+  (global-set-key (kbd "M-l") 'right-char)
 #+END_SRC
 
 ** Accessing customization
@@ -1404,8 +1405,8 @@ paragraph [[Open a recently visited file]].
 ** Frame
 
 *** Header & mode lines
-# Top of the buffer is more intuitive for buffer info, bottom is more intuitive
-# for buffer action.
+# Top of the buffer is more intuitive for buffer info, bottom is more
+# intuitive for buffer action.
 
 **** TODO Icons
 :PROPERTIES:
@@ -1686,7 +1687,7 @@ the cursor is a more MS Word-like bar.
 
 *** Fonts
 
-**** Currently used /chad fonts/
+**** Currently used /chad fonts/:
 
 - Hack[fn::https://sourcefoundry.org/hack/] :: ~default~ and
   ~fixed-pitch~, default code font
@@ -1709,7 +1710,7 @@ the cursor is a more MS Word-like bar.
   - Ultra-modern
   - Tasteful amount of geometric inspiration
 
-**** Previously used /virgin fonts/
+**** Previously used /virgin fonts/:
 
 - +Liberation Sans+[fn::https://en.wikipedia.org/wiki/Liberation_fonts] :: +~variable-pitch~+
   - Metrically compatible with /Arial/ (ugh)
@@ -1739,7 +1740,7 @@ is greater than 1920\times1080.
     else)
 #+END_SRC
 
-** TODO Wealthy theme
+** TODO /Wealthy/ document theme
 
 #+NAME: claude-garamont
 #+CAPTION[Claude Garamont, an icon of font design]: Claude Garamont, an icon of font design. World-renowned for his elegant typefaces, which inspired many generations of typographers.
