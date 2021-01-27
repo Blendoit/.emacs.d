@@ -265,8 +265,8 @@ Transparency.
 #+BEGIN_SRC emacs-lisp :tangle yes
   ;; (set-frame-parameter (selected-frame) 'alpha '(<active> . <inactive>))
   ;; (set-frame-parameter (selected-frame) 'alpha <both>)
-  (set-frame-parameter (selected-frame) 'alpha '(95 . 80))
-  (add-to-list 'default-frame-alist '(alpha . (95 . 80)))
+  (set-frame-parameter (selected-frame) 'alpha '(95 . 90))
+  (add-to-list 'default-frame-alist '(alpha . (95 . 90)))
 #+END_SRC
 
 ** Secrets
