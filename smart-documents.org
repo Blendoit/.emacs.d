@@ -753,6 +753,23 @@ Everlasting Father, Prince of Peace.
  :bind (("C-f" . swiper)))
 #+END_SRC
 
+*** Web browsing
+
+Thanks
+Xah![fn::[[http://ergoemacs.org/emacs/emacs_set_default_browser.html]]]
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+;; use browser depending on url
+(setq
+ browse-url-browser-function
+ '(
+  ("wikipedia\\.org" . browse-url-firefox)
+  ("github" . browse-url-chromium)
+  ("thefreedictionary\\.com" . eww-browse-url)
+  ("." . browse-url-default-browser)
+  ))
+#+END_SRC
+
 *** IRC
 
 Emacs ships with an IRC client called ~erc~.
