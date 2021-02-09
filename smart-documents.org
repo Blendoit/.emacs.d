@@ -1045,6 +1045,23 @@ We then set values for many other Org-related cosmetic symbols.
                                  'help-echo "Unfold section."))
 #+END_SRC
 
+*** Hide markup symbols
+
+We hide markup symbols.
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (setq org-hide-emphasis-markers t)
+#+END_SRC
+
+*** Pretty LaTeX symbols
+
+We display LaTeX entities as UTF8 symbols \rArr this is a slick idea to
+further make Emacs look like the exported PDF.
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (setq org-pretty-entities t)
+#+END_SRC
+
 *** Dynamic numbering of headlines
 
 We enable the dynamic numbering of headlines in an Org buffer. We also
