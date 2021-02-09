@@ -1045,14 +1045,6 @@ We then set values for many other Org-related cosmetic symbols.
                                  'help-echo "Unfold section."))
 #+END_SRC
 
-*** Hide markup symbols
-
-We hide markup symbols.
-
-#+BEGIN_SRC emacs-lisp :tangle yes
-  (setq org-hide-emphasis-markers t)
-#+END_SRC
-
 *** Pretty LaTeX symbols
 
 We display LaTeX entities as UTF8 symbols \rArr this is a slick idea to
