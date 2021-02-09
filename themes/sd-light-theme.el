@@ -1,5 +1,5 @@
 (deftheme sd-light
-  "Created 2020-12-28.")
+  "Created 2021-02-08.")
 
 (custom-theme-set-faces
  'sd-light
@@ -60,7 +60,7 @@
  '(org-ellipsis ((t (:inherit shadow :background "white"))))
  '(org-footnote ((t (:inherit (link variable-font)))))
  '(org-formula ((t (:inherit org-table))))
- '(org-level-1 ((t (:weight bold :height 1.8))))
+ '(org-level-1 ((t (:height 1.8))))
  '(org-level-2 ((t (:height 1.6))))
  '(org-level-3 ((t (:height 1.4))))
  '(org-level-4 ((t (:height 1.0))))
@@ -75,7 +75,7 @@
  '(org-table ((t (:family "Hack"))))
  '(org-tag ((t (:inherit (link fixed-pitch)))))
  '(org-todo ((t (:background "coral" :foreground "white" :weight bold :height 1.4 :family "Hermit"))))
- '(org-verbatim ((t (:foreground "DodgerBlue1" :weight normal :foundry "Hack"))))
+ '(org-verbatim ((t (:background "white" :foreground "DodgerBlue1" :foundry "Hack"))))
  '(query-replace ((t (:inherit (isearch)))))
  '(region ((t (:background "gainsboro"))))
  '(secondary-selection ((((class color) (min-colors 88) (background light)) (:background "yellow1")) (((class color) (min-colors 88) (background dark)) (:background "SkyBlue4")) (((class color) (min-colors 16) (background light)) (:background "yellow")) (((class color) (min-colors 16) (background dark)) (:background "SkyBlue4")) (((class color) (min-colors 8)) (:foreground "black" :background "cyan")) (t (:inverse-video t))))
