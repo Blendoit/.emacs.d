@@ -33,8 +33,8 @@ than a full-featured, high-productivity text editor---new /modes/ have
 been written to interact with hundreds of file formats, including
 =.txt=, =.pdf=, =.jpg=, =.csv=, and =.zip= just to name a few. This
 paper itself was written in /Org mode/, a collection of functions
-enabling the harmonious mixing of code and comments in view of
-publication: this is the endgame of /literate programming/, and the
+enabling the harmonious mixing of code, comments and content in view
+of publication: this is the endgame of /literate programming/, and the
 basis of my vision for /Smart Documents/.
 
 The following sections were laid out very deliberately. When we start
@@ -444,7 +444,7 @@ argument.
 #+CAPTION[Navigation keybindings]: Navigation keybindings.
 #+ATTR_LATEX: :booktabs t
 |           | *Backwards* | *Forwards* |
-|-----------+-------------+------------|
+|-----------+-----------+----------|
 | Character | =M-h=       | =M-l=      |
 | Line      | =M-k=       | =M-j=      |
 | Word      | =M-f=       | =M-b=      |
@@ -1211,7 +1211,7 @@ The following packages are loaded for every time we export to LaTeX.
            ("pdflatex" "lualatex"))
           ("table,svgnames" "xcolor" t ; svgnames opens up ~150 new color keywords
            ("pdflatex" "lualatex"))
-          ("skip=0.5\\baselineskip, width=0.618\\textwidth" "caption" t ; Increase space between floats and captions
+          ("skip=0.5\\baselineskip" "caption" t ; Increase space between floats and captions
            ("pdflatex" "lualatex"))))
 #+END_SRC
 
@@ -1656,8 +1656,8 @@ purposefully and iteratively.
 
 #+BEGIN_SRC emacs-lisp :tangle yes
   (setq custom-theme-directory (concat user-emacs-directory "themes/"))
-  ;; (load-theme 'sd-light)
-  (load-theme 'sd-dark)
+  (load-theme 'sd-light)
+  ;; (load-theme 'sd-dark)
 #+END_SRC
 
 ** My light and dark themes
@@ -1675,21 +1675,21 @@ and dark themes (Table [[theme-color-1]]).
 #+NAME: theme-color-1
 #+CAPTION[Light and dark themes' colors]: Light and dark themes' colors.
 #+ATTR_LATEX: :booktabs t
-| Color                           | ~blendoit-light~                | ~blendoit-dark~    |
+| Color                           | ~blendoit-light~                  | ~blendoit-dark~      |
 |---------------------------------+---------------------------------+--------------------|
 | Black                           | default text                    | default background |
-| Lighter shades                  | lesser headers                  | /n/a/              |
+| Lighter shades                  | lesser headers                  | /n/a/                |
 | White                           | default background              | default text       |
-| Darker shades                   | /n/a/                           | lesser headers     |
-| \color{Red} Red                 | negative                        | /same/             |
-| \color{Tomato} Tomato           | timestamp `TODO'                | /same/             |
-| \color{Green} Green             | positive                        | /same/             |
-| \color{ForestGreen} ForestGreen | timestamp `DONE'                | /same/             |
-| \color{Blue} Blue               | interactive content; links      | /same/             |
-| \color{SteelBlue} SteelBlue     | anything Org mode; anchor color | /same/             |
-| \color{DeepSkyBlue} DeepSkyBlue | ~highlight~                     | /same/             |
-| \color{DodgerBlue} DodgerBlue   | ~isearch~                       | /same/             |
-| \color{Purple} Purple           | Code syntax highlighting        | /same/             |
+| Darker shades                   | /n/a/                             | lesser headers     |
+| \color{Red} Red                 | negative                        | /same/               |
+| \color{Tomato} Tomato           | timestamp `TODO'                | /same/               |
+| \color{Green} Green             | positive                        | /same/               |
+| \color{ForestGreen} ForestGreen | timestamp `DONE'                | /same/               |
+| \color{Blue} Blue               | interactive content; links      | /same/               |
+| \color{SteelBlue} SteelBlue     | anything Org mode; anchor color | /same/               |
+| \color{DeepSkyBlue} DeepSkyBlue | ~highlight~                       | /same/               |
+| \color{DodgerBlue} DodgerBlue   | ~isearch~                         | /same/               |
+| \color{Purple} Purple           | Code syntax highlighting        | /same/               |
 
 *** Cursors
 
