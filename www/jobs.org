@@ -1,0 +1,67 @@
+# -*- mode: org; -*-
+
+#+TITLE: Jobs
+#+AUTHOR: Marius Peter
+#+DATE: <2021-01-19 Tue>
+
+* Educators & Academics
+
+** Teacher
+
+*** Kindergarten
+
+*** Middle School
+
+*** High School
+
+** Student
+
+*** Middle and High School
+
+*** College
+
+**** MLA
+**** APA
+
+** Professor
+
+*** Syllabus
+
+*** Homework assignment
+
+** Researchers
+
+*** Thesis
+
+* Businesspersons
+
+** Reports
+
+* Legal
+
+** Lawyer
+
+** Judge
+
+** Stenographer
+
+* Technicians
+
+** Engineer
+
+** Product Line Manager
+
+* Managers & Executives
+
+** CEO
+
+** Board Member
+
+** Manager
+
+* Artists
+
+** Painter
+
+** Screenwriter
+

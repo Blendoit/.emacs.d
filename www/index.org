@@ -1,0 +1,61 @@
+# -*- mode: org; -*-
+
+#+TITLE: Smart Documents
+#+AUTHOR: Marius Peter
+#+DATE: <2021-02-01 Mon>
+#+OPTIONS: toc:nil html-style:nil
+
+#+HTML_HEAD: <link rel="stylesheet" type="text/css" href="./default.css"/>
+
+Welcome to =Smart Documents!=
+
+#+NAME: title-page
+#+attr_html: :width 400px
+# [[file:title-page.png]]
+
+* Welcome to *Smart Documents*.
+
+** Work with /plain text/.
+
+The only expectation from the user is to focus on the content, /plain
+text./
+
+Program your documents in your favorite language thanks to the power
+of [[https://orgmode.org/worg/org-contrib/babel/intro.html][Org Babel]].
+
+** Collaboration done right.
+
+Collect collaborators' feedback and create new document versions
+through an efficient wizard.
+
+** Link it all together.
+
+Create links between files to keep track of dates, people, tags, and
+compile them into neatly filtered agendas fit for sharing.
+
+* Killer Features
+
+** A single authoritative document.
+
+Each document can be declined into a report, a presentation
+summarizing the document's outline, or a website page that can be
+added to your organization's internal wiki.
+
+** 
+
+** Program your documents.
+
+Unleash the power of /literate programming/ through Org mode.
+
+* Download
+
+You can download the current development snapshot on GitHub at
+[[https://github.com/Blendoit/.emacs.d]].
+
+* Donate
+
+Support the development of this project at the following places:
+
+- Venmo :: =@Blendoit=
+- CashApp :: =$MariusPeter=
+- PayPal :: [[mailto:mariuspeter.blendux@gmail.com][mariuspeter.blendux@gmail.com]]
