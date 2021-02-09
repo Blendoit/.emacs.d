@@ -1396,9 +1396,8 @@ Binding defined in Section [[Indent buffer]].
     "delete frame; if sole frame, kill Emacs."
     (if (> (length (frame-list)) 1)
         (delete-frame)
-      (kill-emacs)))
+      (save-buffers-kill-terminal)))
 #+END_SRC
-
 
 * Editing preferences
 
