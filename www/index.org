@@ -2,48 +2,39 @@
 
 #+TITLE: Smart Documents
 #+AUTHOR: Marius Peter
-#+DATE: <2021-02-01 Mon>
-#+OPTIONS: toc:nil html-style:nil
+#+DATE: <2021-02-09 Tue>
 
-#+HTML_HEAD: <link rel="stylesheet" type="text/css" href="./default.css"/>
+#+SETUPFILE: ~/.emacs.d/www/sd-setup.org
+#+INCLUDE: ./topbar.html export html
+# Extra styling for the home page
+#+HTML_HEAD: <link rel="stylesheet" type="text/css" href="./css/index.css"/>
 
-Welcome to =Smart Documents!=
+* Perfect documents every time.
 
-#+NAME: title-page
-#+attr_html: :width 400px
-# [[file:title-page.png]]
-
-* Welcome to *Smart Documents*.
-
-** Work with /plain text/.
-
-The only expectation from the user is to focus on the content, /plain
-text./
+Focus on your content and let the editor work out the appearance, for
+flawless exports every time.
 
 Program your documents in your favorite language thanks to the power
 of [[https://orgmode.org/worg/org-contrib/babel/intro.html][Org Babel]].
 
-** Collaboration done right.
+* Collaboration done right.
 
 Collect collaborators' feedback and create new document versions
 through an efficient wizard.
 
-** Link it all together.
+* Link it all together.
 
 Create links between files to keep track of dates, people, tags, and
-compile them into neatly filtered agendas fit for sharing.
+compile them into neatly filtered agendas---perfect for sharing a
+project status or roadmap!
 
-* Killer Features
-
-** A single authoritative document.
+* A single authoritative document.
 
 Each document can be declined into a report, a presentation
 summarizing the document's outline, or a website page that can be
 added to your organization's internal wiki.
 
-** 
-
-** Program your documents.
+* Program your documents.
 
 Unleash the power of /literate programming/ through Org mode.
 

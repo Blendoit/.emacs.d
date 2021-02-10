@@ -2,14 +2,23 @@
 
 #+TITLE: Smart Documents
 #+AUTHOR: Marius Peter
-#+DATE: <2020-12-19 Sat>
+#+DATE: <2021-02-09 Tue>
 #+EMAIL: blendoit@gmail.com
+
+#+OPTIONS: html-style:nil
 #+STARTUP: showall
+
+# LaTeX setup
 #+SETUPFILE: ~/.emacs.d/templates/documents/gnu-default.org
+# Title page for LaTeX
 #+INCLUDE: ~/.emacs.d/templates/documents/default-title.org
 
 #+LATEX_HEADER_EXTRA: \newfontfamily\garamond{EB Garamond}
 #+LATEX_HEADER_EXTRA: \newfontfamily\publicsans{Public Sans}
+
+#+HTML_HEAD: <link rel="stylesheet" type="text/css" href="./www/css/base.css"/>
+#+HTML_HEAD: <link rel="stylesheet" type="text/css" href="./www/css/navbar.css"/>
+#+INCLUDE: ./www/topbar.html export html
 
 #+LATEX: \begin{abstract}
 The idea of /Smart Documents/ came to me as I was reflecting on how to
