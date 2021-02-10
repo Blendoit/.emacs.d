@@ -441,7 +441,7 @@ argument.
 #+CAPTION[Navigation keybindings]: Navigation keybindings.
 #+ATTR_LATEX: :booktabs t
 |           | *Backwards* | *Forwards* |
-|-----------+-----------+----------|
+|-----------+-------------+------------|
 | Character | =M-h=       | =M-l=      |
 | Line      | =M-k=       | =M-j=      |
 | Word      | =M-f=       | =M-b=      |
@@ -1419,8 +1419,8 @@ paragraph [[Open a recently visited file]].
 
 #+BEGIN_SRC emacs-lisp :tangle yes
   (recentf-mode 1)
-  (setq recentf-max-menu-items 25)
-  (setq recentf-max-saved-items 25)
+  (setq recentf-max-menu-items 100)
+  (setq recentf-max-saved-items 100)
   (run-at-time nil (* 5 60) 'recentf-save-list)
 #+END_SRC
 
@@ -1672,21 +1672,21 @@ and dark themes (Table [[theme-color-1]]).
 #+NAME: theme-color-1
 #+CAPTION[Light and dark themes' colors]: Light and dark themes' colors.
 #+ATTR_LATEX: :booktabs t
-| Color                           | ~blendoit-light~                  | ~blendoit-dark~      |
+| Color                           | ~blendoit-light~                | ~blendoit-dark~    |
 |---------------------------------+---------------------------------+--------------------|
 | Black                           | default text                    | default background |
-| Lighter shades                  | lesser headers                  | /n/a/                |
+| Lighter shades                  | lesser headers                  | /n/a/              |
 | White                           | default background              | default text       |
-| Darker shades                   | /n/a/                             | lesser headers     |
-| \color{Red} Red                 | negative                        | /same/               |
-| \color{Tomato} Tomato           | timestamp `TODO'                | /same/               |
-| \color{Green} Green             | positive                        | /same/               |
-| \color{ForestGreen} ForestGreen | timestamp `DONE'                | /same/               |
-| \color{Blue} Blue               | interactive content; links      | /same/               |
-| \color{SteelBlue} SteelBlue     | anything Org mode; anchor color | /same/               |
-| \color{DeepSkyBlue} DeepSkyBlue | ~highlight~                       | /same/               |
-| \color{DodgerBlue} DodgerBlue   | ~isearch~                         | /same/               |
-| \color{Purple} Purple           | Code syntax highlighting        | /same/               |
+| Darker shades                   | /n/a/                           | lesser headers     |
+| \color{Red} Red                 | negative                        | /same/             |
+| \color{Tomato} Tomato           | timestamp `TODO'                | /same/             |
+| \color{Green} Green             | positive                        | /same/             |
+| \color{ForestGreen} ForestGreen | timestamp `DONE'                | /same/             |
+| \color{Blue} Blue               | interactive content; links      | /same/             |
+| \color{SteelBlue} SteelBlue     | anything Org mode; anchor color | /same/             |
+| \color{DeepSkyBlue} DeepSkyBlue | ~highlight~                     | /same/             |
+| \color{DodgerBlue} DodgerBlue   | ~isearch~                       | /same/             |
+| \color{Purple} Purple           | Code syntax highlighting        | /same/             |
 
 *** Cursors
 
@@ -1841,7 +1841,21 @@ We will now go through the appendices in the following order:
    of the paper, it becomes difficult to identify which one is causing
    trouble.
 
-\appendix
+#+LATEX: \appendix
+* Old introduction
+
+GNU Emacs is most often used as a text editor. The utmost level of
+customization is afforded by the ability to rewrite /any/ part of the
+source code and observe the editor's modified behavior in real
+time. Since its inception in 1984, GNU Emacs has grown to be much more
+than a full-featured, high-productivity text editor---new /modes/ have
+been written to interact with hundreds of file formats, including
+=.txt=, =.pdf=, =.jpg=, =.csv=, and =.zip= just to name a few. This
+paper itself was written in /Org mode/, a collection of functions
+enabling the harmonious mixing of code, comments and content in view
+of publication: this is the endgame of /literate programming/, and the
+basis of my vision for /Smart Documents/.
+
 * Unpacking our literate configuration
 :PROPERTIES:
 :sd-unpack-path: sd.el
