@@ -1,0 +1,15 @@
+.title {
+    background: no-repeat center/100% url("./space.jpg");
+    position: relative;	
+    bottom: 0;
+    filter: blur(4px);
+    transition: 0.3s;
+}
+.title:hover {
+    line-height: 2;
+    background: no-repeat center/100% url("./space.jpg");
+    position: relative;	
+    bottom: 0;
+    filter: blur(0px);
+    transition: 0.5s;
+}
