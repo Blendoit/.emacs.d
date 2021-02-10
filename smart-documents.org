@@ -34,18 +34,6 @@ paper is a /Smart Document/ itself!
 
 * Introduction
 
-GNU Emacs is most often used as a text editor. The utmost level of
-customization is afforded by the ability to rewrite /any/ part of the
-source code and observe the editor's modified behavior in real
-time. Since its inception in 1984, GNU Emacs has grown to be much more
-than a full-featured, high-productivity text editor---new /modes/ have
-been written to interact with hundreds of file formats, including
-=.txt=, =.pdf=, =.jpg=, =.csv=, and =.zip= just to name a few. This
-paper itself was written in /Org mode/, a collection of functions
-enabling the harmonious mixing of code, comments and content in view
-of publication: this is the endgame of /literate programming/, and the
-basis of my vision for /Smart Documents/.
-
 The following sections were laid out very deliberately. When we start
 Emacs, the source code blocks contained in this document are evaluated
 sequentially---our editing environment is constructed in real time as
