@@ -1,29 +1,40 @@
-/* Add a black background color to the top navigation */
 nav {
-    display: block;
-  background-color: #333;
-  position: relative;
-  z-index: 10; 
+    background-color: var(--accent);
+    color: var(--text);
+    position: fixed;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    top: 12px;
+    right: 12px;
+    border-radius: 12px;
+    /* box-shadow x-offset y-offset blur spread color */
+    box-shadow: 8px 8px 40px 2px #111111;
+    z-index: 1;
+}
+nav ul {
+}
+/* Display navbar elements horizontally. */
+nav ul * {
+    display: inline;
+    margin: 0.2em;
 }
 
-/* Style the links inside the navigation bar */
+/* Style the links inside the navigation bar. */
 nav a {
-  float: left;
-  color: #f2f2f2;
-  text-align: center;
-  padding: 14px 16px;
-  text-decoration: none;
-  font-size: 17px;
+    color: var(--text);
+    font-size: 16px;
 }
 
-/* Change the color of links on hover */
+/* Change the color of links on hover. */
 nav a:hover {
-  background-color: #ddd;
-  color: black;
+    background-color: var(--link);
+    color: var(--primary);
+    transition: var(--med-speed);
 }
 
 /* Add a color to the active/current link */
 nav a.active {
-  background-color: #4CAF50;
-  color: white;
+    background-color: var(--accent);
+    color: white;
 }

@@ -5,6 +5,6 @@
 #+DATE: <2021-02-09 Tue>
 
 #+SETUPFILE: ~/.emacs.d/www/sd-setup.org
-#+INCLUDE: ./topbar.html export html
+#+INCLUDE: ./navbar.html export html
 
 Contact me at [[https://t.me/Blendoit][t.me/Blendoit]] or at [[mailto:smart-documents@tuta.io][smart-documents@tuta.io]].

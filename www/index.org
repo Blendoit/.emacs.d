@@ -3,19 +3,24 @@
 #+TITLE: Smart Documents
 #+AUTHOR: Marius Peter
 #+DATE: <2021-02-09 Tue>
+#+EMAIL: smart-documents@tuta.io
 
 #+SETUPFILE: ~/.emacs.d/www/sd-setup.org
-#+INCLUDE: ./topbar.html export html
 # Extra styling for the home page
 #+HTML_HEAD: <link rel="stylesheet" type="text/css" href="./css/index.css"/>
 
+#+INCLUDE: ./navbar.html export html
+
+# Make your personal & professional documents 10\times better.
+
 * Perfect documents every time.
+:PROPERTIES:
+:CUSTOM_ID: perfect-documents
+:END:
 
 Focus on your content and let the editor work out the appearance, for
-flawless exports every time.
+  flawless exports every time.
 
-Program your documents in your favorite language thanks to the power
-of [[https://orgmode.org/worg/org-contrib/babel/intro.html][Org Babel]].
 
 * Collaboration done right.
 
@@ -36,17 +41,15 @@ added to your organization's internal wiki.
 
 * Program your documents.
 
-Unleash the power of /literate programming/ through Org mode.
+Program your documents in your favorite language thanks to the power
+of [[https://orgmode.org/worg/org-contrib/babel/intro.html][Org Babel]].
 
 * Download
 
 You can download the current development snapshot on GitHub at
 [[https://github.com/Blendoit/.emacs.d]].
 
-* Donate
+* Support this project
 
-Support the development of this project at the following places:
-
-- Venmo :: =@Blendoit=
-- CashApp :: =$MariusPeter=
-- PayPal :: [[mailto:mariuspeter.blendux@gmail.com][mariuspeter.blendux@gmail.com]]
+For all inquiries related to donations, please send an e-mail to
+[[mailto:smart-documents@tuta.io][smart-documents@tuta.io]]

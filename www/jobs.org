@@ -4,9 +4,9 @@
 #+AUTHOR: Marius Peter
 #+DATE: <2021-02-09 Tue>
 #+SETUPFILE: ./sd-setup.org
-#+INCLUDE: ./topbar.html export html
-
 #+OPTIONS: toc:1
+
+#+INCLUDE: ./navbar.html export html
 
 * Educators & Academics
 

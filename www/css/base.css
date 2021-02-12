@@ -1,13 +1,14 @@
 :root {
-    --primary-color: #333333;
-    --secondary-color: #FFFFFF;
-    --home: #c8c8c8;
-    --yes: #5cff5c;
+    /* Colors */
+    --primary: #333333;
+    --text: #ffffff;
+    --accent: #4682b4;
+    --link: #87cefa;
     --no: #ff5c5c;
-    font-size: 18;
-    --fast-speed: 0.2s;
-    --med-speed: 0.4s;
-    --slow-speed: 1s;
+    /* Timings */
+    --high-speed: 0.3s;
+    --med-speed: 0.5s;
+    --low-speed: 1.0s;
 }
 
 code {
@@ -16,21 +17,23 @@ code {
 
 body {
     font-family: 'Jost*', sans-serif;
-    line-height: 1.2;
-    margin: 0;
-    padding: 0;
-    background-color: var(--primary-color);
-    color: var(--secondary-color);
-    filter: blur(0px);
+    font-size: 12px;
+    margin: 3em;
+    background-color: var(--primary);
+    color: var(--text);
 }
 
 .outline-2 {
+    bottom: 0;
+    left: 0;
     filter: blur(4px);
-    transition: 0.3s;
+    transition: var(--high-speed);
+    max-width: 60vw;
 }
 .outline-2:hover {
     filter: blur(0px);
-    transition: 0.3s;
+    transition: var(--med-speed);
+    font-size: 14px;
 }
 
 p {
@@ -38,5 +41,5 @@ p {
 }
 
 a {
-    color: gray;
+    color: var(--link);
 }

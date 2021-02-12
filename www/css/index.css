@@ -1,15 +1,9 @@
-.title {
-    background: no-repeat center/100% url("./space.jpg");
-    position: relative;	
-    bottom: 0;
-    filter: blur(4px);
-    transition: 0.3s;
+.outline-2 {
+    min-height: 70vh;
+    bottom: 30px;
 }
-.title:hover {
-    line-height: 2;
-    background: no-repeat center/100% url("./space.jpg");
-    position: relative;	
+
+.outline-text-2 {
+    position: absolute;
     bottom: 0;
-    filter: blur(0px);
-    transition: 0.5s;
 }
