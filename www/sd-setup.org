@@ -1,5 +1,0 @@
-# Inhibit certain elements exported with Org by default.
-#+OPTIONS: toc:nil html-style:nil num:nil title:nil
-
-#+HTML_HEAD: <link rel="stylesheet" type="text/css" href="./css/base.css"/>
-#+HTML_HEAD: <link rel="stylesheet" type="text/css" href="./css/navbar.css"/>
