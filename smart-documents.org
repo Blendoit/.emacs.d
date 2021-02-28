@@ -16,21 +16,6 @@
 #+LATEX_HEADER_EXTRA: \newfontfamily\garamond{EB Garamond}
 #+LATEX_HEADER_EXTRA: \newfontfamily\publicsans{Public Sans}
 
-#+HTML_HEAD: <link rel="stylesheet" type="text/css" href="./www/css/base.css"/>
-#+HTML_HEAD: <link rel="stylesheet" type="text/css" href="./www/css/navbar.css"/>
-#+INCLUDE: ./www/navbar.html export html
-
-#+begin_export html
-<nav>
-  <ul>
-    <li><a href="./www/index.html">Home</a></li>
-    <li><a href="../www/smart-documents.html">The Original Paper</a></li>
-    <li><a href="./www/jobs.html">I am...</a></li>
-    <li><a href="./www/about.html">About</a></li>
-  </ul>
-</nav>
-#+end_export
-
 #+LATEX: \begin{abstract}
 The idea of /Smart Documents/ came to me as I was reflecting on how to
 improve the document creation process in my workplace. The GNU Emacs
