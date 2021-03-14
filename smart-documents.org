@@ -388,7 +388,6 @@ The following bindings lead to more natural window & frame exit behaviors.
 #+NAME: delete-frame-or-kill-emacs
 #+BEGIN_SRC emacs-lisp :tangle yes
 (global-set-key (kbd "C-q") 'sd-delete-frame-or-kill-emacs)
-  (setq confirm-kill-emacs 'y-or-n-p)
 #+END_SRC
 
 *** Open sidebar
@@ -1041,7 +1040,8 @@ We then set values for many other Org-related cosmetic symbols.
 *** Pretty LaTeX symbols
 
 We display LaTeX entities as UTF8 symbols \rArr this is a slick idea to
-further make Emacs look like the exported PDF.
+further make Emacs look like the exported PDF. Using symbols in tables
+is discouraged?
 
 #+BEGIN_SRC emacs-lisp :tangle yes
   (setq org-pretty-entities t)
@@ -1247,15 +1247,15 @@ they were recorded, i.e. chronologically.
  (setq org-agenda-insert-diary-strategy 'date-tree-last)
 #+END_SRC
 
-*** Extra LaTeX classes
+*** Extra LaTeX class
 
-What follows is an additional document class structures that can be
-exported in LaTeX.
+This /letter/ template completes the other default LaTeX classes.
 
 #+BEGIN_SRC emacs-lisp :tangle yes
+(require 'ox-publish)
 (add-to-list 'org-latex-classes
-             '("book-blendoit"
-               "\\documentclass[12pt]{book}"
+             '("letter"
+               "\\documentclass[11pt]{letter}"
                ("\\chapter{%s}" . "\\chapter*{%s}")
                ("\\section{%s}" . "\\section*{%s}")
                ("\\subsection*{%s}" . "\\subsection*{%s}")
