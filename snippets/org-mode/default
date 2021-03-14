@@ -8,7 +8,7 @@
 #+AUTHOR: ${2:`(if (eq user-full-name "") "Default Author" user-full-name)`}
 #+DATE: ${3:`(with-temp-buffer (org-insert-time-stamp (current-time)))`}
 
-#+SETUPFILE: ~/.emacs.d/templates/documents/default.org
+#+SETUPFILE: ~/.emacs.d/templates/documents/${4:`(if (string= system-type "gnu/linux") "gnu-" "ms-:")`}default.org
 #+INCLUDE: ~/.emacs.d/templates/documents/default.org_title
 
 $0
