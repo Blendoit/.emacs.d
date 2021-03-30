@@ -829,7 +829,7 @@ Python is included by default on most Linux distributions.
 Org mode shines particularly when exporting to PDF---Org files can
 reliably be shared and exported to PDF in a reproducible fashion.
 
-#+BEGIN_SRC emacs-lisp :tangle no
+#+BEGIN_SRC emacs-lisp :tangle yes
 (use-package pdf-tools)
 (pdf-tools-install)
 #+END_SRC

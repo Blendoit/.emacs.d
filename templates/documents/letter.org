@@ -1,13 +1,14 @@
 # -*- mode: org; eval: (visual-line-mode); -*-
+#+OPTIONS: title:nil
 
 #+LATEX_CLASS: letter
 
 # Ensure room for header and footer
 # #+LATEX_HEADER: \usepackage{geometry}[
-# #+LATEX_HEADER:  left   = 1in    ,
-# #+LATEX_HEADER:  right  = 1in    ,
-# #+LATEX_HEADER:  top    = 1in    ,
-# #+LATEX_HEADER:  bottom = 1.75in ,]
+# #+LATEX_HEADER:  left   = 1in ,
+# #+LATEX_HEADER:  right  = 1in ,
+# #+LATEX_HEADER:  top    = 1in ,
+# #+LATEX_HEADER:  bottom = 1in ,]
 
 # Beautiful fonts ONLY
 #+LATEX_HEADER: \usepackage{fontspec}
