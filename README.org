@@ -3,6 +3,8 @@
 #+DATE: <2020-10-13 Tue>
 #+SETUPFILE: ~/.emacs.d/templates/documents/default.org
 
+Website is now live at [[http://smart-documents.org/][smart-documents.org]]!
+
 * Installation
 
 ** GNU Emacs
