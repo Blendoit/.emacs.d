@@ -655,7 +655,7 @@ modifiable field. Many clever programming tricks can be performed with
 *** Complete anything interactively
 
 #+NAME: company
-#+BEGIN_SRC emacs-lisp :tangle no
+#+BEGIN_SRC emacs-lisp :tangle yes
   (use-package company)
   (add-hook 'after-init-hook 'global-company-mode)
 #+END_SRC
