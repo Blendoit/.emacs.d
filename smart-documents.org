@@ -731,7 +731,6 @@ the location of a symbol's definition.
 And he will be called Wonderful *Counselor*, Mighty God,
 Everlasting Father, Prince of Peace.
 
-
 #+BEGIN_SRC emacs-lisp :tangle yes
   (use-package counsel
    :bind ("M-x" . counsel-M-x)
@@ -1749,7 +1748,7 @@ the cursor is a more MS Word-like bar.
 We use ~variable-pitch-mode~ for appropriate modes.
 
 #+BEGIN_SRC emacs-lisp :tangle yes
-  (add-hook 'org-mode-hook 'variable-pitch-mode)
+  ;; (add-hook 'org-mode-hook 'variable-pitch-mode)
   (add-hook 'info-mode-hook 'variable-pitch-mode)
 #+END_SRC
 
