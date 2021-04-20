@@ -4,11 +4,11 @@
 #+LATEX_CLASS: letter
 
 # Ensure room for header and footer
-# #+LATEX_HEADER: \usepackage{geometry}[
-# #+LATEX_HEADER:  left   = 1in ,
-# #+LATEX_HEADER:  right  = 1in ,
-# #+LATEX_HEADER:  top    = 1in ,
-# #+LATEX_HEADER:  bottom = 1in ,]
+#+LATEX_HEADER: \usepackage{geometry}[
+#+LATEX_HEADER:  left   = 1in ,
+#+LATEX_HEADER:  right  = 1in ,
+#+LATEX_HEADER:  top    = 1in ,
+#+LATEX_HEADER:  bottom = 1in ,]
 
 # Beautiful fonts ONLY
 #+LATEX_HEADER: \usepackage{fontspec}
@@ -16,3 +16,7 @@
 #+LATEX_HEADER: \setmainfont{Linux Libertine}
 # Monospaced font
 #+LATEX_HEADER: \setmonofont{Courier Prime}
+
+#+LATEX_HEADER: \usepackage{draftwatermark}
+#+LATEX_HEADER: \SetWatermarkText{Draft}
+#+LATEX_HEADER: \SetWatermarkScale{1}

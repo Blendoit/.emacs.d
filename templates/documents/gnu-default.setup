@@ -15,33 +15,39 @@
 # Beautiful fonts ONLY
 #+LATEX_HEADER: \usepackage{fontspec}
 # Regular font
-#+LATEX_HEADER: \setmainfont{Public Sans}
+#+LATEX_HEADER: \setmainfont[Scale=0.90]{Public Sans}
 # Monospaced font
-#+LATEX_HEADER: \setmonofont{Courier Prime}
+#+LATEX_HEADER: \setmonofont{Inconsolata}
+# Heading font
+#+LATEX_HEADER: \newfontfamily\jost{Jost}
+# Slightly lighter weight, for 2nd level headings
+#+LATEX_HEADER: \newfontfamily{\josts}[UprightFont={* Semi}]{Jost}
 
-# Get total page count to insert in footer
+# Redefine the appearance of the title and 1st & 2nd level headings.
+#+LATEX_HEADER: \usepackage{xcolor}
+#+LATEX_HEADER: \usepackage{titlesec}
+#+LATEX_HEADER: \titleformat{\section}
+#+LATEX_HEADER:  {\jost\Large\bfseries}{\thesection}{1em}{}
+#+LATEX_HEADER: \titleformat{\subsection}
+#+LATEX_HEADER:  {\josts\large\bfseries}{\thesubsection}{1em}{}
+
+# Get total page count, to later insert in page footer.
 #+LATEX_HEADER: \usepackage{lastpage}
+# Provide access to \title, \author, and \date.
 #+LATEX_HEADER: \usepackage{titling}
-
-# #+LATEX_HEADER: \usepackage{enumitem}
-# #+LATEX_HEADER: \setlist{noitemsep}
-
-# Required to reset numbering of table rows from table to table.
-#+LATEX_HEADER: \usepackage{etoolbox}
-#+LATEX_HEADER: \makeatletter
-#+LATEX_HEADER: \gpreto\tabular{\renewcommand{\arraystretch}{1.4}\rownum=\z@}
-#+LATEX_HEADER: \makeatother
 
 # Headers and footers.
 #+LATEX_HEADER: \usepackage{fancyhdr}
 # Space in the header for a logo or image.
 #+LATEX_HEADER: \setlength{\headheight}{36pt}
 #+LATEX_HEADER_EXTRA: \pagestyle{fancy}
-#+LATEX_HEADER_EXTRA: \fancyhead[L]{\rule[-12pt]{0pt}{0pt}\texttt{\theauthor}}
-#+LATEX_HEADER_EXTRA: \fancyhead[C]{\large\textbf{\thetitle}}
-#+LATEX_HEADER_EXTRA: \fancyhead[R]{\thedate}
-#+LATEX_HEADER_EXTRA: \renewcommand{\headrulewidth}{1.5pt}
-#+LATEX_HEADER_EXTRA: \fancyfoot[C]{\hrulefill\\[0.8em] Page \thepage/\pageref*{LastPage}\\[0.8em]\footnotesize Compiled with \includegraphics[width=1.618ex]{~/.emacs.d/img/icons/EmacsIcon.png}/\includegraphics[width=1.618ex]{~/.emacs.d/img/icons/Org-mode-unicorn.png}/\includegraphics[width=1.618ex]{~/.emacs.d/img/icons/LuaTeX_logo.png}/...\\ Copyright \copyright~2020 Marius Peter. All rights reserved.}
+#+LATEX_HEADER_EXTRA: \fancyhead[L]{\rule[-12pt]{0pt}{0pt}\color{gray}\texttt{\theauthor}}
+# #+LATEX_HEADER_EXTRA: \fancyhead[C]{\color{gray}\large\bfseries\thetitle}
+#+LATEX_HEADER_EXTRA: \fancyhead[R]{\color{gray}\thedate}
+# Make header line gray
+#+LATEX_HEADER_EXTRA: \renewcommand{\headrule}{\hbox to\headwidth{%
+#+LATEX_HEADER_EXTRA:  \color{gray}\leaders\hrule height \headrulewidth\hfill}}
+#+LATEX_HEADER_EXTRA: \fancyfoot[C]{\color{gray}\hrulefill\\[0.8em] Page \thepage/\pageref*{LastPage}\\[0.8em]\footnotesize Compiled with \includegraphics[width=1.618ex]{~/.emacs.d/img/icons/EmacsIcon.png}/\includegraphics[width=1.618ex]{~/.emacs.d/img/icons/Org-mode-unicorn.png}/\includegraphics[width=1.618ex]{~/.emacs.d/img/icons/LuaTeX_logo.png}/...\\ Copyright \copyright~2020 Marius Peter. All rights reserved.}
 
 #+BEGIN_SRC emacs-lisp :exports none :cache no :results raw
   (concat "#+LATEX_HEADER_EXTRA:"
