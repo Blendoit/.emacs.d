@@ -1420,6 +1420,12 @@ paragraph [[Open a recently visited file]].
   (run-at-time nil (* 5 60) 'recentf-save-list)
 #+END_SRC
 
+*** Reload changed files silently
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+(global-auto-revert-mode)
+#+END_SRC
+
 ** Frame
 
 *** Header & mode lines
