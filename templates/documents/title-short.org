@@ -1,0 +1,9 @@
+# -*- mode: org; -*- #
+
+#+OPTIONS: title:nil toc:nil
+
+#+LATEX: \noindent\jost\huge\textbf{\thetitle}\\[1em]
+#+LATEX: \large\texttt{\theauthor}\\
+#+LATEX: \thedate\\[1em]
+#+LATEX: \normalsize\normalfont
+#+LATEX: \tableofcontents
