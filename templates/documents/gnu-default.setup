@@ -18,23 +18,15 @@
 #+LATEX_HEADER: \setmainfont[Scale=0.90]{Public Sans}
 # Monospaced font
 #+LATEX_HEADER: \setmonofont{Inconsolata}
-# Heading font
-#+LATEX_HEADER: \newfontfamily\jost{Jost}
-# Slightly lighter weight, for 2nd level headings
-#+LATEX_HEADER: \newfontfamily{\josts}[UprightFont={* Semi}]{Jost}
 
-# Redefine the appearance of the title and 1st & 2nd level headings.
-#+LATEX_HEADER: \usepackage{xcolor}
-#+LATEX_HEADER: \usepackage{titlesec}
-#+LATEX_HEADER: \titleformat{\section}
-#+LATEX_HEADER:  {\jost\Large\bfseries}{\thesection}{1em}{}
-#+LATEX_HEADER: \titleformat{\subsection}
-#+LATEX_HEADER:  {\josts\large\bfseries}{\thesubsection}{1em}{}
 
 # Get total page count, to later insert in page footer.
 #+LATEX_HEADER: \usepackage{lastpage}
 # Provide access to \title, \author, and \date.
 #+LATEX_HEADER: \usepackage{titling}
+
+# Colors are used for gray header and footer content.
+#+LATEX_HEADER: \usepackage{xcolor}
 
 # Headers and footers.
 #+LATEX_HEADER: \usepackage{fancyhdr}

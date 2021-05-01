@@ -6,4 +6,3 @@
 #+LATEX: \large\texttt{\theauthor}\\
 #+LATEX: \thedate\\[1em]
 #+LATEX: \normalsize\normalfont
-#+LATEX: \tableofcontents
