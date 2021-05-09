@@ -1743,15 +1743,6 @@ the cursor is a more MS Word-like bar.
   - Ooh geometric Bauhaus influences, look at me
   - Tall leading height is =h a r m o n i o u s=
 
-**** Using proportional fonts when needed
-
-We use ~variable-pitch-mode~ for appropriate modes.
-
-#+BEGIN_SRC emacs-lisp :tangle yes
-  ;; (add-hook 'org-mode-hook 'variable-pitch-mode)
-  (add-hook 'info-mode-hook 'variable-pitch-mode)
-#+END_SRC
-
 **** TODO Default font size
 
 Make default font size larger on displays of which the resolution
