@@ -1,5 +1,5 @@
 (deftheme sd-light
-  "Created 2021-02-08.")
+  "Created 2021-05-09.")
 
 (custom-theme-set-faces
  'sd-light
@@ -74,7 +74,7 @@
  '(org-special-keyword ((t (:background "white" :weight bold :inherit org-meta-line))))
  '(org-table ((t (:family "Hack"))))
  '(org-tag ((t (:inherit (link fixed-pitch)))))
- '(org-todo ((t (:background "coral" :foreground "white" :weight bold :height 1.4 :family "Hermit"))))
+ '(org-todo ((t (:background "tomato" :foreground "white" :weight bold :height 1.4 :family "Hermit"))))
  '(org-verbatim ((t (:background "white" :foreground "DodgerBlue1" :foundry "Hack"))))
  '(query-replace ((t (:inherit (isearch)))))
  '(region ((t (:background "gainsboro"))))

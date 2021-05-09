@@ -1676,9 +1676,9 @@ and dark themes (Table [[theme-color-1]]).
 | Color                           | ~blendoit-light~                | ~blendoit-dark~    |
 |---------------------------------+---------------------------------+--------------------|
 | Black                           | default text                    | default background |
-| Lighter shades                  | lesser headers                  | /n/a/              |
+| \_ Lighter shades               | lesser headers                  | /n/a/              |
 | White                           | default background              | default text       |
-| Darker shades                   | /n/a/                           | lesser headers     |
+| \_ Darker shades                | /n/a/                           | lesser headers     |
 | \color{Red} Red                 | negative                        | /same/             |
 | \color{Tomato} Tomato           | timestamp `TODO'                | /same/             |
 | \color{Green} Green             | positive                        | /same/             |

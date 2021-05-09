@@ -1,5 +1,5 @@
 (deftheme sd-dark
-  "Created 2021-01-19.")
+  "Created 2021-05-09.")
 
 (custom-theme-set-faces
  'sd-dark
@@ -74,7 +74,7 @@
  '(org-special-keyword ((t (:background "grey20" :weight bold :inherit org-meta-line))))
  '(org-table ((t (:family "Hack"))))
  '(org-tag ((t (:inherit (link fixed-pitch)))))
- '(org-todo ((t (:background "coral" :foreground "white" :weight bold :height 1.4 :family "Hermit"))))
+ '(org-todo ((t (:background "tomato" :foreground "white" :weight bold :height 1.4 :family "Hermit"))))
  '(org-verbatim ((t (:background "grey20" :foreground "DodgerBlue1" :foundry "Hack"))))
  '(query-replace ((t (:inherit (isearch)))))
  '(region ((t (:background "gainsboro"))))
@@ -90,7 +90,7 @@
  '(line-number ((t (:background "grey15" :foreground "LightSteelBlue3" :weight normal :height 0.8 :family "Hack"))))
  '(show-paren-match ((t (:inherit highlight))))
  '(show-paren-mismatch ((t (:background "red" :foreground "grey20"))))
-  '(widget-field ((t (:extend t :background "LightSteelBlue2"))))
+ '(widget-field ((t (:extend t :background "LightSteelBlue2"))))
  '(default ((t (:background "grey20" :foreground "white" :height 142 :family "Hack")))))
 
 (provide-theme 'sd-dark)
