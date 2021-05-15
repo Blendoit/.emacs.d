@@ -1454,22 +1454,22 @@ Now, we describe the actual format of the header line.
      (list
       (if (eq (length (window-list)) 1)
           (propertize " ↤ "
-                      'face 'org-special-keyword
+                      'face 'org-meta-line
                       'mouse-face 'highlight
                       'keymap sd-header-line-previous-buffer-keymap
                       'help-echo "Return to previous window.")
         (list (propertize " ❌ "
-                          'face 'org-special-keyword
+                          'face 'org-meta-line
                           'mouse-face 'org-todo
                           'keymap sd-header-line-kill-buffer-keymap
                           'help-echo "Close this window.")
               (propertize " ⇱"
-                          'face 'org-special-keyword
+                          'face 'org-meta-line
                           'mouse-face 'highlight
                           'keymap sd-header-line-maximize-window-keymap
                           'help-echo "Maximize this window.")
               (propertize "⇲ "
-                          'face 'org-special-keyword
+                          'face 'org-meta-line
                           'mouse-face 'highlight
                           'keymap sd-header-line-minimize-window-keymap
                           'help-echo "Minimize this window.")))
