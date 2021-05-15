@@ -9,7 +9,7 @@
 #+STARTUP: showall
 
 # LaTeX setup
-#+SETUPFILE: ~/.emacs.d/templates/documents/gnu-default.org
+#+SETUPFILE: ~/.emacs.d/templates/documents/gnu-default.setup
 # Title page for LaTeX
 #+INCLUDE: ~/.emacs.d/templates/documents/default-title.org
 
@@ -1640,6 +1640,17 @@ both light and dark themes (Table [[theme-color-1]]).
 | \color{DeepSkyBlue} DeepSkyBlue | ~highlight~                     | /same/             |
 | \color{DodgerBlue} DodgerBlue   | ~isearch~                       | /same/             |
 | \color{Purple} Purple           | Code syntax highlighting        | /same/             |
+
+**** Red
+
+**** Green
+
+**** Blue
+
+**** Purple
+
+Purple is Emacs' main logo color. Since we use Emacs for coding a lot,
+code syntax highlighting to could be in the pink/purple shades.
 
 *** Cursors
 
