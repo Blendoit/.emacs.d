@@ -19,7 +19,7 @@
 #+LATEX: \begin{abstract}
 The idea of /Smart Documents/ came to me as I was reflecting on how to
 improve the document creation process in my workplace. The GNU Emacs
-editor had captured my imagination and I wanted to create an
+editor had captured my imagination, and I wanted to create an
 accessible and highly productive text editor to benefit my
 organization. In this paper, I'll lay out my vision for the /Smart
 Document/, a file containing both text destined to the reader, and
@@ -48,7 +48,7 @@ if you are browsing this paper within Emacs itself:
 - ~C-h v~ :: describe variable
 - ~C-h k~ :: describe key
 
-You can always press ~f1~ to access Emacs built-in help.
+You can press ~f1~ at any time to access Emacs built-in help.
 
 ** TODO User details
 
@@ -294,7 +294,6 @@ navigation cues on all modern desktop OSes. From IBM's CUA, we get the
 #+BEGIN_SRC emacs-lisp :tangle yes
  (cua-mode)
 #+END_SRC
-
 
 ** Files
 
@@ -737,7 +736,7 @@ Everlasting Father, Prince of Peace.
    :config (counsel-mode t))
 #+END_SRC
 
-**** Searching for items
+**** Searching for items in current buffer
 
 #+BEGIN_SRC emacs-lisp :tangle yes
 (use-package swiper
@@ -962,7 +961,7 @@ B-) \smiley
 Org mode is so significant that this section of the paper deserves its
 own introduction.
 
-** [#A] Introduction
+** Introduction
 
 Phew, after all this initialization, I can finally introduce Org mode!
 I am so *excited*.
@@ -1667,8 +1666,8 @@ A highly legible, unambiguous, and classic theme.
 The default face is a black foreground on a white background, this
 matches MS Word. We are striving for a simple, intuitive color scheme.
 
-Most of the visual cues derived from color are identical in both light
-and dark themes (Table [[theme-color-1]]).
+Most of the [[https://www.interaction-design.org/literature/topics/affordances][affordance]] cues derived from color are identical in
+both light and dark themes (Table [[theme-color-1]]).
 
 #+NAME: theme-color-1
 #+CAPTION[Light and dark themes' colors]: Light and dark themes' colors.
