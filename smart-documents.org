@@ -152,20 +152,7 @@ We begin by defining a function to open this very file.
 (defun my/find-literate-config ()
   "Jump to this very file."
   (interactive)
-  (find-file (concat my/literate-config ".org")))
-#+END_SRC
-
-** Speeding up the next startup
-
-#+BEGIN_SRC emacs-lisp :tangle no
-(defun byte-compile-literate-config ()
-  "Byte compile our literate configuration file."
-  (delete-file (concat my/literate-config ".elc"))
-  (delete-file (concat my/literate-config ".el"))
-  (org-babel-tangle-file (concat my/literate-config ".org"))
-  (byte-compile-file (concat my/literate-config ".el")))
-
-(add-hook 'kill-emacs-hook 'byte-compile-literate-config)
+  (find-file my/literate-config))
 #+END_SRC
 
 ** Meta-files
