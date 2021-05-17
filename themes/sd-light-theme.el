@@ -1,5 +1,5 @@
 (deftheme sd-light
-  "Created 2021-05-15.")
+  "Created 2021-05-16.")
 
 (custom-theme-set-faces
  'sd-light
@@ -75,7 +75,7 @@
  '(org-table ((t (:height 0.8 :family "Hack"))))
  '(org-tag ((t (:inherit (link fixed-pitch)))))
  '(org-todo ((t (:background "tomato" :foreground "white" :weight bold :height 1.6 :family "Hermit"))))
- '(org-verbatim ((t (:foundry "Hack" :foreground "DodgerBlue1" :background "white" :inherit org-code))))
+ '(org-verbatim ((t (:inherit org-code :background "white" :foreground "DodgerBlue1" :foundry "Hack"))))
  '(query-replace ((t (:inherit (isearch)))))
  '(region ((t (:background "gainsboro"))))
  '(secondary-selection ((((class color) (min-colors 88) (background light)) (:background "yellow1")) (((class color) (min-colors 88) (background dark)) (:background "SkyBlue4")) (((class color) (min-colors 16) (background light)) (:background "yellow")) (((class color) (min-colors 16) (background dark)) (:background "SkyBlue4")) (((class color) (min-colors 8)) (:foreground "black" :background "cyan")) (t (:inverse-video t))))
@@ -90,13 +90,13 @@
  '(line-number ((t (:height 0.8 :inherit org-meta-line))))
  '(show-paren-match ((t (:inherit highlight))))
  '(show-paren-mismatch ((t (:background "red" :foreground "white"))))
- '(widget-field ((t (:extend t :background "LightSteelBlue2"))))
- '(swiper-line-face ((t (:inherit (highlight)))))
+ '(widget-field ((t (:extend t :background "LightSteelBlue1"))))
+ '(swiper-line-face ((t (:inherit highlight))))
  '(swiper-background-match-face-1 ((t (:background "cyan"))))
  '(swiper-background-match-face-2 ((t (:background "chartreuse"))))
  '(swiper-background-match-face-3 ((t (:background "orange"))))
  '(swiper-background-match-face-4 ((t (:background "magenta"))))
- '(org-headline-done ((t (:foreground "PaleGreen3" :height 1.6))))
+ '(org-headline-done ((t (:foreground "LightSteelBlue3" :height 1.6))))
  '(default ((t (:background "white" :foreground "dark slate blue" :height 142 :family "Hack")))))
 
 (provide-theme 'sd-light)
