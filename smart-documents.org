@@ -7,10 +7,9 @@
 
 #+OPTIONS: html-style:nil
 #+STARTUP: showall
-
 # LaTeX setup
 #+SETUPFILE: ~/.emacs.d/templates/documents/gnu-default.setup
-# Title page for LaTeX
+# Title page
 #+INCLUDE: ~/.emacs.d/templates/documents/default-title.org
 
 #+LATEX_HEADER_EXTRA: \newfontfamily\garamond{EB Garamond}
@@ -58,10 +57,10 @@ other appropriate element.
 
 #+NAME: user-details-get
 #+BEGIN_SRC emacs-lisp
-(setq user-full-name "Marius Peter")
+  (setq user-full-name "Marius Peter")
 
-(defun my/user-details-get ()
-"Get user details."
+  (defun my/user-details-get ()
+    "Get user details."
     (setq user-full-name (read-string "Enter full user name:"))
     (setq user-mail-address (read-string "Enter user e-mail address:"))
     (message "Successfully captured user details."))
@@ -140,7 +139,7 @@ We start the profiler now , and will interrupt it in Section
 
 #+NAME: profiler-start
 #+BEGIN_SRC emacs-lisp :tangle yes
-; (profiler-start)
+                                          ; (profiler-start)
 #+END_SRC
 
 ** Jumping to this file
@@ -149,10 +148,10 @@ We begin by defining a function to open this very file.
 
 #+NAME: shortcut-config
 #+BEGIN_SRC emacs-lisp :tangle yes
-(defun my/find-literate-config ()
-  "Jump to this very file."
-  (interactive)
-  (find-file my/literate-config))
+  (defun my/find-literate-config ()
+    "Jump to this very file."
+    (interactive)
+    (find-file my/literate-config))
 #+END_SRC
 
 ** Meta-files
@@ -169,7 +168,7 @@ meta-files. First, let's designate a folder to collect our meta-files
 together:
 
 #+BEGIN_SRC emacs-lisp :tangle yes
-(setq sd-meta-files-location (concat user-emacs-directory "meta/"))
+  (setq sd-meta-files-location (concat user-emacs-directory "meta/"))
 #+END_SRC
 
 *** Recently visited files
@@ -279,7 +278,7 @@ navigation cues on all modern desktop OSes. From IBM's CUA, we get the
 =Ctrl-c= and =Ctrl-v= keyboard shortcuts.]
 
 #+BEGIN_SRC emacs-lisp :tangle yes
- (cua-mode)
+  (cua-mode)
 #+END_SRC
 
 ** Files
@@ -307,7 +306,7 @@ navigation cues on all modern desktop OSes. From IBM's CUA, we get the
 (Function defined in Section [[Jumping to this file]])
 
 #+BEGIN_SRC emacs-lisp :tangle yes
-    (global-set-key (kbd "C-c c") 'my/find-literate-config)
+  (global-set-key (kbd "C-c c") 'my/find-literate-config)
 #+END_SRC
 
 *** Open a recently visited file
@@ -331,17 +330,17 @@ navigation cues on all modern desktop OSes. From IBM's CUA, we get the
 *** Open the diary
 
 #+BEGIN_SRC emacs-lisp :tangle yes
-(global-set-key [f9]
-		'(lambda ()
-		   "Load `org-agenda-diary-file'."
-		   (interactive)
-		   (find-file org-agenda-diary-file)))
+  (global-set-key [f9]
+                  '(lambda ()
+                     "Load `org-agenda-diary-file'."
+                     (interactive)
+                     (find-file org-agenda-diary-file)))
 #+END_SRC
 
 *** Open Org mode document properties
 
 #+BEGIN_SRC emacs-lisp :tangle no
-(global-set-key [f9] 'sd-document-properties)
+  (global-set-key [f9] 'sd-document-properties)
 #+END_SRC
 
 ** Windows
@@ -373,7 +372,7 @@ The following bindings lead to more natural window & frame exit behaviors.
 
 #+NAME: delete-frame-or-kill-emacs
 #+BEGIN_SRC emacs-lisp :tangle yes
-(global-set-key (kbd "C-q") 'sd-delete-frame-or-kill-emacs)
+  (global-set-key (kbd "C-q") 'sd-delete-frame-or-kill-emacs)
 #+END_SRC
 
 ** Text display
@@ -386,9 +385,9 @@ The typical binding on both GNU/Linux and MS Windows is adequate here:
 It seems that starting with Emacs 27.1, Control + mousewheel works.
 
 #+BEGIN_SRC emacs-lisp :tangle yes
-(global-set-key (kbd "C--") 'text-scale-decrease)
-(global-set-key (kbd "C-=") 'text-scale-increase)
-(global-set-key (kbd "C-+") 'text-scale-increase)
+  (global-set-key (kbd "C--") 'text-scale-decrease)
+  (global-set-key (kbd "C-=") 'text-scale-increase)
+  (global-set-key (kbd "C-+") 'text-scale-increase)
 #+END_SRC
 
 ** TODO Navigation
@@ -452,13 +451,13 @@ We prevent Org mode from overriding preferred navigation keys.
 *** Customize a variable
 
 #+BEGIN_SRC emacs-lisp :tangle yes
-    (global-set-key (kbd "C-c v") 'customize-variable)
+  (global-set-key (kbd "C-c v") 'customize-variable)
 #+END_SRC
 
 *** Customize a face
 
 #+BEGIN_SRC emacs-lisp :tangle yes
-    (global-set-key (kbd "C-c f") 'customize-face)
+  (global-set-key (kbd "C-c f") 'customize-face)
 #+END_SRC
 
 ** One-click workflows
@@ -504,7 +503,7 @@ Indent buffer in every mode.
 Not only indent, but also clean up superfluous newlines.
 
 #+BEGIN_SRC emacs-lisp :tangle yes
-(local-set-key [f12] 'sd-org-beautify)
+  (local-set-key [f12] 'sd-org-beautify)
 #+END_SRC
 
 * Packages
@@ -552,8 +551,8 @@ described in this configuration file.
     (package-install 'use-package)
     (eval-when-compile (require 'use-package)))
   (setq use-package-always-ensure t)
-(require 'use-package)
-(require 'bind-key)
+  (require 'use-package)
+  (require 'bind-key)
 #+END_SRC
 
 ** ~evil-mode~
@@ -567,8 +566,8 @@ keys.[fn::For more information on =vi= keybindings, visit
 
 #+BEGIN_SRC emacs-lisp :tangle yes
   (use-package evil)
-;  (setq evil-toggle-key "C-c d") ; devil...
-;  (evil-mode 1)
+                                          ;  (setq evil-toggle-key "C-c d") ; devil...
+                                          ;  (evil-mode 1)
 #+END_SRC
 
 ** Spelling, completion, and snippets
@@ -617,8 +616,8 @@ modifiable field. Many clever programming tricks can be performed with
 
 #+NAME: yasnippet
 #+BEGIN_SRC emacs-lisp :tangle yes
-(use-package yasnippet)
-(yas-global-mode 1)
+  (use-package yasnippet)
+  (yas-global-mode 1)
 #+END_SRC
 
 *** Complete anything interactively
@@ -646,7 +645,7 @@ repository in a pain-free way.
 
 #+BEGIN_SRC emacs-lisp :tangle yes
   (use-package magit
-   :bind ("C-c g" . magit-status))
+    :bind ("C-c g" . magit-status))
 #+END_SRC
 
 *** Navigate between projects
@@ -655,9 +654,9 @@ This enables us to better manage our =.git= projects.
 
 #+BEGIN_SRC emacs-lisp :tangle yes
   (use-package projectile
-   :bind ("C-c p" . 'projectile-command-map)
-   :init (projectile-mode 1)
-         (setq projectile-completion-system 'ivy))
+    :bind ("C-c p" . 'projectile-command-map)
+    :init (projectile-mode 1)
+    (setq projectile-completion-system 'ivy))
 #+END_SRC
 
 *** Display keyboard shortcuts on screen
@@ -674,15 +673,15 @@ matching algorithms and heuristics to provide a very educated guess on
 the location of a symbol's definition.
 
 #+BEGIN_SRC emacs-lisp :tangle yes
-(use-package dumb-jump)
-(add-hook 'xref-backend-functions #'dumb-jump-xref-activate)
+  (use-package dumb-jump)
+  (add-hook 'xref-backend-functions #'dumb-jump-xref-activate)
 #+END_SRC
 
 *** Graphical representation of file history
 
 #+BEGIN_SRC emacs-lisp :tangle yes
-(use-package undo-tree)
-(global-undo-tree-mode)
+  (use-package undo-tree)
+  (global-undo-tree-mode)
 #+END_SRC
 
 *** Auto-completion framework
@@ -702,15 +701,15 @@ Everlasting Father, Prince of Peace.
 
 #+BEGIN_SRC emacs-lisp :tangle yes
   (use-package counsel
-   :bind ("M-x" . counsel-M-x)
-   :config (counsel-mode t))
+    :bind ("M-x" . counsel-M-x)
+    :config (counsel-mode t))
 #+END_SRC
 
 **** Searching for items in current buffer
 
 #+BEGIN_SRC emacs-lisp :tangle yes
-(use-package swiper
- :bind (("C-f" . swiper)))
+  (use-package swiper
+    :bind (("C-f" . swiper)))
 #+END_SRC
 
 *** Web browsing
@@ -719,15 +718,15 @@ Thanks
 Xah![fn::[[http://ergoemacs.org/emacs/emacs_set_default_browser.html]]]
 
 #+BEGIN_SRC emacs-lisp :tangle yes
-;; use browser depending on url
-(setq
- browse-url-browser-function
- '(
-  ("wikipedia\\.org" . browse-url-firefox)
-  ("github" . browse-url-chromium)
-  ("thefreedictionary\\.com" . eww-browse-url)
-  ("." . browse-url-default-browser)
-  ))
+  ;; use browser depending on url
+  (setq
+   browse-url-browser-function
+   '(
+     ("wikipedia\\.org" . browse-url-firefox)
+     ("github" . browse-url-chromium)
+     ("thefreedictionary\\.com" . eww-browse-url)
+     ("." . browse-url-default-browser)
+     ))
 #+END_SRC
 
 *** IRC
@@ -765,10 +764,10 @@ Emacs ships with an IRC client called ~erc~.
 Yeah, a Telegram client exists for Emacs.
 
 #+BEGIN_SRC emacs-lisp :tangle no
-(use-package telega
-  :load-path "~/telega.el/telega.el"
-  :commands (telega)
-  :defer t)
+  (use-package telega
+    :load-path "~/telega.el/telega.el"
+    :commands (telega)
+    :defer t)
 #+END_SRC
 
 ** Coding languages
@@ -780,8 +779,8 @@ Yeah, a Telegram client exists for Emacs.
 Python is included by default on most Linux distributions.
 
 #+BEGIN_SRC emacs-lisp :tangle yes
-(use-package py-yapf)
-(add-hook 'python-mode-hook 'py-yapf-enable-on-save)
+  (use-package py-yapf)
+  (add-hook 'python-mode-hook 'py-yapf-enable-on-save)
 #+END_SRC
 
 ** File formats
@@ -798,8 +797,8 @@ Org mode shines particularly when exporting to PDF---Org files can
 reliably be shared and exported to PDF in a reproducible fashion.
 
 #+BEGIN_SRC emacs-lisp :tangle yes
-(use-package pdf-tools)
-(pdf-tools-install)
+  (use-package pdf-tools)
+  (pdf-tools-install)
 #+END_SRC
 
 *** Accounting
@@ -812,29 +811,29 @@ https://www.ledger-cli.org/.]
 #+BEGIN_SRC emacs-lisp :tangle yes
   (use-package ledger-mode
     :bind
-     ("C-c r" . ledger-report)
-     ("C-c C" . ledger-mode-clean-buffer))
+    ("C-c r" . ledger-report)
+    ("C-c C" . ledger-mode-clean-buffer))
 #+END_SRC
 
 These reports can be generated within Emacs. It is quite useful to
 pipe their output to an automated ``smart document''.
 
 #+BEGIN_SRC emacs-lisp :tangle yes
- (setq ledger-reports
-   '(("bal" "%(binary) -f %(ledger-file) bal")
-     ("bal-USD" "%(binary) -f %(ledger-file) bal --exchange USD")
-     ("reg" "%(binary) -f %(ledger-file) reg")
-     ("net-worth" "%(binary) -f %(ledger-file) bal ^Assets ^Liabilities --exchange USD")
-     ("net-income" "%(binary) -f %(ledger-file) bal ^Income ^Expenses --exchange USD --depth 2 --invert")
-     ("payee" "%(binary) -f %(ledger-file) reg @%(payee)")
-     ("account" "%(binary) -f %(ledger-file) reg %(account)")
-     ("budget" "%(binary) -f %(ledger-file) budget --exchange USD")))
+  (setq ledger-reports
+        '(("bal" "%(binary) -f %(ledger-file) bal")
+          ("bal-USD" "%(binary) -f %(ledger-file) bal --exchange USD")
+          ("reg" "%(binary) -f %(ledger-file) reg")
+          ("net-worth" "%(binary) -f %(ledger-file) bal ^Assets ^Liabilities --exchange USD")
+          ("net-income" "%(binary) -f %(ledger-file) bal ^Income ^Expenses --exchange USD --depth 2 --invert")
+          ("payee" "%(binary) -f %(ledger-file) reg @%(payee)")
+          ("account" "%(binary) -f %(ledger-file) reg %(account)")
+          ("budget" "%(binary) -f %(ledger-file) budget --exchange USD")))
 #+END_SRC
 
 *** Plotting & charting
 
 #+BEGIN_SRC emacs-lisp :tangle yes
-(use-package gnuplot)
+  (use-package gnuplot)
 #+END_SRC
 
 ** Cosmetics
@@ -857,9 +856,9 @@ We replace the standard welcome screen with our own.
 *** Better parentheses
 
 #+BEGIN_SRC emacs-lisp :tangle yes
-(use-package rainbow-delimiters
-  :config (add-hook 'prog-mode-hook #'rainbow-delimiters-mode))
-(show-paren-mode 1)
+  (use-package rainbow-delimiters
+    :config (add-hook 'prog-mode-hook #'rainbow-delimiters-mode))
+  (show-paren-mode 1)
 #+END_SRC
 
 *** Highlight /color/ keywords in that color
@@ -924,9 +923,9 @@ recent header:
 
 #+NAME: org-meta-info
 #+BEGIN_SRC emacs-lisp :tangle no :results pp :exports both :cache yes
-(save-excursion
-  (org-previous-visible-heading 1)
-  (org-entry-properties))
+  (save-excursion
+    (org-previous-visible-heading 1)
+    (org-entry-properties))
 #+END_SRC
 
 (This block was evaluated on Microsoft Windows.)
@@ -947,13 +946,13 @@ Windows.
 
 #+NAME: org-directory
 #+BEGIN_SRC emacs-lisp :tangle yes
-    (setq org-directory (concat user-emacs-directory "~/org"))
+  (setq org-directory (concat user-emacs-directory "~/org"))
 #+END_SRC
 
 *** Prevent/warn on invisible edits
 
 #+BEGIN_SRC emacs-lisp :tangle yes
-(setq org-catch-invisible-edits t)
+  (setq org-catch-invisible-edits t)
 #+END_SRC
 
 ** Org cosmetics
@@ -994,8 +993,8 @@ the background of the numbering may be overridden by the ~TODO~ face
 attribute ~:background coral~.
 
 #+BEGIN_SRC emacs-lisp :tangle yes
-(add-hook 'org-mode-hook 'org-num-mode)
-(setq org-num-face 'org-special-keyword)
+  (add-hook 'org-mode-hook 'org-num-mode)
+  (setq org-num-face 'org-special-keyword)
 #+END_SRC
 
 By default, we hide Org document properties such as =#+TITLE=,
@@ -1007,37 +1006,37 @@ shortcut (cf. Section [[Open Org mode document properties]]).
 *** Document properties
 
 #+BEGIN_SRC emacs-lisp :tangle yes
-(defun org-property-value (property)
-"Return the value of a given Org document property."
-(interactive)
-(save-excursion
-	      (goto-char (point-min))
-           (re-search-forward
-		     (concat
-		      "^[[:space:]]*#\\+"
-                      property
-		      ":[[:space:]]*\\(.*?\\)[[:space:]]*$")
-		     nil t)
-(nth 3 (car (cdr (org-element-at-point))))))
+  (defun org-property-value (property)
+    "Return the value of a given Org document property."
+    (interactive)
+    (save-excursion
+      (goto-char (point-min))
+      (re-search-forward
+       (concat
+        "^[[:space:]]*#\\+"
+        property
+        ":[[:space:]]*\\(.*?\\)[[:space:]]*$")
+       nil t)
+      (nth 3 (car (cdr (org-element-at-point))))))
 #+END_SRC
 
 #+BEGIN_SRC emacs-lisp :tangle no
-(defun sd-document-properties ()
-  "Open separate buffer to edit Org mode properties."
-  (interactive)
-  (let ((title (car (org-property-value "TITLE")))
-	  (date (org-property-value "DATE")))
-    (with-output-to-temp-buffer "Smart Document Properties"
-      (print title)
-      (print date))))
+  (defun sd-document-properties ()
+    "Open separate buffer to edit Org mode properties."
+    (interactive)
+    (let ((title (car (org-property-value "TITLE")))
+          (date (org-property-value "DATE")))
+      (with-output-to-temp-buffer "Smart Document Properties"
+        (print title)
+        (print date))))
 #+END_SRC
 
 #+BEGIN_SRC emacs-lisp :tangle yes
-(add-hook 'org-src-mode-hook
-	  '(lambda ()
-	     "Disable flycheck for `emacs-lisp-mode'."
-	     (setq-local flycheck-disabled-checkers
-			 '(emacs-lisp-checkdoc))))
+  (add-hook 'org-src-mode-hook
+            '(lambda ()
+               "Disable flycheck for `emacs-lisp-mode'."
+               (setq-local flycheck-disabled-checkers
+                           '(emacs-lisp-checkdoc))))
 #+END_SRC
 
 *** Timestamps
@@ -1046,8 +1045,8 @@ More literary timestamps are exported to LaTeX using the following
 custom format:
 
 #+BEGIN_SRC emacs-lisp :tangle yes
-    (setq org-time-stamp-custom-formats
-    '("%d %b. %Y (%a)" . "%d %b. %Y (%a), at %H:%M"))
+  (setq org-time-stamp-custom-formats
+        '("%d %b. %Y (%a)" . "%d %b. %Y (%a), at %H:%M"))
 #+END_SRC
 
 ** Programming a Smart Documents
@@ -1152,13 +1151,13 @@ Little bonus for GNU/Linux users: syntax highlighting for source code
 blocks in LaTeX exports.
 
 #+BEGIN_SRC emacs-lisp :tangle yes
-(when (string-equal system-type "gnu/linux")
-  (add-to-list 'org-latex-packages-alist '("AUTO" "minted" t
-                                           ("pdflatex" "lualatex")))
-  (setq org-latex-listings 'minted)
-  (setq org-latex-minted-options '(("style" "friendly")
-				   ("breaklines" "true")
-                                   ("breakanywhere" "true"))))
+  (when (string-equal system-type "gnu/linux")
+    (add-to-list 'org-latex-packages-alist '("AUTO" "minted" t
+                                             ("pdflatex" "lualatex")))
+    (setq org-latex-listings 'minted)
+    (setq org-latex-minted-options '(("style" "friendly")
+                                     ("breaklines" "true")
+                                     ("breakanywhere" "true"))))
 #+END_SRC
 
 *** Cleaning directory after export
@@ -1182,7 +1181,7 @@ selected date. It is preferable to insert entries in the order that
 they were recorded, i.e. chronologically.
 
 #+BEGIN_SRC emacs-lisp :tangle yes
- (setq org-agenda-insert-diary-strategy 'date-tree-last)
+  (setq org-agenda-insert-diary-strategy 'date-tree-last)
 #+END_SRC
 
 *** Extra LaTeX class
@@ -1190,14 +1189,14 @@ they were recorded, i.e. chronologically.
 This /letter/ template completes the other default LaTeX classes.
 
 #+BEGIN_SRC emacs-lisp :tangle yes
-(require 'ox-publish)
-(add-to-list 'org-latex-classes
-             '("letter"
-               "\\documentclass[11pt]{letter}"
-               ("\\chapter{%s}" . "\\chapter*{%s}")
-               ("\\section{%s}" . "\\section*{%s}")
-               ("\\subsection*{%s}" . "\\subsection*{%s}")
-               ("\\subsubsection*{%s}" . "\\subsubsection*{%s}")))
+  (require 'ox-publish)
+  (add-to-list 'org-latex-classes
+               '("letter"
+                 "\\documentclass[11pt]{letter}"
+                 ("\\chapter{%s}" . "\\chapter*{%s}")
+                 ("\\section{%s}" . "\\section*{%s}")
+                 ("\\subsection*{%s}" . "\\subsection*{%s}")
+                 ("\\subsubsection*{%s}" . "\\subsubsection*{%s}")))
 #+END_SRC
 
 *** Table of contents
@@ -1207,7 +1206,7 @@ is however cleaner to separate table of contents with the rest of the
 work.
 
 #+BEGIN_SRC emacs-lisp :tangle yes
- (setq org-latex-toc-command "\\tableofcontents\\clearpage")
+  (setq org-latex-toc-command "\\tableofcontents\\clearpage")
 #+END_SRC
 
 The following makes =TODO= items appear red and =CLOSED= items appear
@@ -1342,8 +1341,8 @@ cosmetic changes not brought about a specific package.
 This is just a better default. Don't @ me.
 
 #+BEGIN_SRC emacs-lisp :tangle yes
-(setq c-default-style "linux"
-      c-basic-offset 4)
+  (setq c-default-style "linux"
+        c-basic-offset 4)
 #+END_SRC
 
 *** Recent files
@@ -1361,7 +1360,7 @@ paragraph [[Open a recently visited file]].
 *** Reload changed files silently
 
 #+BEGIN_SRC emacs-lisp :tangle yes
-(global-auto-revert-mode)
+  (global-auto-revert-mode)
 #+END_SRC
 
 ** Frame
@@ -1510,18 +1509,18 @@ customizations online.
 Save cursor location in visited buffer after closing it or Emacs.
 
 #+BEGIN_SRC emacs-lisp :tangle yes
-(save-place-mode 1)
+  (save-place-mode 1)
 #+END_SRC
 
 *** Column filling
 
 We leave the default ~fill-column~ unchanged, so as to minimally
-disrupt a user's existing documents.
+disrupt a user's existing documents.  We automatically break lines
+longer than =fill-column=.
 
 #+BEGIN_SRC emacs-lisp :tangle yes
   (add-hook 'org-mode-hook
-            'turn-on-auto-fill) ; Automatically break lines longer
-                                ; than =fill-column=.
+            'turn-on-auto-fill)
 #+END_SRC
 
 ** Text
@@ -1538,7 +1537,7 @@ within the editor. This is mostly for a subjective ``cool'' factor.
 *** Org mode sugar
 
 Let's pimp out the appearance of our text in Org mode. First, we
-prettify checkbox lists.
+prettify checkbox lists when viewed on GNU/Linux systems.
 
 #+BEGIN_SRC emacs-lisp :tangle yes
   (when (string-equal system-type "gnu/linux")
@@ -1582,7 +1581,7 @@ We replace the longer ~yes-or-no-p~ questions with more convenient
 Disable minibuffer scroll bar.
 
 #+BEGIN_SRC emacs-lisp :tangle yes
-(set-window-scroll-bars (minibuffer-window) nil nil)
+  (set-window-scroll-bars (minibuffer-window) nil nil)
 #+END_SRC
 
 * Themes
@@ -1612,7 +1611,7 @@ both light and dark themes (Table [[theme-color-1]]).
 #+NAME: theme-color-1
 #+CAPTION[Light and dark themes' colors]: Light and dark themes' colors.
 #+ATTR_LATEX: :booktabs t
-| Color                           | ~blendoit-light~                | ~blendoit-dark~    |
+| Color                           | ~sd-light~                      | ~sd-dark~          |
 |---------------------------------+---------------------------------+--------------------|
 | Black                           | default text                    | default background |
 | \_ Lighter shades               | lesser headers                  | /n/a/              |
@@ -1655,7 +1654,7 @@ In files containing a mix of ~variable-pitch~ and ~fixed-pitch~ fonts,
 the cursor is a more MS Word-like bar.
 
 #+BEGIN_SRC emacs-lisp :tangle yes
-(setq-default cursor-type 'bar)
+  (setq-default cursor-type 'bar)
 #+END_SRC
 
 *** Fonts
@@ -1769,13 +1768,13 @@ the result of our profiling.
 ** Profiling---stop
 
 #+BEGIN_SRC emacs-lisp :tangle yes
-;; (profiler-stop)
+  ;; (profiler-stop)
 #+END_SRC
 
 ** Profiling---report
 
 #+BEGIN_SRC emacs-lisp :tangle yes
-;; (profiler-report)
+  ;; (profiler-report)
 #+END_SRC
 
 * Conclusion
