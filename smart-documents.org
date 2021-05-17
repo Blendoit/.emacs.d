@@ -1049,6 +1049,21 @@ custom format:
         '("%d %b. %Y (%a)" . "%d %b. %Y (%a), at %H:%M"))
 #+END_SRC
 
+*** N/A Sequence of TODOs
+CLOSED: [2021-05-16 Sun]
+
+#+begin_src emacs-lisp :tangle yes
+  (setq org-todo-keywords
+        '((sequence "TODO" "|" "DONE")
+          (sequence "STUCK" "WAITING" "|" "N/A" "DONE")
+          (sequence "CONSTRUCTION" "REVIEWED" "|" "INSTALLED")))
+
+  (setq org-todo-keyword-faces
+        '(("STUCK" . (:height 1.6 :background "red" :foreground "white" :weight bold))
+          ("WAITING" . (:height 1.6 :background "yellow"))
+          ("N/A" . (:height 1.6 :background "LightSteelBlue3" :foreground "white" :slant italic))))
+#+end_src
+
 ** Programming a Smart Documents
 
 The following languages can be used inside =SRC= blocks, in view of
