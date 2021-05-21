@@ -3,7 +3,7 @@
 #+TITLE: Smart Documents
 #+AUTHOR: Marius Peter
 #+DATE: <2021-02-09 Tue>
-#+EMAIL: blendoit@gmail.com
+#+EMAIL: smart-documents@tuta.io
 
 #+OPTIONS: html-style:nil
 #+STARTUP: showall
