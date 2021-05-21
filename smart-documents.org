@@ -1047,13 +1047,14 @@ CLOSED: [2021-05-16 Sun]
 #+begin_src emacs-lisp :tangle yes
   (setq org-todo-keywords
         '((sequence "TODO" "|" "DONE")
-          (sequence "STUCK" "WAITING" "|" "N/A" "DONE")
+          (sequence "STUCK" "WAITING" "|" "N/A" "COMPLETED")
           (sequence "CONSTRUCTION" "REVIEWED" "|" "INSTALLED")))
 
   (setq org-todo-keyword-faces
         '(("STUCK" . (:height 1.6 :background "red" :foreground "white" :weight bold))
           ("WAITING" . (:height 1.6 :background "yellow"))
-          ("N/A" . (:height 1.6 :background "LightSteelBlue3" :foreground "white" :slant italic))))
+          ("N/A" . (:height 1.6 :background "LightSteelBlue3" :foreground "white"))
+          ("COMPLETED" . (:height 1.6 :background "green" :foreground "white"))))
 #+end_src
 
 ** Programming a Smart Documents
