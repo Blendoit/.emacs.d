@@ -1665,19 +1665,45 @@ the cursor is a more MS Word-like bar.
   (setq-default cursor-type 'bar)
 #+END_SRC
 
-*** Fonts
+*** TODO Fonts
 
-**** Currently used /chad fonts/:
+Here are some fonts I discovered and enjoyed since I began learning
+Emacs.
 
-- Hack[fn::https://sourcefoundry.org/hack/] :: ~default~ and
-  ~fixed-pitch~, default code font
-  - Legible, modern monospace font
-  - Strict, sharp, uncompromising
+**** Serif
+
+- Crimson Pro[fn::] :: ~variable-pitch~,
+  default body text font
+  - Inspired by Garamond
+- Linux Libertine[fn::] :: ~variable-pitch~,
+  default body text font
+  - Inspired by Garamond
+
+**** Sans serif
+
 - Public Sans[fn::https://public-sans.digital.gov/] :: ~variable-pitch~,
   default body text font
   - Very modern yet neutral
   - Designed for the U.S. government
   - Exceptional color on screen
+- Jost[fn::https://indestructibletype.com/Jost.html] :: ~org-document-title~
+  and ~org-level-1~
+  - Ultra-modern
+  - Tasteful amount of geometric inspiration
+- Open Sans[fn::https://www.opensans.com/] :: ~variable-pitch~
+  - Ooh geometric Bauhaus influences, look at me
+  - Tall leading height is =harmonious=
+- Liberation Sans[fn::https://en.wikipedia.org/wiki/Liberation_fonts] :: +~variable-pitch~+
+  - Metrically compatible with /Arial/ (ugh)
+  - Unoffensive, unambitious forms
+  - Pretty angular letters, it's like you're trying to read squares
+
+**** Monospace
+
+- Hack[fn::https://sourcefoundry.org/hack/] :: ~default~ and
+  ~fixed-pitch~, default code font
+  - Legible, modern monospace font
+  - Strict, sharp, uncompromising
 - Hermit[fn::https://pcaro.es/p/hermit/] :: ~org-block~, anything
   Org/meta in general
   - Slightly wider than Hack
@@ -1685,20 +1711,6 @@ the cursor is a more MS Word-like bar.
   - Very legible parentheses, very useful for Emacs Lisp!
 - Courier Prime[fn::https://quoteunquoteapps.com/courierprime/index.php]  :: monospace
   in print
-- Jost[fn::https://indestructibletype.com/Jost.html] :: ~org-document-title~
-  and ~org-level-1~
-  - Ultra-modern
-  - Tasteful amount of geometric inspiration
-
-**** Previously used /virgin fonts/:
-
-- +Liberation Sans+[fn::https://en.wikipedia.org/wiki/Liberation_fonts] :: +~variable-pitch~+
-  - Metrically compatible with /Arial/ (ugh)
-  - Unoffensive, unambitious forms
-  - Pretty angular letters, it's like you're trying to read squares
-- +Open Sans+[fn::https://www.opensans.com/] :: +~variable-pitch~+
-  - Ooh geometric Bauhaus influences, look at me
-  - Tall leading height is =h a r m o n i o u s=
 
 **** Using proportional fonts when needed
 
