@@ -874,7 +874,6 @@ We hide minor modes in the mode line.
   (setf rm-whitelist "projectile")
 #+END_SRC
 
-
 *** Emojis
 
 Emojis are a symbol of modernity, and their tasteful use enables
@@ -1041,8 +1040,7 @@ custom format:
         '("%d %b. %Y (%a)" . "%d %b. %Y (%a), at %H:%M"))
 #+END_SRC
 
-*** N/A Sequence of TODOs
-CLOSED: [2021-05-16 Sun]
+*** Sequence of TODOs
 
 #+begin_src emacs-lisp :tangle yes
   (setq org-todo-keywords
@@ -1593,14 +1591,15 @@ Disable minibuffer scroll bar.
 #+END_SRC
 
 * Themes
-
+# This is just another comment.
 Without a carefully designed theme, our editor would become
-unusable. Thus, we describe two themes that were developed
-purposefully and iteratively.
+unusable. Thus, we /describe/ two themes that were developed
+*purposefully* and iteratively.
 
 #+BEGIN_SRC emacs-lisp :tangle yes
   (setq custom-theme-directory (concat user-emacs-directory "themes/"))
-  (load-theme 'sd-light)
+  ;; (load-theme 'sd-light)
+  (load-theme 'sd-compagnon)
   ;; (load-theme 'sd-dark)
 #+END_SRC
 
