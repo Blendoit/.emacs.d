@@ -15,7 +15,7 @@
 # Beautiful fonts ONLY
 #+LATEX_HEADER: \usepackage{fontspec}
 # Regular font
-#+LATEX_HEADER: \setmainfont[Scale=0.90]{Public Sans}
+#+LATEX_HEADER: \setmainfont[Scale=0.872]{Public Sans}
 # Monospaced font
 #+LATEX_HEADER: \setmonofont{Inconsolata}
 

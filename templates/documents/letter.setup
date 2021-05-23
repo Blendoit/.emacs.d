@@ -17,6 +17,6 @@
 # Monospaced font
 #+LATEX_HEADER: \setmonofont{Courier Prime}
 
-#+LATEX_HEADER: \usepackage{draftwatermark}
-#+LATEX_HEADER: \SetWatermarkText{Draft}
-#+LATEX_HEADER: \SetWatermarkScale{1}
+# #+LATEX_HEADER: \usepackage{draftwatermark}
+# #+LATEX_HEADER: \SetWatermarkText{Draft}
+# #+LATEX_HEADER: \SetWatermarkScale{1}
