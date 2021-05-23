@@ -839,7 +839,7 @@ We replace the standard welcome screen with our own.
   (use-package dashboard
     :config
     (dashboard-setup-startup-hook)
-    (setq dashboard-startup-banner (concat user-emacs-directory "img/icons/Safran_logo.svg"))
+    (setq dashboard-startup-banner "Emacs")
     (setq dashboard-items '((recents  . 5)
                             (projects . 5)))
     (setq dashboard-banner-logo-title "A modern professional text editor."))
