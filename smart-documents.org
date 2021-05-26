@@ -61,6 +61,7 @@ other appropriate element.
 
   (defun my/user-details-get ()
     "Get user details."
+    (interactive t)
     (setq user-full-name (read-string "Enter full user name:"))
     (setq user-mail-address (read-string "Enter user e-mail address:"))
     (message "Successfully captured user details."))
@@ -241,9 +242,10 @@ We also set the dimensions of subsequent frames:
 
 Transparency.
 
+: (set-frame-parameter (selected-frame) 'alpha '(<active> . <inactive>))
+: (set-frame-parameter (selected-frame) 'alpha <both>)
+
 #+BEGIN_SRC emacs-lisp :tangle yes
-  ;; (set-frame-parameter (selected-frame) 'alpha '(<active> . <inactive>))
-  ;; (set-frame-parameter (selected-frame) 'alpha <both>)
   (set-frame-parameter (selected-frame) 'alpha '(95 . 90))
   (add-to-list 'default-frame-alist '(alpha . (95 . 90)))
 #+END_SRC
@@ -324,7 +326,7 @@ navigation cues on all modern desktop OSes. From IBM's CUA, we get the
 *** Open the agenda
 
 #+BEGIN_SRC emacs-lisp :tangle yes
-  (global-set-key [f5] 'org-agenda)
+  (global-set-key (kbd "C-c a") 'org-agenda)
 #+END_SRC
 
 *** Open the diary
@@ -564,10 +566,10 @@ This is the 2^{nd} most significant customization after
 keys.[fn::For more information on =vi= keybindings, visit
 [[https://hea-www.harvard.edu/~fine/Tech/vi.html]].]
 
-#+BEGIN_SRC emacs-lisp :tangle yes
+#+BEGIN_SRC emacs-lisp :tangle no
   (use-package evil)
-                                          ;  (setq evil-toggle-key "C-c d") ; devil...
-                                          ;  (evil-mode 1)
+  (setq evil-toggle-key "C-c d")
+  (evil-mode 1)
 #+END_SRC
 
 ** Spelling, completion, and snippets
@@ -1420,21 +1422,19 @@ for our header line buttons for navigating through open windows.
 
 #+BEGIN_SRC emacs-lisp :tangle yes
   (defvar sd-header-line-previous-buffer-keymap
-    ;; Add menu of window navigation to the header line.
     (let ((map (make-sparse-keymap)))
       (define-key map [header-line mouse-1] 'previous-buffer)
       map)
-    "Keymap for what is displayed in the header line, with a single window.")
+    "Keymap for what is displayed in the header line, with a single
+    window.")
 
   (defvar sd-header-line-kill-buffer-keymap
-    ;; Close current buffer and window.
     (let ((map (make-sparse-keymap)))
       (define-key map [header-line mouse-1] 'kill-buffer-and-window)
       map)
     "Keymap for closing current window.")
 
   (defvar sd-header-line-maximize-window-keymap
-    ;; Maximize current window.
     (let ((map (make-sparse-keymap)))
       (define-key map [header-line mouse-1] 'delete-other-windows)
       map)
@@ -1480,7 +1480,7 @@ Now, we describe the actual format of the header line.
   (image-animate sd-icon-loading 0 t)
 #+END_SRC
 
-**** Mode line
+**** COMMENT Mode line
 
 This interpretation of the ideal mode line is the result of carefully
 studying the default ~mode-line~, as well as studying various
@@ -1488,7 +1488,6 @@ customizations online.
 
 #+BEGIN_SRC emacs-lisp :tangle yes
   (defvar sd-mode-line-lock-buffer-keymap
-    ;; Lock buffer.
     (let ((map (make-sparse-keymap)))
       (define-key map [mode-line mouse-1] 'read-only-mode)
       map)
@@ -1608,9 +1607,18 @@ unusable. Thus, we /describe/ two themes that were developed
 
 #+BEGIN_SRC emacs-lisp :tangle yes
   (setq custom-theme-directory (concat user-emacs-directory "themes/"))
-  ;; (load-theme 'sd-light)
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp :tangle yes
   (load-theme 'sd-compagnon)
-  ;; (load-theme 'sd-dark)
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp :tangle no
+  (load-theme 'sd-light)
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp :tangle no
+  (load-theme 'sd-dark)
 #+END_SRC
 
 ** My light and dark themes
@@ -1796,14 +1804,14 @@ the result of our profiling.
 
 ** Profiling---stop
 
-#+BEGIN_SRC emacs-lisp :tangle yes
-  ;; (profiler-stop)
+#+BEGIN_SRC emacs-lisp :tangle no
+  (profiler-stop)
 #+END_SRC
 
 ** Profiling---report
 
-#+BEGIN_SRC emacs-lisp :tangle yes
-  ;; (profiler-report)
+#+BEGIN_SRC emacs-lisp :tangle no
+ (profiler-report)
 #+END_SRC
 
 * Conclusion
