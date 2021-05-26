@@ -1218,6 +1218,16 @@ work.
 The following makes =TODO= items appear red and =CLOSED= items appear
 green in Org's LaTeX exports. Very stylish, much flair!
 
+*** AUCTEX
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+(use-package tex
+  :defer t
+  :ensure auctex
+  :config
+  (setq TeX-auto-save t))
+#+END_SRC
+
 ** TODO Org links
 
 This is a mind-bending capacity of Org mode: we can assign arbitrary
