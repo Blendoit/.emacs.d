@@ -330,7 +330,7 @@ navigation cues on all modern desktop OSes. From IBM's CUA, we get the
 #+END_SRC
 
 *** Open the diary
-
+# SSH headache with lws VPS
 #+BEGIN_SRC emacs-lisp :tangle yes
   (global-set-key [f9]
                   '(lambda ()
